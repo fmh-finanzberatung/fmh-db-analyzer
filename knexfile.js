@@ -19,7 +19,7 @@ module.exports = {
     max: 30,
   },
   migrations: {
-    directory: './test/bookshelf/migrations',
+    directory: './test/mysql/migrations',
     tableName: 'knex_migrations',
   },
 };
