@@ -1,9 +1,9 @@
 {
-  "name": "mk-db-analyzer",
+  "name": "fmh-db-analyzer",
   "version": "0.0.1",
   "description": "A node based database analyzer",
   "main": "lib/db-analyzer.js",
-  "repository": "https://github.com/mkastner/mk-db-analyzser.git",
+  "repository": "https://github.com/fmh-finanzberatung/fmh-db-analyzser.git",
   "author": "John Galt",
   "license": "MIT",
   "scripts": {
