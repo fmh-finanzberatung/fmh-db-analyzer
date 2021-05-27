@@ -28,6 +28,7 @@ module.exports = async function create() {
     const company = await CompanyModel.forge({ legal_name: 'FreeBSD' }).save();
     const JobModel = models.get('Job');
     const jobSenior = await JobModel.forge({
+      parent_id: null,
       title: 'Senior Engineer',
     }).save();
     const jobA = await JobModel.forge({

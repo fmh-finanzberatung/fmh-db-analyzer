@@ -21,7 +21,7 @@ async function main() {
 
       await builder.run();
 
-      log.info('journal', journal);
+      //log.info('journal', journal);
 
       const graphqlSchemaBuilder = await GraphqlSchemaBuilder(knexfile);
       graphqlSchemaBuilder.run();

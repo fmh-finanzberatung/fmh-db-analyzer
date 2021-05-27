@@ -32,21 +32,27 @@ async function main() {
       dbModelBuilder.run();
 
       const CompanyModel = dbModelBuilder.models.get('Company');
+
       await destroyAll(CompanyModel);
-      const company = await CompanyModel.forge({ legal_name: 'FreeBSD' }).save();
+      const company = await CompanyModel.forge({
+        legal_name: 'FreeBSD',
+      }).save();
       t.ok(company);
+
       const companyResult = await CompanyModel.where(
         'legal_name',
         '=',
         'FreeBSD'
       ).fetchAll();
 
+      t.equals(companyResult.legal_name, 'John Galt');
+
       const PersonModel = dbModelBuilder.models.get('Person');
 
       await destroyAll(PersonModel);
       const person = await PersonModel.forge({
         given_name: 'John',
-        family_name: 'Galt'
+        family_name: 'Galt',
       }).save();
       t.ok(person);
       const personResult = await PersonModel.where(
@@ -55,11 +61,7 @@ async function main() {
         'Galt'
       ).fetch();
 
-      //log.info('personresult raw ', personResult);
-      //log.info('personresult json', personResult.toJSON({ virtuals: true }));
-      //log.info('personresult raw  fullName', personResult.fullName);
-
-      //t.equals(personResult.fullName, 'John Galt');
+      t.equals(personResult.fullName, 'John Galt');
 
       //log.info('after run');
     } catch (err) {

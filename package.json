@@ -18,7 +18,7 @@
     "dev:mysql": "NODE_ENV=development node dev/mysql-schema-server.js",
     "dev:mongo": "NODE_ENV=development node dev/mongo-schema-server.js",
     "dev:example:code": "NODE_ENV=development node dev/server-example-code.js",
-    "dev:example:sdl":"NODE_ENV=development node dev/server-example-sdl.js",
+    "dev:example:sdl": "NODE_ENV=development node dev/server-example-sdl.js",
     "test": "yarn test:graph-node && yarn test:graphql-builder && yarn test:model-builder && yarn test: traverse-nodes",
     "test:graph-node": "NODE_ENV=test node test/graph-node.test.js",
     "test:graphql-mongo-schema-adapters": "NODE_ENV=test node test/graphql-mongo-schema-adapters.test.js",

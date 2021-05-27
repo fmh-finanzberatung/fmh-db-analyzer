@@ -1,6 +1,5 @@
 const express = require('express');
 const { graphqlHTTP } = require('express-graphql');
-const graphql = require('graphql');
 const log = require('mk-log');
 
 const GraphqlMysqlSchemaBuilder = require('../lib/graphql-mysql-schema-builder.js');
