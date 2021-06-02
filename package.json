@@ -1,6 +1,6 @@
 {
   "name": "fmh-db-analyzer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A node based database analyzer",
   "main": "lib/db-analyzer.js",
   "repository": "https://github.com/fmh-finanzberatung/fmh-db-analyzser.git",
@@ -20,6 +20,7 @@
     "dev:example:code": "NODE_ENV=development node dev/server-example-code.js",
     "dev:example:sdl": "NODE_ENV=development node dev/server-example-sdl.js",
     "test": "yarn test:graph-node && yarn test:graphql-builder && yarn test:model-builder && yarn test: traverse-nodes",
+    "test:utils:js-data-type": "NODE_ENV=test node test/js-data-type.test.js",
     "test:graph-node": "NODE_ENV=test node test/graph-node.test.js",
     "test:graphql-mongo-schema-adapters": "NODE_ENV=test node test/graphql-mongo-schema-adapters.test.js",
     "test:graphql-mysql-schema-adapters": "NODE_ENV=test node test/graphql-mysql-schema-adapters.test.js",

@@ -6,9 +6,7 @@ const MysqlSchemaAdapters = require('../lib/db/mysql/mysql-schema-adapters.js');
 const MysqlModelBuilder = require('../lib/db/mysql/mysql-model-builder.js');
 const MysqlSchemaReader = require('../lib/db/mysql/mysql-schema-reader.js');
 const Database = require('../lib/db/mysql/database');
-//const DbIndexReader = require('../lib/db-index-reader.js');
 const GraphqlSchemaBuilder = require('../lib/graphql-mysql-schema-builder.js');
-// const destroyAll = require('../test/mysql/utils/destroy-all.js');
 
 async function main() {
   await tape(async (t) => {

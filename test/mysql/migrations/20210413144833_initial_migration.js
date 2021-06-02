@@ -7,6 +7,7 @@ exports.up = function (knex) {
       t.increments('id').unsigned().primary();
       t.timestamp('created_at', { precision: 6 }).defaultTo(knex.fn.now(6));
       t.timestamp('updated_at', { precision: 6 }).defaultTo(knex.fn.now(6));
+      t.datetime('employed_since');
       t.integer('job_id');
       t.integer('company_id');
       t.integer('age');
@@ -21,6 +22,7 @@ exports.up = function (knex) {
       t.timestamp('created_at', { precision: 6 }).defaultTo(knex.fn.now(6));
       t.timestamp('updated_at', { precision: 6 }).defaultTo(knex.fn.now(6));
       t.integer('parent_id');
+      t.integer('skill_level');
       t.string('title');
       t.index('title', 'job_title');
     }),

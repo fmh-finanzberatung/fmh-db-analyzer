@@ -10,7 +10,8 @@ const Database = require('../lib/db/mysql/database');
 const DbToGraphqlTypesMap = require('../lib/utils/db-to-graphql-types-map');
 const GraphqlTypeBuilder = require('../lib/graphql-type-builder.js');
 const NodeEdgeInspector = require('../lib/node-edge-inspector.js');
-const prettyGraphql = require('./utils/pretty-graphql');
+const prettyGraphql = require('../lib/utils/pretty-graphql');
+const { makeExecutableSchema } = require('graphql-tools');
 const { graphql, buildSchema } = require('graphql');
 const knexFile = require('../knexfile.js');
 const MysqlResolveBuilder = require('../lib/resolvers/mysql-resolve-builder.js');
@@ -29,13 +30,16 @@ async function main() {
       //log.info('journal', journal);
 
       const collectedDataTypesCode = [];
-      const collectedQueriesCode = ['hello: String'];
+      const collectedQueriesCode = [];
       const resolvers = {
-        hello: () => 'Hello!',
         // also define Mutation here
       };
 
+      log.info('journal', journal);
+
       journal.forEach((node) => {
+        log.info('1 node', node.tableName);
+
         const graphqlType = GraphqlTypeBuilder(node);
         node.domesticAttributes().forEach((attr, fieldName) => {
           const dbDataType = attr.get('DATA_TYPE');
@@ -43,7 +47,12 @@ async function main() {
           graphqlType.addFieldDef(fieldName, graphqlFieldType);
         });
 
+        log.info('2 node', node.tableName);
+
         resolvers[node.name()] = resolveBuilder.item(node);
+
+        log.info('node************', node.tableName);
+
         resolvers[node.tableName] = resolveBuilder.list(node);
 
         //collectedQueryiesCode =
@@ -97,68 +106,33 @@ async function main() {
 
       log.info(prettyGraphql(schemaCode));
 
-      const schema = buildSchema(schemaCode);
-
       //log.info('dataTypesCode ------------------', dataTypesCode);
 
       log.info('resolvers', resolvers);
+
+      const schema = makeExecutableSchema({ typeDefs: schemaCode, resolvers });
 
       const queryResult = await graphql(
         schema,
         `
           query {
-            jobs(title: "Exterior") {
+            jobs(search: { title: "Exterior" }) {
               docs {
                 title
               }
             }
           }
-        `,
-        resolvers
+        `
       );
-      //const personResult = await graphql(schema, '{hello}', resolvers);
 
       log.info('queryResult', queryResult);
     } catch (err) {
       log.error(err);
     } finally {
       t.end();
+      process.exit(0);
     }
   });
-
-  /*
-  await tape(async(t) => {
-    
-    try {
-      const resolveBuilder = await MysqlResolveBuilder(knexConfig);
-      const database = Database(knexConfig);
-      const metaSchemas = await MysqlSchemaReader(database.knex);
-      const journal = MysqlSchemaAdapters(metaSchemas);
-     
-      journal.forEach((node) => {
-        log.info('node', node);
-
-      });
-
-
-      const companyQuery = `
-        {
-          company(id: 1) { 
-            city 
-            employees { 
-              familyName 
-            }  
-          } 
-        }`;
-
-      //const companyResult = await graphql(schema, companyQuery);
-      //log.info(companyResult);
-    } catch (err) {
-      log.error(err);
-    }
-    t.end();
-  });
-  */
 }
 
 main();
