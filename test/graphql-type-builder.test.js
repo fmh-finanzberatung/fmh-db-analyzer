@@ -1,9 +1,7 @@
 const tape = require('tape');
 const log = require('mk-log');
-//const GraphNode = require('../lib/graph-node.js');
 
 const MysqlSchemaAdapters = require('../lib/db/mysql/mysql-schema-adapters.js');
-//const MysqlModelBuilder = require('../lib/db/mysql/mysql-model-builder.js');
 const MysqlSchemaReader = require('../lib/db/mysql/mysql-schema-reader.js');
 const Database = require('../lib/db/mysql/database');
 
@@ -12,10 +10,14 @@ const GraphqlTypeBuilder = require('../lib/graphql-type-builder.js');
 const NodeEdgeInspector = require('../lib/node-edge-inspector.js');
 const prettyGraphql = require('../lib/utils/pretty-graphql');
 const { makeExecutableSchema } = require('graphql-tools');
-const { graphql, buildSchema } = require('graphql');
+const { graphql } = require('graphql');
 const knexFile = require('../knexfile.js');
 const MysqlResolveBuilder = require('../lib/resolvers/mysql-resolve-builder.js');
-//const knexConfig = require('knex')(knexFile);
+const GraphqlInputOrderBuilder = require('../lib/graphql-input-order-builder.js');
+const GraphqlInputSearchBuilder = require('../lib/graphql-input-search-builder.js');
+const GraphqlInputRangeBuilder = require('../lib/graphql-input-range-builder.js');
+const graphqlCommonSDLTypes = require('../lib/graphql-common-sdl-types.js');
+const ResolversObjectBuilder = require('../lib/utils/resolvers-object-builder.js');
 
 const mysqlTypesMap = DbToGraphqlTypesMap('mysql');
 
@@ -27,87 +29,249 @@ async function main() {
       const mysqlDatabase = Database(knexFile);
       const mysqlMetaSchemas = await MysqlSchemaReader(mysqlDatabase.knex);
       const journal = MysqlSchemaAdapters(mysqlMetaSchemas);
-      //log.info('journal', journal);
 
-      const collectedDataTypesCode = [];
+      const collectedDataTypesCode = [graphqlCommonSDLTypes];
       const collectedQueriesCode = [];
-      const resolvers = {
-        // also define Mutation here
-      };
-
-      log.info('journal', journal);
+      const collectedMutationsCode = [];
+      const resolversObjectBuilder = ResolversObjectBuilder();
 
       journal.forEach((node) => {
-        log.info('1 node', node.tableName);
-
-        const graphqlType = GraphqlTypeBuilder(node);
+        const graphqlTypeBuilder = GraphqlTypeBuilder(node);
+        const graphqlInputOrderBuilder = GraphqlInputOrderBuilder(node);
+        const graphqlInputSearchBuilder = GraphqlInputSearchBuilder(node);
+        const graphqlInputRangeBuilder = GraphqlInputRangeBuilder(node);
         node.domesticAttributes().forEach((attr, fieldName) => {
           const dbDataType = attr.get('DATA_TYPE');
-          const graphqlFieldType = mysqlTypesMap.gqlType(dbDataType);
-          graphqlType.addFieldDef(fieldName, graphqlFieldType);
+          const graphqlInputType = mysqlTypesMap.gqlInputType(dbDataType);
+
+          graphqlTypeBuilder.addInputFieldDef(fieldName, graphqlInputType);
+          const graphqlParamType = mysqlTypesMap.gqlType(dbDataType);
+
+          graphqlTypeBuilder.addParamFieldDef(fieldName, graphqlParamType);
+          graphqlInputOrderBuilder.addFieldName(fieldName);
+          graphqlInputSearchBuilder.addFieldDef(fieldName, graphqlInputType);
+          graphqlInputRangeBuilder.addFieldDef(fieldName, graphqlInputType);
         });
 
-        log.info('2 node', node.tableName);
+        // input types go to schema top level
+        collectedDataTypesCode.push(graphqlInputOrderBuilder.result());
+        collectedDataTypesCode.push(graphqlInputSearchBuilder.result());
+        collectedDataTypesCode.push(graphqlInputRangeBuilder.result());
+        // add this to resolver params
 
-        resolvers[node.name()] = resolveBuilder.item(node);
+        resolversObjectBuilder.addMutationResolver(
+          `create${node.capitalizedName()}`,
+          resolveBuilder.createSingle(null, node)
+        );
 
-        log.info('node************', node.tableName);
+        resolversObjectBuilder.addMutationResolver(
+          `create${node.capitalizedName()}List`,
+          resolveBuilder.createList(null, node)
+        );
 
-        resolvers[node.tableName] = resolveBuilder.list(node);
+        resolversObjectBuilder.addMutationResolver(
+          `update${node.capitalizedName()}`,
+          resolveBuilder.updateSingle(null, node)
+        );
 
-        //collectedQueryiesCode =
+        resolversObjectBuilder.addMutationResolver(
+          `update${node.capitalizedName()}List`,
+          resolveBuilder.updateList(null, node)
+        );
+
+        resolversObjectBuilder.addMutationResolver(
+          `delete${node.capitalizedName()}`,
+          resolveBuilder.deleteSingle(null, node)
+        );
+
+        resolversObjectBuilder.addMutationResolver(
+          `delete${node.capitalizedName()}List`,
+          resolveBuilder.deleteList(null, node)
+        );
+
+        resolversObjectBuilder.addQueryResolver(
+          node.name(),
+          resolveBuilder.item(null, node)
+        );
+
+        resolversObjectBuilder.addQueryResolver(
+          node.tableName,
+          resolveBuilder.list(null, node)
+        );
 
         const edgeInspector = NodeEdgeInspector(node, journal);
-        edgeInspector.addEventListener('parent', () => {
-          //log.info('<==== parent');
+        edgeInspector.addEventListener('parent', (parentNode) => {
+          graphqlTypeBuilder.addReturnFieldDef(
+            `parent (
+              search: ${parentNode.capitalizedName()}Search
+            )`,
+            node.capitalizedName()
+          );
+
+          resolversObjectBuilder.addTypeResolver(
+            node.capitalizedName(),
+            'parent',
+            resolveBuilder.treeParent(parentNode, node)
+          );
         });
-        edgeInspector.addEventListener('children', () => {
-          //log.info('====> children');
+
+        edgeInspector.addEventListener('children', (childNode) => {
+          graphqlTypeBuilder.addReturnFieldDef(
+            `children (
+              pagination : PaginationInput
+              search: ${childNode.capitalizedName()}Search
+              order: ${childNode.capitalizedName()}Order
+              range: ${childNode.capitalizedName()}Range
+            )`,
+            `${node.capitalizedName()}List`
+          );
+
+          resolversObjectBuilder.addTypeResolver(
+            node.capitalizedName(),
+            'children',
+            resolveBuilder.treeChildren(node, childNode)
+          );
         });
-        edgeInspector.addEventListener('association', () => {
-          //log.info('====> association');
+
+        edgeInspector.addEventListener('root', (parentNode) => {
+          graphqlTypeBuilder.addReturnFieldDef(
+            `root (
+              search: ${node.capitalizedName()}Search
+              order: ${node.capitalizedName()}Order
+            )`,
+            node.capitalizedName()
+          );
+
+          resolversObjectBuilder.addTypeResolver(
+            node.capitalizedName(),
+            'root',
+            resolveBuilder.treeRoot(parentNode, node)
+          );
         });
+
+        edgeInspector.addEventListener('roots', (childNode) => {
+          graphqlTypeBuilder.addReturnFieldDef(
+            `roots (
+              pagination : PaginationInput
+              search: ${node.capitalizedName()}Search
+              order: ${node.capitalizedName()}Order
+              range: ${node.capitalizedName()}Range
+              )`,
+            `${node.capitalizedName()}List`
+          );
+
+          resolversObjectBuilder.addTypeResolver(
+            node.capitalizedName(),
+            'roots',
+            resolveBuilder.treeRoots(node, childNode)
+          );
+        });
+
+        edgeInspector.addEventListener('belongsTo', (neighbourNode) => {
+          graphqlTypeBuilder.addReturnFieldDef(
+            `${neighbourNode.name()} (
+              search: ${neighbourNode.capitalizedName()}Search
+              order: ${neighbourNode.capitalizedName()}Order
+          )`,
+            `${neighbourNode.capitalizedName()}`
+          );
+          resolversObjectBuilder.addTypeResolver(
+            node.capitalizedName(),
+            neighbourNode.name(),
+            resolveBuilder.item(node, neighbourNode)
+          );
+        });
+
+        edgeInspector.addEventListener('association', (neighbourNode) => {
+          graphqlTypeBuilder.addReturnFieldDef(
+            `${neighbourNode.tableName} (
+              pagination : PaginationInput
+              search: ${neighbourNode.capitalizedName()}Search
+              order: ${neighbourNode.capitalizedName()}Order
+              range: ${neighbourNode.capitalizedName()}Range
+            )`,
+            `
+            ${neighbourNode.capitalizedName()}List`
+          );
+
+          resolversObjectBuilder.addTypeResolver(
+            node.capitalizedName(),
+            neighbourNode.tableName,
+            resolveBuilder.list(node, neighbourNode)
+          );
+        });
+
         edgeInspector.run();
-        const graphqlTypeSingle = graphqlType.singleType(node);
-        const graphqlTypeList = graphqlType.listType(node);
+
+        const graphqlCreateInputSingle = graphqlTypeBuilder.createInput();
+        collectedDataTypesCode.push(graphqlCreateInputSingle);
+        const graphqlUpdateInputSingle = graphqlTypeBuilder.updateInput();
+        collectedDataTypesCode.push(graphqlUpdateInputSingle);
+
+        const graphqlTypeSingle = graphqlTypeBuilder.singleType();
+        const graphqlTypeList = graphqlTypeBuilder.listType({
+          injectTypes() {
+            return 'pagination : Pagination';
+          },
+        });
 
         collectedDataTypesCode.push(graphqlTypeSingle);
         collectedDataTypesCode.push(graphqlTypeList);
 
-        collectedQueriesCode.push(graphqlType.singleQuery(node));
-        collectedQueriesCode.push(graphqlType.listQuery(node));
+        collectedMutationsCode.push(graphqlTypeBuilder.singleCreateMutation());
+        collectedMutationsCode.push(graphqlTypeBuilder.listCreateMutation());
+        collectedMutationsCode.push(graphqlTypeBuilder.singleUpdateMutation());
+        collectedMutationsCode.push(graphqlTypeBuilder.listUpdateMutation());
+        collectedMutationsCode.push(graphqlTypeBuilder.singleDeleteMutation());
+        collectedMutationsCode.push(graphqlTypeBuilder.listDeleteMutation());
+
+        collectedQueriesCode.push(graphqlTypeBuilder.singleQuery());
+
+        collectedQueriesCode.push(
+          graphqlTypeBuilder.listQuery({
+            injectTypes() {
+              return ` 
+              search: ${node.capitalizedName()}Search
+              order: ${node.capitalizedName()}Order
+              range: ${node.capitalizedName()}Range
+              pagination : PaginationInput
+            `;
+            },
+          })
+        );
       });
 
       const queryTypeCode = `
         type Query {
           ${collectedQueriesCode.join('\n')} 
+          mutation: Mutation
+        }
+      `;
+
+      const mutationCode = `
+        type Mutation {
+          ${collectedMutationsCode.join('\n')} 
         }
       `;
 
       const dataTypesCode = collectedDataTypesCode.flat().join('\n');
-      //log.info('collectedQueriesCode', collectedQueriesCode);
 
-      //log.info('queryTypeCode ------------------', queryTypeCode);
-      //log.info(
-      //  'collectedDataTypesCode ------------------',
-      //  collectedDataTypesCode
-      //);
-
-      //log.info('******** collectedDataTypesCode', collectedDataTypesCode);
       t.ok(queryTypeCode.match(/type Query/), 'should have type Query');
       t.ok(dataTypesCode.match(/type Person/));
       t.ok(dataTypesCode.match(/type PersonList/));
       t.ok(dataTypesCode.match(/\[Person\]/));
 
+      //log.info('dataTypesCode', dataTypesCode);
+
       const schemaCode = `
       ${dataTypesCode}
       ${queryTypeCode}
+      ${mutationCode}
       `;
 
-      log.info(prettyGraphql(schemaCode));
+      const resolvers = resolversObjectBuilder.resolvers;
 
-      //log.info('dataTypesCode ------------------', dataTypesCode);
-
+      //log.info(prettyGraphql(schemaCode));
       log.info('resolvers', resolvers);
 
       const schema = makeExecutableSchema({ typeDefs: schemaCode, resolvers });
@@ -116,16 +280,33 @@ async function main() {
         schema,
         `
           query {
-            jobs(search: { title: "Exterior" }) {
+            jobs {
               docs {
+                id
                 title
               }
             }
           }
         `
       );
+      log.info('queryResult', queryResult.data.jobs.docs);
 
-      log.info('queryResult', queryResult);
+      const updateResult = await graphql(
+        schema,
+        `
+          mutation {
+            updateJobList( updateList: [
+              { id: ${queryResult.data.jobs.docs[4].id} title: "New Job 1" }
+              { id: ${queryResult.data.jobs.docs[5].id} title: "New Job 2" }
+            ]) {
+              id
+              title
+            }
+          }
+        `
+      );
+
+      log.info('updateResult', updateResult);
     } catch (err) {
       log.error(err);
     } finally {
