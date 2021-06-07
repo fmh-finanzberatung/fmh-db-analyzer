@@ -1,6 +1,6 @@
 {
   "name": "fmh-db-analyzer",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A node based database analyzer",
   "main": "lib/db-analyzer.js",
   "repository": "https://github.com/fmh-finanzberatung/fmh-db-analyzser.git",
@@ -28,6 +28,7 @@
     "test:graphql-type-builder": "NODE_ENV=test node test/graphql-type-builder.test.js | tap-spec",
     "test:graphql-schema-builder-example.test.js": "NODE_ENV=test node test/graphql-schema-builder-example.test.js",
     "test:id-obfuscator": "NODE_ENV=test node test/id-obfuscator.test.js",
+    "test:config-reader": "NODE_ENV=test node test/config-reader.test.js",
     "test:mongo-index-reader": "NODE_ENV=test node test/mysql/mysql-index-reader.test.js",
     "test:mongo-model-builder": "NODE_ENV=test node test/mongo/mongo-model-builder.test.js",
     "test:mongo-schema-adapters": "NODE_ENV=test node test/mongo/mongo-schema-adapters.test.js",
