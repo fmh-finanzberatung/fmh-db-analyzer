@@ -29,21 +29,25 @@ module.exports = async function create() {
     const JobModel = models.get('Job');
     const jobSenior = await JobModel.forge({
       parent_id: null,
+      active: true,
       title: 'Senior Engineer',
       skill_level: 10,
     }).save();
     const jobA = await JobModel.forge({
+      active: true,
       title: 'Engineer Interior',
       skill_level: 5,
       parent_id: jobSenior.id,
     }).save();
     const jobB = await JobModel.forge({
+      active: true,
       title: 'Engineer Exterior',
       skill_level: 3,
       parent_id: jobSenior.id,
     }).save();
     const PersonModel = models.get('Person');
     const personA = await PersonModel.forge({
+      active: true,
       employed_since: '2010-10-01',
       given_name: 'John',
       family_name: 'Galt',
@@ -53,6 +57,7 @@ module.exports = async function create() {
       city: 'Gulch',
     }).save();
     const personB = await PersonModel.forge({
+      active: true,
       employed_since: '2015-05-12',
       given_name: 'Dagny',
       family_name: 'Taggart',
@@ -62,6 +67,7 @@ module.exports = async function create() {
       city: 'New York',
     }).save();
     const personC = await PersonModel.forge({
+      active: false,
       employed_since: '2020-09-08',
       given_name: 'Hank',
       family_name: 'Rearden',

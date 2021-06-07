@@ -5,6 +5,7 @@ exports.up = function (knex) {
   return Promise.all([
     knex.schema.createTable('persons', (t) => {
       t.increments('id').unsigned().primary();
+      t.tinyint('active');
       t.timestamp('created_at', { precision: 6 }).defaultTo(knex.fn.now(6));
       t.timestamp('updated_at', { precision: 6 }).defaultTo(knex.fn.now(6));
       t.datetime('employed_since');
@@ -19,6 +20,7 @@ exports.up = function (knex) {
 
     knex.schema.createTable('jobs', (t) => {
       t.increments('id').unsigned().primary();
+      t.tinyint('active');
       t.timestamp('created_at', { precision: 6 }).defaultTo(knex.fn.now(6));
       t.timestamp('updated_at', { precision: 6 }).defaultTo(knex.fn.now(6));
       t.integer('parent_id');
@@ -29,6 +31,7 @@ exports.up = function (knex) {
 
     knex.schema.createTable('companies', (t) => {
       t.increments('id').unsigned().primary();
+      t.tinyint('active');
       t.string('legal_name');
       t.timestamp('created_at', { precision: 6 }).defaultTo(knex.fn.now(6));
       t.timestamp('updated_at', { precision: 6 }).defaultTo(knex.fn.now(6));
