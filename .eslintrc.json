@@ -12,6 +12,9 @@
   },
   "rules": {
     "prettier/prettier": ["error", { "singleQuote": true }],
-    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+    "no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+    ]
   }
 }

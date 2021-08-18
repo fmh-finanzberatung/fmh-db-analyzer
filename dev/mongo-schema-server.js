@@ -3,6 +3,7 @@ const { graphqlHTTP } = require('express-graphql');
 const graphql = require('graphql');
 const log = require('mk-log');
 
+const GraphqlMongoSchemaBuilder = require('../lib/graphql-mongo-schema-builder.js');
 const MongoSchemaAdapters = require('../lib/db/mongo/mongo-schema-adapters.js');
 const MongoSchemaReader = require('../lib/db/mongo/mongo-schema-reader.js');
 //const DbIndexReader = require('../lib/mongo-index-reader.js');

@@ -32,4 +32,7 @@ module.exports = {
   Person: {
     deny: true,
   },
+  PersonList: {
+    deny: true,
+  },
 };

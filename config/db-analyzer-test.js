@@ -39,4 +39,15 @@ module.exports = {
     },
     mutation: {},
   },
+  PersonList: {
+    query: {
+      deny: true,
+      public: {
+        created_at: {
+          deny: true,
+        },
+      },
+    },
+    mutation: {},
+  },
 };
