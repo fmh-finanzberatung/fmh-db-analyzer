@@ -3,11 +3,12 @@ const { graphqlHTTP } = require('express-graphql');
 const graphql = require('graphql');
 const log = require('mk-log');
 
-const GraphqlMongoSchemaBuilder = require('../lib/graphql-mongo-schema-builder.js');
-const MongoSchemaAdapters = require('../lib/db/mongo/mongo-schema-adapters.js');
-const MongoSchemaReader = require('../lib/db/mongo/mongo-schema-reader.js');
-//const DbIndexReader = require('../lib/mongo-index-reader.js');
 const GraphqlSchemaBuilder = require('../lib/graphql-schema-builder.js');
+const MongoSchemaAdapters = require('../lib/db/mongo/mongo-schema-journal-adapters.js');
+const MongoSchemaReader = require('../lib/db/mongo/mongo-schema-reader.js');
+const GraphqlMongoResolveBuilder = require('../lib/resolvers/graphql-mongo-resolve-builder.js');
+//const DbIndexReader = require('../lib/mongo-index-reader.js');
+//const GraphqlSchemaBuilder = require('../lib/graphql-schema-builder.js');
 const mongoFile = require('../mongofile.js');
 const Database = require('../lib/db/mongo/database.js');
 
@@ -16,11 +17,18 @@ const port = 3010;
 
 async function main() {
   try {
-    const client = await Database(mongoFile);
-    const db = client.db(mongoFile.dbName);
+    const db = await Database(mongoFile);
     const metaSchemas = await MongoSchemaReader(db);
-    /* 
+    const resolveBuilder = await GraphqlMongoResolveBuilder(db);
     const journal = MongoSchemaAdapters(metaSchemas);
+    const schemaBuilder = await GraphqlSchemaBuilder({
+      resolveBuilder,
+      journal,
+    });
+    schemaBuilder.run();
+    const schema = schemaBuilder.schema;
+
+    /*
     const graphqlTypeBuilder = GraphqlSchemaBuilder(journal);
     graphqlTypeBuilder.tap.into('queryDef').with('global', (queryDef) => {
       log.info(queryDef);
@@ -43,20 +51,18 @@ async function main() {
         return 'Hello world!';
       },
     };
-
+    */
     app.use(
       '/graphql',
       graphqlHTTP({
         schema,
         graphiql: true,
-        rootValue: info,
       })
     );
 
     app.listen(port, () => {
       log.info(`Server listening on port ${port}`);
     });
-    */
   } catch (err) {
     log.error(err);
   }

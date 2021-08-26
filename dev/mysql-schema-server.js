@@ -2,15 +2,27 @@ const express = require('express');
 const { graphqlHTTP } = require('express-graphql');
 const log = require('mk-log');
 
-const GraphqlMysqlSchemaBuilder = require('../lib/graphql-mysql-schema-builder.js');
+const GraphqlMysqlResolveBuilder = require('../lib/resolvers/graphql-mysql-resolve-builder.js');
+const MysqlSchemaAdapters = require('../lib/db/mysql/mysql-schema-journal-adapters.js');
+const MysqlSchemaReader = require('../lib/db/mysql/mysql-schema-reader.js');
+
+const GraphqlSchemaBuilder = require('../lib/graphql-schema-builder.js');
 const knexfile = require('../knexfile.js');
+const Database = require('../lib/db/mysql/database');
 
 const app = express();
 const port = 3010;
 
 async function main() {
   try {
-    const schemaBuilder = await GraphqlMysqlSchemaBuilder(knexfile);
+    const { knex } = Database(knexfile);
+    const resolveBuilder = await GraphqlMysqlResolveBuilder(knexfile);
+    const mysqlMetaSchemas = await MysqlSchemaReader(knex);
+    const journal = MysqlSchemaAdapters(mysqlMetaSchemas);
+    const schemaBuilder = await GraphqlSchemaBuilder({
+      resolveBuilder,
+      journal,
+    });
     schemaBuilder.run();
     const schema = schemaBuilder.schema;
 

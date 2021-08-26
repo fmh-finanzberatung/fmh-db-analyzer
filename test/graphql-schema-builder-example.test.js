@@ -20,7 +20,7 @@ async function main() {
         city: { type: GraphQL.GraphQLString },
         employees: {
           type: new GraphQL.GraphQLList(UserType),
-          resolve: (parent, args, context, info) => {
+          resolve: (_parent, _args, _context, _info) => {
             return [{ familyName: 'tada' }];
           },
         },
@@ -44,7 +44,7 @@ async function main() {
             familyName: { type: GraphQL.GraphQLString },
             city: { type: GraphQL.GraphQLString },
           },
-          resolve: (parent, args, context, info) => {
+          resolve: (_parent, _args, _context, _info) => {
             return {
               id: 10,
               givenName: 'test',
@@ -56,7 +56,7 @@ async function main() {
           args: {
             id: { type: GraphQL.GraphQLID },
           },
-          resolve: (parent, args, context, info) => {
+          resolve: (_parent, _args, _context, _info) => {
             return {
               id: 3,
               legalName: 'legal test name',

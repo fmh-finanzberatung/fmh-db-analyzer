@@ -8,7 +8,7 @@ const Database = require('../lib/db/mysql/database');
 const DbToGraphqlTypesMap = require('../lib/utils/db-to-graphql-types-map');
 const GraphqlTypeBuilder = require('../lib/graphql-type-builder.js');
 const NodeEdgeInspector = require('../lib/node-edge-inspector.js');
-const prettyGraphql = require('../lib/utils/pretty-graphql');
+// const prettyGraphql = require('../lib/utils/pretty-graphql');
 const { makeExecutableSchema } = require('graphql-tools');
 const { graphql } = require('graphql');
 const knexFile = require('../knexfile.js');
@@ -289,15 +289,15 @@ async function main() {
           }
         `
       );
-      log.info('queryResult', queryResult.data.jobs.docs);
+      log.info('queryResult        ', queryResult.data.jobs.docs);
 
       const updateResult = await graphql(
         schema,
         `
           mutation {
             updateJobList( updateList: [
-              { id: ${queryResult.data.jobs.docs[4].id} title: "New Job 1" }
-              { id: ${queryResult.data.jobs.docs[5].id} title: "New Job 2" }
+              { id: ${queryResult.data.jobs.docs[1].id} title: "New Job 1" }
+              { id: ${queryResult.data.jobs.docs[2].id} title: "New Job 2" }
             ]) {
               id
               title

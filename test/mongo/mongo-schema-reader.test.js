@@ -7,14 +7,14 @@ const MongoSchemaReader = require('../../lib/db/mongo/mongo-schema-reader');
 async function main() {
   tape(async (t) => {
     try {
-      const client = await Database(mongoFile);
-      const db = client.db(mongoFile.dbName);
+      const db = await Database(mongoFile);
       const result = await MongoSchemaReader(db);
 
-      log.info('result', JSON.stringify(result, null, 4));
+      const flattenedResult = result.flat();
+      log.info('result', JSON.stringify(flattenedResult, null, 4));
 
       //t.true(collections.length > 0);
-      t.true(result.length === 3);
+      t.equals(3, flattenedResult.length, 'collection definitions');
     } catch (err) {
       log.error(err);
     } finally {
