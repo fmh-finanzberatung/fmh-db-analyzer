@@ -5,6 +5,8 @@ const log = require('mk-log');
 const GraphqlMysqlResolveBuilder = require('../lib/resolvers/graphql-mysql-resolve-builder.js');
 const MysqlSchemaAdapters = require('../lib/db/mysql/mysql-schema-journal-adapters.js');
 const MysqlSchemaReader = require('../lib/db/mysql/mysql-schema-reader.js');
+const DbToGraphqlTypesMap = require('../lib/utils/db-to-graphql-types-map');
+const typesMap = DbToGraphqlTypesMap('mysql');
 
 const GraphqlSchemaBuilder = require('../lib/graphql-schema-builder.js');
 const knexfile = require('../knexfile.js');
@@ -22,6 +24,7 @@ async function main() {
     const schemaBuilder = await GraphqlSchemaBuilder({
       resolveBuilder,
       journal,
+      typesMap,
     });
     schemaBuilder.run();
     const schema = schemaBuilder.schema;

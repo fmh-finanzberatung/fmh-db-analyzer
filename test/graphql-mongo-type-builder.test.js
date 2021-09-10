@@ -2,7 +2,7 @@ const tape = require('tape');
 const log = require('mk-log');
 
 const MongoSchemaReader = require('../lib/db/mongo/mongo-schema-reader.js');
-const MongoSchemaAdapters = require('../lib/db/mongo/mongo-schema-adapters.js');
+const MongoSchemaJournalAdapters = require('../lib/db/mongo/mongo-schema-journal-adapters.js');
 const Database = require('../lib/db/mongo/database');
 
 const DbToGraphqlTypesMap = require('../lib/utils/db-to-graphql-types-map');
@@ -12,7 +12,7 @@ const NodeEdgeInspector = require('../lib/node-edge-inspector.js');
 const { makeExecutableSchema } = require('graphql-tools');
 const { graphql } = require('graphql');
 const mongoFile = require('../mongofile.js');
-const MongoResolveBuilder = require('../lib/resolvers/mongo-resolve-builder.js');
+const GraphqlMongoResolveBuilder = require('../lib/resolvers/graphql-mongo-resolve-builder.js');
 const GraphqlInputOrderBuilder = require('../lib/graphql-input-order-builder.js');
 const GraphqlInputSearchBuilder = require('../lib/graphql-input-search-builder.js');
 const GraphqlInputRangeBuilder = require('../lib/graphql-input-range-builder.js');
@@ -24,16 +24,17 @@ const mongoTypesMap = DbToGraphqlTypesMap('mongo');
 async function main() {
   await tape('simple type', async (t) => {
     try {
-      const resolveBuilder = await MongoResolveBuilder(mongoFile);
 
       log.info('A ************');
-      const client = await Database(mongoFile);
+      const db = await Database(mongoFile);
+      const resolveBuilder = await GraphqlMongoResolveBuilder(db);
 
-      const mongoDatabase = client.db(mongoFile.dbName);
+      log.info('listCollection', db.listCollection);
+
       log.info('B ************');
-      const mongoMetaSchemas = await MongoSchemaReader(mongoDatabase);
+      const mongoMetaSchemas = await MongoSchemaReader(db);
       log.info('C ************', mongoMetaSchemas);
-      const journal = MongoSchemaAdapters(mongoMetaSchemas);
+      const journal = MongoSchemaJournalAdapters(mongoMetaSchemas);
 
       const collectedDataTypesCode = [graphqlCommonSDLTypes];
       const collectedQueriesCode = [];

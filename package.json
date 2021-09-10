@@ -19,10 +19,10 @@
     "dev:example:sdl": "NODE_ENV=development node dev/server-example-sdl.js",
     "dev:mongo": "NODE_ENV=development node dev/mongo-schema-server.js",
     "dev:mysql": "NODE_ENV=development node dev/mysql-schema-server.js",
-    "dev:code:list:mongo": "madge --circular --orphans --warning ./dev/mongo-schema-server.js", 
-    "dev:code:list:mysql": "madge --circular --orphans --warning ./dev/mysql-schema-server.js", 
-    "dev:code:graph:mongo": "madge --circular --image tmp/mongo.svg ./dev/mongo-schema-server.js", 
-    "dev:code:graph:mysql": "madge --circular --image tmp/mysql.svg ./dev/mysql-schema-server.js", 
+    "dev:code:list:mongo": "madge --circular --orphans --warning ./dev/mongo-schema-server.js",
+    "dev:code:list:mysql": "madge --circular --orphans --warning ./dev/mysql-schema-server.js",
+    "dev:code:graph:mongo": "madge --circular --image tmp/mongo.svg ./dev/mongo-schema-server.js",
+    "dev:code:graph:mysql": "madge --circular --image tmp/mysql.svg ./dev/mysql-schema-server.js",
     "test": "yarn test:graph-node && yarn test:graphql-builder && yarn test:model-builder && yarn test: traverse-nodes",
     "test:config-reader": "NODE_ENV=test node test/config-reader.test.js",
     "test:graph-node": "NODE_ENV=test node test/graph-node.test.js",
@@ -72,6 +72,7 @@
     "mk-env-vars": "https://github.com/mkastner/mk-env-vars.git#v0.0.7",
     "mk-log": "https://github.com/mkastner/mk-log.git#v0.0.12",
     "mongodb": "^3.6.6",
+    "mongodb-schema": "^9.0.0",
     "mysql": "^2.18.1",
     "pluralize": "^8.0.0"
   }
