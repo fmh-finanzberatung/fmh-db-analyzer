@@ -4,9 +4,11 @@ const log = require('mk-log');
 
 module.exports = async function create() {
   try {
-    const client = await database(mongoFile);
+    //const client = await database(mongoFile);
+    
+    const db = await database(mongoFile);
 
-    const db = client.db(mongoFile.dbName);
+    log.info(db);
 
     await db.collection('companies').deleteMany();
     const resCompany = await db.collection('companies').insertOne({
