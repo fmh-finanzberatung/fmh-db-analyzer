@@ -70,7 +70,7 @@
     "graphql-tools": "^7.0.5",
     "knex": "0.21.17",
     "mk-env-vars": "https://github.com/mkastner/mk-env-vars.git#v0.0.7",
-    "mk-log": "https://github.com/mkastner/mk-log.git#v0.0.12",
+    "mk-log": "https://github.com/mkastner/mk-log.git#v0.0.13",
     "mongodb": "^3.6.6",
     "mongodb-schema": "^9.0.0",
     "mysql": "^2.18.1",
