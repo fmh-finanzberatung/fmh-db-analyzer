@@ -68,8 +68,8 @@ async function main() {
         null,
         { text: 'I am context' }
       );
-      //log.info('result', result);
-      log.info('result', JSON.stringify(result, null, 2));
+      log.info('result', result);
+      //log.info('result', JSON.stringify(result, null, 2));
     } catch (err) {
       log.error(err);
     } finally {
