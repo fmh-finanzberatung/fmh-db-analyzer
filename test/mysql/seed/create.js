@@ -76,6 +76,16 @@ module.exports = async function create() {
       job_id: jobB.id,
       city: 'Chicago',
     }).save();
+    const personD = await PersonModel.forge({
+      active: false,
+      employed_since: '2020-09-08',
+      given_name: 'Ragnar',
+      family_name: 'Danneskjold',
+      age: 39,
+      company_id: company.id,
+      job_id: jobB.id,
+      city: 'Stockholm',
+    }).save();
 
     return {
       models,
@@ -87,6 +97,7 @@ module.exports = async function create() {
         personA: personA.toJSON(),
         personB: personB.toJSON(),
         personC: personC.toJSON(),
+        personD: personD.toJSON(),
       },
     };
   } catch (err) {

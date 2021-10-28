@@ -6,6 +6,8 @@ const GraphqlMysqlResolveBuilder = require('../lib/resolvers/graphql-mysql-resol
 const MysqlSchemaAdapters = require('../lib/db/mysql/mysql-schema-journal-adapters.js');
 const MysqlSchemaReader = require('../lib/db/mysql/mysql-schema-reader.js');
 const GraphqlSchemaBuilder = require('../lib/graphql-schema-builder.js');
+const DbToGraphqlTypesMap = require('../lib/utils/db-to-graphql-types-map');
+const typesMap = DbToGraphqlTypesMap('mysql');
 const { graphql } = require('graphql');
 
 async function main() {
@@ -17,6 +19,7 @@ async function main() {
       const schemaBuilder = await GraphqlSchemaBuilder({
         resolveBuilder,
         journal,
+        typesMap,
       });
       schemaBuilder.run();
       const graphqlSchema = schemaBuilder.schema;
@@ -30,16 +33,40 @@ async function main() {
       //    const graphqlTypeBuilder = GraphqlTypeBuilder(node);
 
       //let res =
-      await graphql(
+      const result = await graphql(
         graphqlSchema,
         `
-          query {
-            car(make: "Not a Tesla") {
-              id
+          {
+            jobs(pagination: { page: 1, pageSize: 3}) {
+              pagination {
+                page
+                pageSize
+              }
+              docs {
+                id
+                title
+                persons(pagination: { page: 1, pageSize: 2}) {
+                  pagination {
+                    page
+                    pageSize
+                    pages
+                    total
+                  },
+                  docs {
+                    id,
+                    given_name,
+                    family_name,
+                  }
+                }
+              }
             }
           }
-        `
+        `,
+        null,
+        { text: 'I am context' }
       );
+      log.info('result', result);
+      //log.info('result', JSON.stringify(result, null, 2));
     } catch (err) {
       log.error(err);
     } finally {

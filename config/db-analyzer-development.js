@@ -29,10 +29,12 @@ deny queries on field created at for person
 */
 
 module.exports = {
+  /* 
   Person: {
     deny: true,
   },
   PersonList: {
     deny: true,
   },
+  */
 };
