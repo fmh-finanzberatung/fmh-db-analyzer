@@ -37,7 +37,7 @@ async function main() {
         graphqlSchema,
         `
           {
-            jobs(pagination: { page: 1, pageSize: 3}) {
+            jobs(pagination: { page: 1, pageSize: 3 }) {
               pagination {
                 page
                 pageSize
@@ -45,17 +45,20 @@ async function main() {
               docs {
                 id
                 title
-                persons(pagination: { page: 1, pageSize: 2}) {
+                persons(
+                  order: { id: DESC }
+                  pagination: { page: 1, pageSize: 2 }
+                ) {
                   pagination {
                     page
                     pageSize
                     pages
                     total
-                  },
+                  }
                   docs {
-                    id,
-                    given_name,
-                    family_name,
+                    id
+                    given_name
+                    family_name
                   }
                 }
               }
@@ -65,8 +68,8 @@ async function main() {
         null,
         { text: 'I am context' }
       );
-      log.info('result', result);
-      //log.info('result', JSON.stringify(result, null, 2));
+      //log.info('result', result);
+      log.info('result', JSON.stringify(result, null, 2));
     } catch (err) {
       log.error(err);
     } finally {
