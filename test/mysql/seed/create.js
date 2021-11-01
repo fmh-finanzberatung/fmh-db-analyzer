@@ -25,7 +25,12 @@ module.exports = async function create() {
     await Promise.all(destroyAllTables);
 
     const CompanyModel = models.get('Company');
-    const company = await CompanyModel.forge({ legal_name: 'FreeBSD' }).save();
+    const companyFreeBSD = await CompanyModel.forge({
+      legal_name: 'FreeBSD Inc',
+    }).save();
+    const companyLinux = await CompanyModel.forge({
+      legal_name: 'Linux Ltd',
+    }).save();
     const JobModel = models.get('Job');
     const jobSenior = await JobModel.forge({
       parent_id: null,
@@ -52,7 +57,7 @@ module.exports = async function create() {
       given_name: 'John',
       family_name: 'Galt',
       age: 38,
-      company_id: company.id,
+      company_id: companyFreeBSD.id,
       job_id: jobSenior.id,
       city: 'Gulch',
     }).save();
@@ -62,7 +67,7 @@ module.exports = async function create() {
       given_name: 'Dagny',
       family_name: 'Taggart',
       age: 35,
-      company_id: company.id,
+      company_id: companyLinux.id,
       job_id: jobA.id,
       city: 'New York',
     }).save();
@@ -72,7 +77,7 @@ module.exports = async function create() {
       given_name: 'Hank',
       family_name: 'Rearden',
       age: 42,
-      company_id: company.id,
+      company_id: companyFreeBSD.id,
       job_id: jobB.id,
       city: 'Chicago',
     }).save();
@@ -82,7 +87,7 @@ module.exports = async function create() {
       given_name: 'Ragnar',
       family_name: 'Danneskjold',
       age: 39,
-      company_id: company.id,
+      company_id: companyLinux.id,
       job_id: jobB.id,
       city: 'Stockholm',
     }).save();
@@ -90,7 +95,8 @@ module.exports = async function create() {
     return {
       models,
       data: {
-        company: company.toJSON(),
+        companyFreeBSD: companyFreeBSD.toJSON(),
+        companyLinux: companyLinux.toJSON(),
         jobSenior: jobSenior.toJSON(),
         jobA: jobA.toJSON(),
         jobB: jobB.toJSON(),

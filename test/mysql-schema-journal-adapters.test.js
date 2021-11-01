@@ -31,43 +31,50 @@ async function main() {
       //const journal = MysqlSchemaAdapters(metaSchemas);
       //journal.forEach((node) => {
       //    const graphqlTypeBuilder = GraphqlTypeBuilder(node);
-
-      //let res =
-      const result = await graphql(
-        graphqlSchema,
-        `
-          {
-            jobs(pagination: { page: 1, pageSize: 3 }) {
-              pagination {
-                page
-                pageSize
-              }
+      const queryA = `
+        {
+          persons (pagination: {page: 1 pageSize: 2}) {
               docs {
                 id
-                title
-                persons(
-                  order: { id: DESC }
-                  pagination: { page: 1, pageSize: 2 }
-                ) {
-                  pagination {
-                    page
-                    pageSize
-                    pages
-                    total
+                company {
+                  persons {
+                    docs {
+                      id
+                    }
                   }
+                }
+              }
+          }
+        }
+      `;
+      const queryB = `
+        {
+          persons  {
+            pagination {
+              total 
+            }
+            docs {
+              id
+              company {
+                legal_name 
+                persons {
+                  pagination {
+                    total
+                  } 
                   docs {
-                    id
-                    given_name
                     family_name
+                    id
                   }
                 }
               }
             }
           }
-        `,
-        null,
-        { text: 'I am context' }
-      );
+        }`;
+
+      //let res =
+      const result = await graphql(graphqlSchema, queryB, null, {
+        text: 'I am context',
+      });
       //log.info('result', result);
       log.info('result', JSON.stringify(result, null, 2));
     } catch (err) {

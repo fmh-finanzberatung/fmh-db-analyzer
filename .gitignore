@@ -2,5 +2,5 @@ node_modules
 .DS_Store
 test/results/**/*
 *.log
-*session.vim
+*.vim
 tmp/**/.
