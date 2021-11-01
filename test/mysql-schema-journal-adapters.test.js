@@ -51,7 +51,12 @@ async function main() {
         {
           persons  {
             pagination {
-              total 
+              total,
+              pages,
+              isFirst,
+              isLast,
+              next,
+              prev
             }
             docs {
               id
@@ -70,9 +75,45 @@ async function main() {
             }
           }
         }`;
-
+      const queryC = `
+        {
+          persons (pagination: { pageSize: 2 } )  {
+            pagination {
+              page,
+              pageSize,
+              total,
+              pages,
+              isFirst,
+              isLast,
+              next,
+              prev
+            }
+            docs {
+              id
+              company {
+                legal_name 
+                persons {
+                  pagination {
+                    page,
+                    pageSize,
+                    total,
+                    pages,
+                    isFirst,
+                    isLast,
+                    next,
+                    prev
+                  } 
+                  docs {
+                    family_name
+                    id
+                  }
+                }
+              }
+            }
+          }
+        }`;
       //let res =
-      const result = await graphql(graphqlSchema, queryB, null, {
+      const result = await graphql(graphqlSchema, queryC, null, {
         text: 'I am context',
       });
       //log.info('result', result);
