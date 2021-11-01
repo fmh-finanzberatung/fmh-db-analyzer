@@ -77,7 +77,7 @@ async function main() {
         }`;
       const queryC = `
         {
-          persons (pagination: { pageSize: 2 } )  {
+          persons (pagination: { pageSize: 2 } search: {family_name: "Galt"})  {
             pagination {
               page,
               pageSize,
@@ -90,6 +90,7 @@ async function main() {
             }
             docs {
               id
+              family_name
               company {
                 legal_name 
                 persons {
