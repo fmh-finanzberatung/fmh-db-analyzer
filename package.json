@@ -1,6 +1,6 @@
 {
   "name": "fmh-db-analyzer",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A node based database analyzer",
   "main": "lib/db-analyzer.js",
   "repository": "https://github.com/fmh-finanzberatung/fmh-db-analyzser.git",
