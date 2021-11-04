@@ -38,13 +38,13 @@ module.exports = async function create() {
       title: 'Senior Engineer',
       skill_level: 10,
     }).save();
-    const jobA = await JobModel.forge({
+    const jobEngineerInterior = await JobModel.forge({
       active: true,
       title: 'Engineer Interior',
       skill_level: 5,
       parent_id: jobSenior.id,
     }).save();
-    const jobB = await JobModel.forge({
+    const jobEngineerExterior = await JobModel.forge({
       active: true,
       title: 'Engineer Exterior',
       skill_level: 3,
@@ -68,7 +68,7 @@ module.exports = async function create() {
       family_name: 'Taggart',
       age: 35,
       company_id: companyLinux.id,
-      job_id: jobA.id,
+      job_id: jobEngineerInterior.id,
       city: 'New York',
     }).save();
     const personC = await PersonModel.forge({
@@ -78,7 +78,7 @@ module.exports = async function create() {
       family_name: 'Rearden',
       age: 42,
       company_id: companyFreeBSD.id,
-      job_id: jobB.id,
+      job_id: jobEngineerExterior.id,
       city: 'Chicago',
     }).save();
     const personD = await PersonModel.forge({
@@ -88,7 +88,7 @@ module.exports = async function create() {
       family_name: 'Danneskjold',
       age: 39,
       company_id: companyLinux.id,
-      job_id: jobB.id,
+      job_id: jobEngineerExterior.id,
       city: 'Stockholm',
     }).save();
 
@@ -98,8 +98,8 @@ module.exports = async function create() {
         companyFreeBSD: companyFreeBSD.toJSON(),
         companyLinux: companyLinux.toJSON(),
         jobSenior: jobSenior.toJSON(),
-        jobA: jobA.toJSON(),
-        jobB: jobB.toJSON(),
+        jobEngineerInterior: jobEngineerInterior.toJSON(),
+        jobEngineerExterior: jobEngineerExterior.toJSON(),
         personA: personA.toJSON(),
         personB: personB.toJSON(),
         personC: personC.toJSON(),

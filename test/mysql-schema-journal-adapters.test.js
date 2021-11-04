@@ -57,7 +57,7 @@ async function main() {
               isLast,
               next,
               prev
-            }
+            
             docs {
               id
               company {
@@ -78,35 +78,19 @@ async function main() {
       const queryC = `
         {
           persons (pagination: { pageSize: 2 } search: {family_name: "Galt"})  {
-            pagination {
-              page,
-              pageSize,
-              total,
-              pages,
-              isFirst,
-              isLast,
-              next,
-              prev
-            }
             docs {
               id
               family_name
               company {
                 legal_name 
-                persons {
-                  pagination {
-                    page,
-                    pageSize,
-                    total,
-                    pages,
-                    isFirst,
-                    isLast,
-                    next,
-                    prev
-                  } 
+                persons (order: {family_name: DESC}) {
                   docs {
                     family_name
                     id
+                    job {
+                      id 
+                      title
+                    } 
                   }
                 }
               }
