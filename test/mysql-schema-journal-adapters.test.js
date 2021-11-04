@@ -98,7 +98,26 @@ async function main() {
           }
         }`;
       //let res =
-      const result = await graphql(graphqlSchema, queryC, null, {
+      const queryD = `
+        {
+          awards(search: {name: "fmh-award"}) {
+            docs {
+              name
+              description
+              commendations ( pagination: { pageSize:5 } order: {id: DESC} ) {
+                docs {
+                  id
+                  perma_name
+                  image_file_name
+                  volume {
+                    year
+                  }
+                }
+              }
+            }
+          }
+        }  `;
+      const result = await graphql(graphqlSchema, queryD, null, {
         text: 'I am context',
       });
       //log.info('result', result);

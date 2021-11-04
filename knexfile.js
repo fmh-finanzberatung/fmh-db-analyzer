@@ -9,7 +9,7 @@ module.exports = {
     host: envVars('GTB_MYSQLHOST'),
     user: envVars('GTB_MYSQLDBUSER'),
     password: envVars('GTB_MYSQLPASSWORD'),
-    database: envVars('GTB_MYSQLDATABASE'), //mk_db_analyzer_test',
+    database: 'auszeichnungen_development', //envVars('GTB_MYSQLDATABASE'), //mk_db_analyzer_test',
     charset: 'utf8',
     preciseTimestamps: true,
   },
