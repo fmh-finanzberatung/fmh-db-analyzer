@@ -127,7 +127,44 @@ async function main() {
             }
           }
         }  `;
-      const result = await graphql(graphqlSchema, queryD, null, {
+      const queryE = `
+        {
+          awards(search: {name: "finanz-award"}) {
+            docs {
+              name
+              description
+              commendations(search: {active: true}, pagination: {pageSize: 4}) {
+                docs {
+                  id
+                  image_file_name
+                  description
+                  volume {
+                    year
+                    commendations {
+                      docs {
+                        laureates(pagination: {pageSize: 4} order: { degree_type: ASC }) {
+                          pagination {
+                            total
+                            last
+                            first
+                            pageSize
+                          }
+                          docs {
+                            bank {
+                              name
+                            }
+                            id
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }  `;
+      const result = await graphql(graphqlSchema, queryE, null, {
         text: 'I am context',
       });
       log.info('result', result);
