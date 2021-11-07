@@ -110,7 +110,17 @@ async function main() {
                   perma_name
                   image_file_name
                   volume {
-                    year
+                    year 
+                    commendations {
+                      docs {
+                        id
+                        laureates {
+                          docs {
+                            id
+                          }
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -120,8 +130,8 @@ async function main() {
       const result = await graphql(graphqlSchema, queryD, null, {
         text: 'I am context',
       });
-      //log.info('result', result);
-      log.info('result', JSON.stringify(result, null, 2));
+      log.info('result', result);
+      //log.info('result', JSON.stringify(result, null, 2));
     } catch (err) {
       log.error(err);
     } finally {
