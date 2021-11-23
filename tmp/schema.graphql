@@ -1,0 +1,6773 @@
+
+        
+  
+  enum OrderDirection {
+    DESC
+    ASC
+  }
+  
+  enum intervalType {
+    OPEN    # excludes endpoints 
+    CLOSED  # includes endpoints 
+  }
+
+  type Date {
+    year: Int
+    month: Int
+    date: Int
+  }
+
+  type DateTime {
+    year: Int
+    month: Int
+    date: Int
+    hour: Int
+    minute: Int
+    second: Int
+  }
+  
+  input PaginationInput {
+    page: Int = 1
+    pageSize: Int = 10
+  }
+  
+  input BooleanRange {
+    startVal: Boolean 
+    startType: intervalType = CLOSED 
+    endVal: Boolean 
+    endType: intervalType = CLOSED 
+  }
+  
+  input FloatRange {
+    startVal: Float 
+    startType: intervalType = CLOSED 
+    endVal: Float 
+    endType: intervalType = CLOSED 
+  }
+  
+  input IntRange {
+    startVal: Int 
+    startType: intervalType = CLOSED 
+    endVal: Int 
+    endType: intervalType = CLOSED 
+  }
+
+  input IntRange {
+    startVal: Int 
+    startType: intervalType = CLOSED 
+    endVal: Int 
+    endType: intervalType = CLOSED 
+  }
+  
+  input IDRange {
+    startVal: Int 
+    startType: intervalType = CLOSED 
+    endVal: Int 
+    endType: intervalType = CLOSED 
+  }
+
+  input DateInput {
+    year: Int
+    month: Int
+    date: Int
+  }
+  
+  input DateInputRange {
+    startVal: DateInput 
+    startType: intervalType = CLOSED 
+    endVal: DateInput 
+    endType: intervalType = CLOSED 
+  }
+
+  input DateTimeInput {
+    year: Int
+    month: Int
+    date: Int
+    hour: Int
+    minute: Int
+    second: Int
+  }
+
+  input DateTimeInputRange {
+    startVal: DateTimeInput 
+    startType: intervalType = CLOSED 
+    endVal: DateTimeInput 
+    endType: intervalType = CLOSED 
+  }
+
+  input StringRange {
+    startVal: String 
+    startType: intervalType = CLOSED 
+    endVal: String 
+    endType: intervalType = CLOSED 
+  }
+  
+  type Pagination {
+    page: Int
+    pageSize: Int
+    total: Int
+    pages: Int
+    isFirst: Boolean
+    isLast: Boolean
+    first: Int
+    last: Int
+    prev: Int
+    next: Int
+  }
+
+  type ErrorItem {
+    field: String
+    message: String
+  }
+
+  type Error {
+    message: String,
+    errors: [
+      ErrorItem 
+    ]
+  }
+
+input CoverOrder {
+        id: OrderDirection
+      }
+input CoverSearch {
+        id: Int
+      }
+input CoverExclude {
+        id: Int
+      }
+input CoverRange {
+        id: IntRange
+      }
+input CoverCreateInput { 
+      id: Int
+      
+      
+    }
+
+    input CoverUpdateInput { 
+      id: Int
+      
+      
+    }
+type Cover  {
+      id: Int
+      product (
+                search: ProductSearch
+                order: ProductOrder
+            ): Product
+asset (
+                search: AssetSearch
+                order: AssetOrder
+            ): Asset
+      error: Error 
+    }
+type CoverList  {
+      docs: [Cover] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input AssetOrder {
+        id: OrderDirection
+name: OrderDirection
+extension: OrderDirection
+content_type: OrderDirection
+image_width: OrderDirection
+thumbnail_width: OrderDirection
+updated_on: OrderDirection
+created_at: OrderDirection
+title: OrderDirection
+description: OrderDirection
+comment: OrderDirection
+      }
+input AssetSearch {
+        id: Int
+name: String
+extension: String
+content_type: String
+image_width: Int
+thumbnail_width: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+title: String
+description: String
+comment: String
+      }
+input AssetExclude {
+        id: Int
+name: String
+extension: String
+content_type: String
+image_width: Int
+thumbnail_width: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+title: String
+description: String
+comment: String
+      }
+input AssetRange {
+        id: IntRange
+name: StringRange
+extension: StringRange
+content_type: StringRange
+image_width: IntRange
+thumbnail_width: IntRange
+updated_on: DateTimeInputRange
+created_at: DateTimeInputRange
+title: StringRange
+description: StringRange
+comment: StringRange
+      }
+input AssetCreateInput { 
+      id: Int
+name: String
+extension: String
+content_type: String
+image_width: Int
+thumbnail_width: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+title: String
+description: String
+comment: String
+      
+      
+    }
+
+    input AssetUpdateInput { 
+      id: Int
+name: String
+extension: String
+content_type: String
+image_width: Int
+thumbnail_width: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+title: String
+description: String
+comment: String
+      
+      
+    }
+type Asset  {
+      id: Int
+name: String
+extension: String
+content_type: String
+image_width: Int
+thumbnail_width: Int
+updated_on: DateTime
+created_at: DateTime
+title: String
+description: String
+comment: String
+      covers (
+                pagination : PaginationInput
+                search: CoverSearch
+                order: CoverOrder
+                range: CoverRange
+              ): 
+              CoverList
+portraits (
+                pagination : PaginationInput
+                search: PortraitSearch
+                order: PortraitOrder
+                range: PortraitRange
+              ): 
+              PortraitList
+illustrations (
+                pagination : PaginationInput
+                search: IllustrationSearch
+                order: IllustrationOrder
+                range: IllustrationRange
+              ): 
+              IllustrationList
+      error: Error 
+    }
+type AssetList  {
+      docs: [Asset] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input ShipmentNotificationOrder {
+        id: OrderDirection
+created_at: OrderDirection
+updated_at: OrderDirection
+shipping_date: OrderDirection
+customer_note: OrderDirection
+comment: OrderDirection
+      }
+input ShipmentNotificationSearch {
+        id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+shipping_date: DateInput
+customer_note: String
+comment: String
+      }
+input ShipmentNotificationExclude {
+        id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+shipping_date: DateInput
+customer_note: String
+comment: String
+      }
+input ShipmentNotificationRange {
+        id: IntRange
+created_at: DateTimeInputRange
+updated_at: DateTimeInputRange
+shipping_date: DateInputRange
+customer_note: StringRange
+comment: StringRange
+      }
+input ShipmentNotificationCreateInput { 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+shipping_date: DateInput
+customer_note: String
+comment: String
+      
+      
+    }
+
+    input ShipmentNotificationUpdateInput { 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+shipping_date: DateInput
+customer_note: String
+comment: String
+      
+      
+    }
+type ShipmentNotification  {
+      id: Int
+created_at: DateTime
+updated_at: DateTime
+shipping_date: Date
+customer_note: String
+comment: String
+      invoice (
+                search: InvoiceSearch
+                order: InvoiceOrder
+            ): Invoice
+      error: Error 
+    }
+type ShipmentNotificationList  {
+      docs: [ShipmentNotification] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input PoItemOrder {
+        id: OrderDirection
+created_at: OrderDirection
+updated_at: OrderDirection
+quantity: OrderDirection
+remark: OrderDirection
+comment: OrderDirection
+delivery_status_type: OrderDirection
+delivered_at: OrderDirection
+      }
+input PoItemSearch {
+        id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+quantity: Int
+remark: String
+comment: String
+delivery_status_type: Int
+delivered_at: DateInput
+      }
+input PoItemExclude {
+        id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+quantity: Int
+remark: String
+comment: String
+delivery_status_type: Int
+delivered_at: DateInput
+      }
+input PoItemRange {
+        id: IntRange
+created_at: DateTimeInputRange
+updated_at: DateTimeInputRange
+quantity: IntRange
+remark: StringRange
+comment: StringRange
+delivery_status_type: IntRange
+delivered_at: DateInputRange
+      }
+input PoItemCreateInput { 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+quantity: Int
+remark: String
+comment: String
+delivery_status_type: Int
+delivered_at: DateInput
+      
+      
+    }
+
+    input PoItemUpdateInput { 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+quantity: Int
+remark: String
+comment: String
+delivery_status_type: Int
+delivered_at: DateInput
+      
+      
+    }
+type PoItem  {
+      id: Int
+created_at: DateTime
+updated_at: DateTime
+quantity: Int
+remark: String
+comment: String
+delivery_status_type: Int
+delivered_at: Date
+      product (
+                search: ProductSearch
+                order: ProductOrder
+            ): Product
+purchase_order (
+                search: PurchaseOrderSearch
+                order: PurchaseOrderOrder
+            ): PurchaseOrder
+      error: Error 
+    }
+type PoItemList  {
+      docs: [PoItem] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input CountryOrder {
+        id: OrderDirection
+active: OrderDirection
+updated_on: OrderDirection
+created_at: OrderDirection
+name: OrderDirection
+identity_key: OrderDirection
+invoice_text: OrderDirection
+delivery_note_text: OrderDirection
+sticker_text: OrderDirection
+currency_symbol: OrderDirection
+belongs_to_eu: OrderDirection
+address_book_rate: OrderDirection
+address_book_rate_additional: OrderDirection
+address_on_undeliverable: OrderDirection
+invoice_paypal_payment_due: OrderDirection
+invoice_bank_payment_due: OrderDirection
+invoice_bank_account_owner: OrderDirection
+invoice_bank_connection: OrderDirection
+invoice_remains_property: OrderDirection
+no_vat_applies_info: OrderDirection
+lang: OrderDirection
+separator: OrderDirection
+delimiter: OrderDirection
+invoice_payment_release: OrderDirection
+date_format: OrderDirection
+currency_abbrev: OrderDirection
+invoice_order_type_amazon: OrderDirection
+invoice_order_type_gewis: OrderDirection
+invoice_order_type_oelbaum: OrderDirection
+currency_exchange_rate: OrderDirection
+      }
+input CountrySearch {
+        id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+name: String
+identity_key: String
+invoice_text: String
+delivery_note_text: String
+sticker_text: String
+currency_symbol: String
+belongs_to_eu: Boolean
+address_book_rate: String
+address_book_rate_additional: String
+address_on_undeliverable: String
+invoice_paypal_payment_due: String
+invoice_bank_payment_due: String
+invoice_bank_account_owner: String
+invoice_bank_connection: String
+invoice_remains_property: String
+no_vat_applies_info: String
+lang: String
+separator: String
+delimiter: String
+invoice_payment_release: String
+date_format: String
+currency_abbrev: String
+invoice_order_type_amazon: String
+invoice_order_type_gewis: String
+invoice_order_type_oelbaum: String
+currency_exchange_rate: Float
+      }
+input CountryExclude {
+        id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+name: String
+identity_key: String
+invoice_text: String
+delivery_note_text: String
+sticker_text: String
+currency_symbol: String
+belongs_to_eu: Boolean
+address_book_rate: String
+address_book_rate_additional: String
+address_on_undeliverable: String
+invoice_paypal_payment_due: String
+invoice_bank_payment_due: String
+invoice_bank_account_owner: String
+invoice_bank_connection: String
+invoice_remains_property: String
+no_vat_applies_info: String
+lang: String
+separator: String
+delimiter: String
+invoice_payment_release: String
+date_format: String
+currency_abbrev: String
+invoice_order_type_amazon: String
+invoice_order_type_gewis: String
+invoice_order_type_oelbaum: String
+currency_exchange_rate: Float
+      }
+input CountryRange {
+        id: IntRange
+active: BooleanRange
+updated_on: DateTimeInputRange
+created_at: DateTimeInputRange
+name: StringRange
+identity_key: StringRange
+invoice_text: StringRange
+delivery_note_text: StringRange
+sticker_text: StringRange
+currency_symbol: StringRange
+belongs_to_eu: BooleanRange
+address_book_rate: StringRange
+address_book_rate_additional: StringRange
+address_on_undeliverable: StringRange
+invoice_paypal_payment_due: StringRange
+invoice_bank_payment_due: StringRange
+invoice_bank_account_owner: StringRange
+invoice_bank_connection: StringRange
+invoice_remains_property: StringRange
+no_vat_applies_info: StringRange
+lang: StringRange
+separator: StringRange
+delimiter: StringRange
+invoice_payment_release: StringRange
+date_format: StringRange
+currency_abbrev: StringRange
+invoice_order_type_amazon: StringRange
+invoice_order_type_gewis: StringRange
+invoice_order_type_oelbaum: StringRange
+currency_exchange_rate: FloatRange
+      }
+input CountryCreateInput { 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+name: String
+identity_key: String
+invoice_text: String
+delivery_note_text: String
+sticker_text: String
+currency_symbol: String
+belongs_to_eu: Boolean
+address_book_rate: String
+address_book_rate_additional: String
+address_on_undeliverable: String
+invoice_paypal_payment_due: String
+invoice_bank_payment_due: String
+invoice_bank_account_owner: String
+invoice_bank_connection: String
+invoice_remains_property: String
+no_vat_applies_info: String
+lang: String
+separator: String
+delimiter: String
+invoice_payment_release: String
+date_format: String
+currency_abbrev: String
+invoice_order_type_amazon: String
+invoice_order_type_gewis: String
+invoice_order_type_oelbaum: String
+currency_exchange_rate: Float
+      
+      
+    }
+
+    input CountryUpdateInput { 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+name: String
+identity_key: String
+invoice_text: String
+delivery_note_text: String
+sticker_text: String
+currency_symbol: String
+belongs_to_eu: Boolean
+address_book_rate: String
+address_book_rate_additional: String
+address_on_undeliverable: String
+invoice_paypal_payment_due: String
+invoice_bank_payment_due: String
+invoice_bank_account_owner: String
+invoice_bank_connection: String
+invoice_remains_property: String
+no_vat_applies_info: String
+lang: String
+separator: String
+delimiter: String
+invoice_payment_release: String
+date_format: String
+currency_abbrev: String
+invoice_order_type_amazon: String
+invoice_order_type_gewis: String
+invoice_order_type_oelbaum: String
+currency_exchange_rate: Float
+      
+      
+    }
+type Country  {
+      id: Int
+active: Boolean
+updated_on: DateTime
+created_at: DateTime
+name: String
+identity_key: String
+invoice_text: String
+delivery_note_text: String
+sticker_text: String
+currency_symbol: String
+belongs_to_eu: Boolean
+address_book_rate: String
+address_book_rate_additional: String
+address_on_undeliverable: String
+invoice_paypal_payment_due: String
+invoice_bank_payment_due: String
+invoice_bank_account_owner: String
+invoice_bank_connection: String
+invoice_remains_property: String
+no_vat_applies_info: String
+lang: String
+separator: String
+delimiter: String
+invoice_payment_release: String
+date_format: String
+currency_abbrev: String
+invoice_order_type_amazon: String
+invoice_order_type_gewis: String
+invoice_order_type_oelbaum: String
+currency_exchange_rate: Float
+      invoices (
+                pagination : PaginationInput
+                search: InvoiceSearch
+                order: InvoiceOrder
+                range: InvoiceRange
+              ): 
+              InvoiceList
+products (
+                pagination : PaginationInput
+                search: ProductSearch
+                order: ProductOrder
+                range: ProductRange
+              ): 
+              ProductList
+users (
+                pagination : PaginationInput
+                search: UserSearch
+                order: UserOrder
+                range: UserRange
+              ): 
+              UserList
+manufacturers (
+                pagination : PaginationInput
+                search: ManufacturerSearch
+                order: ManufacturerOrder
+                range: ManufacturerRange
+              ): 
+              ManufacturerList
+delivery_addresses (
+                pagination : PaginationInput
+                search: DeliveryAddressSearch
+                order: DeliveryAddressOrder
+                range: DeliveryAddressRange
+              ): 
+              DeliveryAddressList
+      error: Error 
+    }
+type CountryList  {
+      docs: [Country] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input SupplierContactOrder {
+        id: OrderDirection
+created_at: OrderDirection
+updated_at: OrderDirection
+gender: OrderDirection
+first_name: OrderDirection
+last_name: OrderDirection
+telephone: OrderDirection
+telefax: OrderDirection
+email: OrderDirection
+comment: OrderDirection
+identity_key: OrderDirection
+      }
+input SupplierContactSearch {
+        id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+gender: String
+first_name: String
+last_name: String
+telephone: String
+telefax: String
+email: String
+comment: String
+identity_key: String
+      }
+input SupplierContactExclude {
+        id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+gender: String
+first_name: String
+last_name: String
+telephone: String
+telefax: String
+email: String
+comment: String
+identity_key: String
+      }
+input SupplierContactRange {
+        id: IntRange
+created_at: DateTimeInputRange
+updated_at: DateTimeInputRange
+gender: StringRange
+first_name: StringRange
+last_name: StringRange
+telephone: StringRange
+telefax: StringRange
+email: StringRange
+comment: StringRange
+identity_key: StringRange
+      }
+input SupplierContactCreateInput { 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+gender: String
+first_name: String
+last_name: String
+telephone: String
+telefax: String
+email: String
+comment: String
+identity_key: String
+      
+      
+    }
+
+    input SupplierContactUpdateInput { 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+gender: String
+first_name: String
+last_name: String
+telephone: String
+telefax: String
+email: String
+comment: String
+identity_key: String
+      
+      
+    }
+type SupplierContact  {
+      id: Int
+created_at: DateTime
+updated_at: DateTime
+gender: String
+first_name: String
+last_name: String
+telephone: String
+telefax: String
+email: String
+comment: String
+identity_key: String
+      manufacturer (
+                search: ManufacturerSearch
+                order: ManufacturerOrder
+            ): Manufacturer
+supplier (
+                search: SupplierSearch
+                order: SupplierOrder
+            ): Supplier
+purchase_orders (
+                pagination : PaginationInput
+                search: PurchaseOrderSearch
+                order: PurchaseOrderOrder
+                range: PurchaseOrderRange
+              ): 
+              PurchaseOrderList
+      error: Error 
+    }
+type SupplierContactList  {
+      docs: [SupplierContact] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input RecommendationOrder {
+        id: OrderDirection
+created_at: OrderDirection
+updated_at: OrderDirection
+active: OrderDirection
+title: OrderDirection
+description: OrderDirection
+comment: OrderDirection
+permalink: OrderDirection
+      }
+input RecommendationSearch {
+        id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+active: Boolean
+title: String
+description: String
+comment: String
+permalink: String
+      }
+input RecommendationExclude {
+        id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+active: Boolean
+title: String
+description: String
+comment: String
+permalink: String
+      }
+input RecommendationRange {
+        id: IntRange
+created_at: DateTimeInputRange
+updated_at: DateTimeInputRange
+active: BooleanRange
+title: StringRange
+description: StringRange
+comment: StringRange
+permalink: StringRange
+      }
+input RecommendationCreateInput { 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+active: Boolean
+title: String
+description: String
+comment: String
+permalink: String
+      
+      
+    }
+
+    input RecommendationUpdateInput { 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+active: Boolean
+title: String
+description: String
+comment: String
+permalink: String
+      
+      
+    }
+type Recommendation  {
+      id: Int
+created_at: DateTime
+updated_at: DateTime
+active: Boolean
+title: String
+description: String
+comment: String
+permalink: String
+      author (
+                search: AuthorSearch
+                order: AuthorOrder
+            ): Author
+product (
+                search: ProductSearch
+                order: ProductOrder
+            ): Product
+      error: Error 
+    }
+type RecommendationList  {
+      docs: [Recommendation] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input InvoiceOrder {
+        id: OrderDirection
+active: OrderDirection
+updated_on: OrderDirection
+created_at: OrderDirection
+billed_on: OrderDirection
+placed_on: OrderDirection
+shipped_on: OrderDirection
+payment_due_period: OrderDirection
+shipping_cost: OrderDirection
+order_sign: OrderDirection
+order_key: OrderDirection
+identity_key: OrderDirection
+invoice_remark: OrderDirection
+delivery_note_remark: OrderDirection
+exchange_rate: OrderDirection
+credit_note_type: OrderDirection
+credit_note_other: OrderDirection
+credit_note_amount: OrderDirection
+paid: OrderDirection
+status_type: OrderDirection
+comment: OrderDirection
+reminders_count: OrderDirection
+      }
+input InvoiceSearch {
+        id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+billed_on: DateInput
+placed_on: DateInput
+shipped_on: DateInput
+payment_due_period: Int
+shipping_cost: Float
+order_sign: String
+order_key: String
+identity_key: String
+invoice_remark: String
+delivery_note_remark: String
+exchange_rate: Float
+credit_note_type: Int
+credit_note_other: String
+credit_note_amount: Float
+paid: Boolean
+status_type: Int
+comment: String
+reminders_count: Int
+      }
+input InvoiceExclude {
+        id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+billed_on: DateInput
+placed_on: DateInput
+shipped_on: DateInput
+payment_due_period: Int
+shipping_cost: Float
+order_sign: String
+order_key: String
+identity_key: String
+invoice_remark: String
+delivery_note_remark: String
+exchange_rate: Float
+credit_note_type: Int
+credit_note_other: String
+credit_note_amount: Float
+paid: Boolean
+status_type: Int
+comment: String
+reminders_count: Int
+      }
+input InvoiceRange {
+        id: IntRange
+active: BooleanRange
+updated_on: DateTimeInputRange
+created_at: DateTimeInputRange
+billed_on: DateInputRange
+placed_on: DateInputRange
+shipped_on: DateInputRange
+payment_due_period: IntRange
+shipping_cost: FloatRange
+order_sign: StringRange
+order_key: StringRange
+identity_key: StringRange
+invoice_remark: StringRange
+delivery_note_remark: StringRange
+exchange_rate: FloatRange
+credit_note_type: IntRange
+credit_note_other: StringRange
+credit_note_amount: FloatRange
+paid: BooleanRange
+status_type: IntRange
+comment: StringRange
+reminders_count: IntRange
+      }
+input InvoiceCreateInput { 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+billed_on: DateInput
+placed_on: DateInput
+shipped_on: DateInput
+payment_due_period: Int
+shipping_cost: Float
+order_sign: String
+order_key: String
+identity_key: String
+invoice_remark: String
+delivery_note_remark: String
+exchange_rate: Float
+credit_note_type: Int
+credit_note_other: String
+credit_note_amount: Float
+paid: Boolean
+status_type: Int
+comment: String
+reminders_count: Int
+      
+      
+    }
+
+    input InvoiceUpdateInput { 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+billed_on: DateInput
+placed_on: DateInput
+shipped_on: DateInput
+payment_due_period: Int
+shipping_cost: Float
+order_sign: String
+order_key: String
+identity_key: String
+invoice_remark: String
+delivery_note_remark: String
+exchange_rate: Float
+credit_note_type: Int
+credit_note_other: String
+credit_note_amount: Float
+paid: Boolean
+status_type: Int
+comment: String
+reminders_count: Int
+      
+      
+    }
+type Invoice  {
+      id: Int
+active: Boolean
+updated_on: DateTime
+created_at: DateTime
+billed_on: Date
+placed_on: Date
+shipped_on: Date
+payment_due_period: Int
+shipping_cost: Float
+order_sign: String
+order_key: String
+identity_key: String
+invoice_remark: String
+delivery_note_remark: String
+exchange_rate: Float
+credit_note_type: Int
+credit_note_other: String
+credit_note_amount: Float
+paid: Boolean
+status_type: Int
+comment: String
+reminders_count: Int
+      order_type (
+                search: OrderTypeSearch
+                order: OrderTypeOrder
+            ): OrderType
+sale (
+                search: SaleSearch
+                order: SaleOrder
+            ): Sale
+country (
+                search: CountrySearch
+                order: CountryOrder
+            ): Country
+shipment_notifications (
+                pagination : PaginationInput
+                search: ShipmentNotificationSearch
+                order: ShipmentNotificationOrder
+                range: ShipmentNotificationRange
+              ): 
+              ShipmentNotificationList
+reminders (
+                pagination : PaginationInput
+                search: ReminderSearch
+                order: ReminderOrder
+                range: ReminderRange
+              ): 
+              ReminderList
+sales (
+                pagination : PaginationInput
+                search: SaleSearch
+                order: SaleOrder
+                range: SaleRange
+              ): 
+              SaleList
+      error: Error 
+    }
+type InvoiceList  {
+      docs: [Invoice] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input CategoryOrder {
+        id: OrderDirection
+updated_on: OrderDirection
+created_at: OrderDirection
+      }
+input CategorySearch {
+        id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+      }
+input CategoryExclude {
+        id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+      }
+input CategoryRange {
+        id: IntRange
+updated_on: DateTimeInputRange
+created_at: DateTimeInputRange
+      }
+input CategoryCreateInput { 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+      
+      
+    }
+
+    input CategoryUpdateInput { 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+      
+      
+    }
+type Category  {
+      id: Int
+updated_on: DateTime
+created_at: DateTime
+      product (
+                search: ProductSearch
+                order: ProductOrder
+            ): Product
+topic (
+                search: TopicSearch
+                order: TopicOrder
+            ): Topic
+      error: Error 
+    }
+type CategoryList  {
+      docs: [Category] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input OrderTypeOrder {
+        id: OrderDirection
+created_at: OrderDirection
+updated_at: OrderDirection
+key: OrderDirection
+name: OrderDirection
+remark: OrderDirection
+comment: OrderDirection
+      }
+input OrderTypeSearch {
+        id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+key: String
+name: String
+remark: String
+comment: String
+      }
+input OrderTypeExclude {
+        id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+key: String
+name: String
+remark: String
+comment: String
+      }
+input OrderTypeRange {
+        id: IntRange
+created_at: DateTimeInputRange
+updated_at: DateTimeInputRange
+key: StringRange
+name: StringRange
+remark: StringRange
+comment: StringRange
+      }
+input OrderTypeCreateInput { 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+key: String
+name: String
+remark: String
+comment: String
+      
+      
+    }
+
+    input OrderTypeUpdateInput { 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+key: String
+name: String
+remark: String
+comment: String
+      
+      
+    }
+type OrderType  {
+      id: Int
+created_at: DateTime
+updated_at: DateTime
+key: String
+name: String
+remark: String
+comment: String
+      invoices (
+                pagination : PaginationInput
+                search: InvoiceSearch
+                order: InvoiceOrder
+                range: InvoiceRange
+              ): 
+              InvoiceList
+      error: Error 
+    }
+type OrderTypeList  {
+      docs: [OrderType] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input ArInternalMetadatumOrder {
+        key: OrderDirection
+value: OrderDirection
+created_at: OrderDirection
+updated_at: OrderDirection
+      }
+input ArInternalMetadatumSearch {
+        key: String
+value: String
+created_at: DateTimeInput
+updated_at: DateTimeInput
+      }
+input ArInternalMetadatumExclude {
+        key: String
+value: String
+created_at: DateTimeInput
+updated_at: DateTimeInput
+      }
+input ArInternalMetadatumRange {
+        key: StringRange
+value: StringRange
+created_at: DateTimeInputRange
+updated_at: DateTimeInputRange
+      }
+input ArInternalMetadatumCreateInput { 
+      key: String
+value: String
+created_at: DateTimeInput
+updated_at: DateTimeInput
+      
+      
+    }
+
+    input ArInternalMetadatumUpdateInput { 
+      key: String
+value: String
+created_at: DateTimeInput
+updated_at: DateTimeInput
+      
+      
+    }
+type ArInternalMetadatum  {
+      key: String
+value: String
+created_at: DateTime
+updated_at: DateTime
+      
+      error: Error 
+    }
+type ArInternalMetadatumList  {
+      docs: [ArInternalMetadatum] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input ProductOrder {
+        id: OrderDirection
+active: OrderDirection
+created_at: OrderDirection
+updated_on: OrderDirection
+name: OrderDirection
+description: OrderDirection
+identity_key: OrderDirection
+price: OrderDirection
+vat: OrderDirection
+weight: OrderDirection
+comment: OrderDirection
+subtitle: OrderDirection
+permalink: OrderDirection
+pages: OrderDirection
+state_type: OrderDirection
+publishing_year: OrderDirection
+binding_type: OrderDirection
+availability_type: OrderDirection
+ean: OrderDirection
+items_on_stock: OrderDirection
+      }
+input ProductSearch {
+        id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+name: String
+description: String
+identity_key: String
+price: Float
+vat: Float
+weight: Float
+comment: String
+subtitle: String
+permalink: String
+pages: Int
+state_type: Int
+publishing_year: Int
+binding_type: Int
+availability_type: Int
+ean: String
+items_on_stock: Int
+      }
+input ProductExclude {
+        id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+name: String
+description: String
+identity_key: String
+price: Float
+vat: Float
+weight: Float
+comment: String
+subtitle: String
+permalink: String
+pages: Int
+state_type: Int
+publishing_year: Int
+binding_type: Int
+availability_type: Int
+ean: String
+items_on_stock: Int
+      }
+input ProductRange {
+        id: IntRange
+active: BooleanRange
+created_at: DateTimeInputRange
+updated_on: DateTimeInputRange
+name: StringRange
+description: StringRange
+identity_key: StringRange
+price: FloatRange
+vat: FloatRange
+weight: FloatRange
+comment: StringRange
+subtitle: StringRange
+permalink: StringRange
+pages: IntRange
+state_type: IntRange
+publishing_year: IntRange
+binding_type: IntRange
+availability_type: IntRange
+ean: StringRange
+items_on_stock: IntRange
+      }
+input ProductCreateInput { 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+name: String
+description: String
+identity_key: String
+price: Float
+vat: Float
+weight: Float
+comment: String
+subtitle: String
+permalink: String
+pages: Int
+state_type: Int
+publishing_year: Int
+binding_type: Int
+availability_type: Int
+ean: String
+items_on_stock: Int
+      
+      
+    }
+
+    input ProductUpdateInput { 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+name: String
+description: String
+identity_key: String
+price: Float
+vat: Float
+weight: Float
+comment: String
+subtitle: String
+permalink: String
+pages: Int
+state_type: Int
+publishing_year: Int
+binding_type: Int
+availability_type: Int
+ean: String
+items_on_stock: Int
+      
+      
+    }
+type Product  {
+      id: Int
+active: Boolean
+created_at: DateTime
+updated_on: DateTime
+name: String
+description: String
+identity_key: String
+price: Float
+vat: Float
+weight: Float
+comment: String
+subtitle: String
+permalink: String
+pages: Int
+state_type: Int
+publishing_year: Int
+binding_type: Int
+availability_type: Int
+ean: String
+items_on_stock: Int
+      product_type (
+                search: ProductTypeSearch
+                order: ProductTypeOrder
+            ): ProductType
+manufacturer (
+                search: ManufacturerSearch
+                order: ManufacturerOrder
+            ): Manufacturer
+country (
+                search: CountrySearch
+                order: CountryOrder
+            ): Country
+covers (
+                pagination : PaginationInput
+                search: CoverSearch
+                order: CoverOrder
+                range: CoverRange
+              ): 
+              CoverList
+po_items (
+                pagination : PaginationInput
+                search: PoItemSearch
+                order: PoItemOrder
+                range: PoItemRange
+              ): 
+              PoItemList
+recommendations (
+                pagination : PaginationInput
+                search: RecommendationSearch
+                order: RecommendationOrder
+                range: RecommendationRange
+              ): 
+              RecommendationList
+categories (
+                pagination : PaginationInput
+                search: CategorySearch
+                order: CategoryOrder
+                range: CategoryRange
+              ): 
+              CategoryList
+reviews (
+                pagination : PaginationInput
+                search: ReviewSearch
+                order: ReviewOrder
+                range: ReviewRange
+              ): 
+              ReviewList
+prices (
+                pagination : PaginationInput
+                search: PriceSearch
+                order: PriceOrder
+                range: PriceRange
+              ): 
+              PriceList
+works (
+                pagination : PaginationInput
+                search: WorkSearch
+                order: WorkOrder
+                range: WorkRange
+              ): 
+              WorkList
+sales (
+                pagination : PaginationInput
+                search: SaleSearch
+                order: SaleOrder
+                range: SaleRange
+              ): 
+              SaleList
+items (
+                pagination : PaginationInput
+                search: ItemSearch
+                order: ItemOrder
+                range: ItemRange
+              ): 
+              ItemList
+      error: Error 
+    }
+type ProductList  {
+      docs: [Product] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input ReviewOrder {
+        id: OrderDirection
+active: OrderDirection
+updated_on: OrderDirection
+created_at: OrderDirection
+user_email: OrderDirection
+user_name: OrderDirection
+points: OrderDirection
+title: OrderDirection
+review_text: OrderDirection
+comment: OrderDirection
+      }
+input ReviewSearch {
+        id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+user_email: String
+user_name: String
+points: Int
+title: String
+review_text: String
+comment: String
+      }
+input ReviewExclude {
+        id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+user_email: String
+user_name: String
+points: Int
+title: String
+review_text: String
+comment: String
+      }
+input ReviewRange {
+        id: IntRange
+active: BooleanRange
+updated_on: DateTimeInputRange
+created_at: DateTimeInputRange
+user_email: StringRange
+user_name: StringRange
+points: IntRange
+title: StringRange
+review_text: StringRange
+comment: StringRange
+      }
+input ReviewCreateInput { 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+user_email: String
+user_name: String
+points: Int
+title: String
+review_text: String
+comment: String
+      
+      
+    }
+
+    input ReviewUpdateInput { 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+user_email: String
+user_name: String
+points: Int
+title: String
+review_text: String
+comment: String
+      
+      
+    }
+type Review  {
+      id: Int
+active: Boolean
+updated_on: DateTime
+created_at: DateTime
+user_email: String
+user_name: String
+points: Int
+title: String
+review_text: String
+comment: String
+      product (
+                search: ProductSearch
+                order: ProductOrder
+            ): Product
+      error: Error 
+    }
+type ReviewList  {
+      docs: [Review] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input ArticleOrder {
+        id: OrderDirection
+active: OrderDirection
+created_at: OrderDirection
+updated_on: OrderDirection
+title: OrderDirection
+body: OrderDirection
+comment: OrderDirection
+position: OrderDirection
+appearance_type: OrderDirection
+permalink: OrderDirection
+      }
+input ArticleSearch {
+        id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+title: String
+body: String
+comment: String
+position: Int
+appearance_type: Int
+permalink: String
+      }
+input ArticleExclude {
+        id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+title: String
+body: String
+comment: String
+position: Int
+appearance_type: Int
+permalink: String
+      }
+input ArticleRange {
+        id: IntRange
+active: BooleanRange
+created_at: DateTimeInputRange
+updated_on: DateTimeInputRange
+title: StringRange
+body: StringRange
+comment: StringRange
+position: IntRange
+appearance_type: IntRange
+permalink: StringRange
+      }
+input ArticleCreateInput { 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+title: String
+body: String
+comment: String
+position: Int
+appearance_type: Int
+permalink: String
+      
+      
+    }
+
+    input ArticleUpdateInput { 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+title: String
+body: String
+comment: String
+position: Int
+appearance_type: Int
+permalink: String
+      
+      
+    }
+type Article  {
+      id: Int
+active: Boolean
+created_at: DateTime
+updated_on: DateTime
+title: String
+body: String
+comment: String
+position: Int
+appearance_type: Int
+permalink: String
+      illustrations (
+                pagination : PaginationInput
+                search: IllustrationSearch
+                order: IllustrationOrder
+                range: IllustrationRange
+              ): 
+              IllustrationList
+      error: Error 
+    }
+type ArticleList  {
+      docs: [Article] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input PriceOrder {
+        id: OrderDirection
+active: OrderDirection
+created_at: OrderDirection
+updated_on: OrderDirection
+starts_at: OrderDirection
+ends_at: OrderDirection
+comment: OrderDirection
+      }
+input PriceSearch {
+        id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+starts_at: DateInput
+ends_at: DateInput
+comment: String
+      }
+input PriceExclude {
+        id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+starts_at: DateInput
+ends_at: DateInput
+comment: String
+      }
+input PriceRange {
+        id: IntRange
+active: BooleanRange
+created_at: DateTimeInputRange
+updated_on: DateTimeInputRange
+starts_at: DateInputRange
+ends_at: DateInputRange
+comment: StringRange
+      }
+input PriceCreateInput { 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+starts_at: DateInput
+ends_at: DateInput
+comment: String
+      
+      
+    }
+
+    input PriceUpdateInput { 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+starts_at: DateInput
+ends_at: DateInput
+comment: String
+      
+      
+    }
+type Price  {
+      id: Int
+active: Boolean
+created_at: DateTime
+updated_on: DateTime
+starts_at: Date
+ends_at: Date
+comment: String
+      product (
+                search: ProductSearch
+                order: ProductOrder
+            ): Product
+      error: Error 
+    }
+type PriceList  {
+      docs: [Price] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input ReminderOrder {
+        id: OrderDirection
+created_at: OrderDirection
+updated_at: OrderDirection
+comment: OrderDirection
+      }
+input ReminderSearch {
+        id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+comment: String
+      }
+input ReminderExclude {
+        id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+comment: String
+      }
+input ReminderRange {
+        id: IntRange
+created_at: DateTimeInputRange
+updated_at: DateTimeInputRange
+comment: StringRange
+      }
+input ReminderCreateInput { 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+comment: String
+      
+      
+    }
+
+    input ReminderUpdateInput { 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+comment: String
+      
+      
+    }
+type Reminder  {
+      id: Int
+created_at: DateTime
+updated_at: DateTime
+comment: String
+      invoice (
+                search: InvoiceSearch
+                order: InvoiceOrder
+            ): Invoice
+      error: Error 
+    }
+type ReminderList  {
+      docs: [Reminder] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input InfoOrder {
+        id: OrderDirection
+active: OrderDirection
+position: OrderDirection
+created_at: OrderDirection
+updated_at: OrderDirection
+title: OrderDirection
+body: OrderDirection
+comment: OrderDirection
+message_type: OrderDirection
+      }
+input InfoSearch {
+        id: Int
+active: Boolean
+position: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+title: String
+body: String
+comment: String
+message_type: Int
+      }
+input InfoExclude {
+        id: Int
+active: Boolean
+position: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+title: String
+body: String
+comment: String
+message_type: Int
+      }
+input InfoRange {
+        id: IntRange
+active: BooleanRange
+position: IntRange
+created_at: DateTimeInputRange
+updated_at: DateTimeInputRange
+title: StringRange
+body: StringRange
+comment: StringRange
+message_type: IntRange
+      }
+input InfoCreateInput { 
+      id: Int
+active: Boolean
+position: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+title: String
+body: String
+comment: String
+message_type: Int
+      
+      
+    }
+
+    input InfoUpdateInput { 
+      id: Int
+active: Boolean
+position: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+title: String
+body: String
+comment: String
+message_type: Int
+      
+      
+    }
+type Info  {
+      id: Int
+active: Boolean
+position: Int
+created_at: DateTime
+updated_at: DateTime
+title: String
+body: String
+comment: String
+message_type: Int
+      
+      error: Error 
+    }
+type InfoList  {
+      docs: [Info] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input PortraitOrder {
+        id: OrderDirection
+      }
+input PortraitSearch {
+        id: Int
+      }
+input PortraitExclude {
+        id: Int
+      }
+input PortraitRange {
+        id: IntRange
+      }
+input PortraitCreateInput { 
+      id: Int
+      
+      
+    }
+
+    input PortraitUpdateInput { 
+      id: Int
+      
+      
+    }
+type Portrait  {
+      id: Int
+      author (
+                search: AuthorSearch
+                order: AuthorOrder
+            ): Author
+asset (
+                search: AssetSearch
+                order: AssetOrder
+            ): Asset
+      error: Error 
+    }
+type PortraitList  {
+      docs: [Portrait] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input SupplierOrder {
+        id: OrderDirection
+created_at: OrderDirection
+updated_at: OrderDirection
+identity_key: OrderDirection
+name: OrderDirection
+description: OrderDirection
+comment: OrderDirection
+city: OrderDirection
+zip: OrderDirection
+street: OrderDirection
+telephone: OrderDirection
+telefax: OrderDirection
+email: OrderDirection
+contacts: OrderDirection
+      }
+input SupplierSearch {
+        id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+identity_key: String
+name: String
+description: String
+comment: String
+city: String
+zip: String
+street: String
+telephone: String
+telefax: String
+email: String
+contacts: String
+      }
+input SupplierExclude {
+        id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+identity_key: String
+name: String
+description: String
+comment: String
+city: String
+zip: String
+street: String
+telephone: String
+telefax: String
+email: String
+contacts: String
+      }
+input SupplierRange {
+        id: IntRange
+created_at: DateTimeInputRange
+updated_at: DateTimeInputRange
+identity_key: StringRange
+name: StringRange
+description: StringRange
+comment: StringRange
+city: StringRange
+zip: StringRange
+street: StringRange
+telephone: StringRange
+telefax: StringRange
+email: StringRange
+contacts: StringRange
+      }
+input SupplierCreateInput { 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+identity_key: String
+name: String
+description: String
+comment: String
+city: String
+zip: String
+street: String
+telephone: String
+telefax: String
+email: String
+contacts: String
+      
+      
+    }
+
+    input SupplierUpdateInput { 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+identity_key: String
+name: String
+description: String
+comment: String
+city: String
+zip: String
+street: String
+telephone: String
+telefax: String
+email: String
+contacts: String
+      
+      
+    }
+type Supplier  {
+      id: Int
+created_at: DateTime
+updated_at: DateTime
+identity_key: String
+name: String
+description: String
+comment: String
+city: String
+zip: String
+street: String
+telephone: String
+telefax: String
+email: String
+contacts: String
+      supplier_contacts (
+                pagination : PaginationInput
+                search: SupplierContactSearch
+                order: SupplierContactOrder
+                range: SupplierContactRange
+              ): 
+              SupplierContactList
+      error: Error 
+    }
+type SupplierList  {
+      docs: [Supplier] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input AuthorOrder {
+        id: OrderDirection
+updated_on: OrderDirection
+created_at: OrderDirection
+active: OrderDirection
+first_name: OrderDirection
+last_name: OrderDirection
+description: OrderDirection
+comment: OrderDirection
+born_on_day: OrderDirection
+born_on_month: OrderDirection
+born_on_year: OrderDirection
+died_at_day: OrderDirection
+died_at_month: OrderDirection
+died_at_year: OrderDirection
+permalink: OrderDirection
+      }
+input AuthorSearch {
+        id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+first_name: String
+last_name: String
+description: String
+comment: String
+born_on_day: Int
+born_on_month: Int
+born_on_year: Int
+died_at_day: Int
+died_at_month: Int
+died_at_year: Int
+permalink: String
+      }
+input AuthorExclude {
+        id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+first_name: String
+last_name: String
+description: String
+comment: String
+born_on_day: Int
+born_on_month: Int
+born_on_year: Int
+died_at_day: Int
+died_at_month: Int
+died_at_year: Int
+permalink: String
+      }
+input AuthorRange {
+        id: IntRange
+updated_on: DateTimeInputRange
+created_at: DateTimeInputRange
+active: BooleanRange
+first_name: StringRange
+last_name: StringRange
+description: StringRange
+comment: StringRange
+born_on_day: IntRange
+born_on_month: IntRange
+born_on_year: IntRange
+died_at_day: IntRange
+died_at_month: IntRange
+died_at_year: IntRange
+permalink: StringRange
+      }
+input AuthorCreateInput { 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+first_name: String
+last_name: String
+description: String
+comment: String
+born_on_day: Int
+born_on_month: Int
+born_on_year: Int
+died_at_day: Int
+died_at_month: Int
+died_at_year: Int
+permalink: String
+      
+      
+    }
+
+    input AuthorUpdateInput { 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+first_name: String
+last_name: String
+description: String
+comment: String
+born_on_day: Int
+born_on_month: Int
+born_on_year: Int
+died_at_day: Int
+died_at_month: Int
+died_at_year: Int
+permalink: String
+      
+      
+    }
+type Author  {
+      id: Int
+updated_on: DateTime
+created_at: DateTime
+active: Boolean
+first_name: String
+last_name: String
+description: String
+comment: String
+born_on_day: Int
+born_on_month: Int
+born_on_year: Int
+died_at_day: Int
+died_at_month: Int
+died_at_year: Int
+permalink: String
+      recommendations (
+                pagination : PaginationInput
+                search: RecommendationSearch
+                order: RecommendationOrder
+                range: RecommendationRange
+              ): 
+              RecommendationList
+portraits (
+                pagination : PaginationInput
+                search: PortraitSearch
+                order: PortraitOrder
+                range: PortraitRange
+              ): 
+              PortraitList
+works (
+                pagination : PaginationInput
+                search: WorkSearch
+                order: WorkOrder
+                range: WorkRange
+              ): 
+              WorkList
+      error: Error 
+    }
+type AuthorList  {
+      docs: [Author] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input PurchaseOrderOrder {
+        id: OrderDirection
+created_at: OrderDirection
+updated_at: OrderDirection
+identity_key: OrderDirection
+mailed: OrderDirection
+mailed_at: OrderDirection
+billing_address: OrderDirection
+delivery_address: OrderDirection
+remark: OrderDirection
+comment: OrderDirection
+      }
+input PurchaseOrderSearch {
+        id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+identity_key: String
+mailed: Boolean
+mailed_at: DateInput
+billing_address: String
+delivery_address: String
+remark: String
+comment: String
+      }
+input PurchaseOrderExclude {
+        id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+identity_key: String
+mailed: Boolean
+mailed_at: DateInput
+billing_address: String
+delivery_address: String
+remark: String
+comment: String
+      }
+input PurchaseOrderRange {
+        id: IntRange
+created_at: DateTimeInputRange
+updated_at: DateTimeInputRange
+identity_key: StringRange
+mailed: BooleanRange
+mailed_at: DateInputRange
+billing_address: StringRange
+delivery_address: StringRange
+remark: StringRange
+comment: StringRange
+      }
+input PurchaseOrderCreateInput { 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+identity_key: String
+mailed: Boolean
+mailed_at: DateInput
+billing_address: String
+delivery_address: String
+remark: String
+comment: String
+      
+      
+    }
+
+    input PurchaseOrderUpdateInput { 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+identity_key: String
+mailed: Boolean
+mailed_at: DateInput
+billing_address: String
+delivery_address: String
+remark: String
+comment: String
+      
+      
+    }
+type PurchaseOrder  {
+      id: Int
+created_at: DateTime
+updated_at: DateTime
+identity_key: String
+mailed: Boolean
+mailed_at: Date
+billing_address: String
+delivery_address: String
+remark: String
+comment: String
+      supplier_contact (
+                search: SupplierContactSearch
+                order: SupplierContactOrder
+            ): SupplierContact
+po_items (
+                pagination : PaginationInput
+                search: PoItemSearch
+                order: PoItemOrder
+                range: PoItemRange
+              ): 
+              PoItemList
+      error: Error 
+    }
+type PurchaseOrderList  {
+      docs: [PurchaseOrder] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input UserOrder {
+        id: OrderDirection
+updated_on: OrderDirection
+created_at: OrderDirection
+active: OrderDirection
+identity_key: OrderDirection
+role: OrderDirection
+name: OrderDirection
+hashed_password: OrderDirection
+gender: OrderDirection
+first_name: OrderDirection
+last_name: OrderDirection
+company: OrderDirection
+street: OrderDirection
+zip: OrderDirection
+city: OrderDirection
+telephone: OrderDirection
+mobile: OrderDirection
+telefax: OrderDirection
+email: OrderDirection
+comment: OrderDirection
+company_supplement: OrderDirection
+address_supplement: OrderDirection
+customer_type: OrderDirection
+remark_type: OrderDirection
+remark: OrderDirection
+other_country: OrderDirection
+type: OrderDirection
+      }
+input UserSearch {
+        id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+identity_key: String
+role: Int
+name: String
+hashed_password: String
+gender: String
+first_name: String
+last_name: String
+company: String
+street: String
+zip: String
+city: String
+telephone: String
+mobile: String
+telefax: String
+email: String
+comment: String
+company_supplement: String
+address_supplement: String
+customer_type: Int
+remark_type: Int
+remark: String
+other_country: String
+type: String
+      }
+input UserExclude {
+        id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+identity_key: String
+role: Int
+name: String
+hashed_password: String
+gender: String
+first_name: String
+last_name: String
+company: String
+street: String
+zip: String
+city: String
+telephone: String
+mobile: String
+telefax: String
+email: String
+comment: String
+company_supplement: String
+address_supplement: String
+customer_type: Int
+remark_type: Int
+remark: String
+other_country: String
+type: String
+      }
+input UserRange {
+        id: IntRange
+updated_on: DateTimeInputRange
+created_at: DateTimeInputRange
+active: BooleanRange
+identity_key: StringRange
+role: IntRange
+name: StringRange
+hashed_password: StringRange
+gender: StringRange
+first_name: StringRange
+last_name: StringRange
+company: StringRange
+street: StringRange
+zip: StringRange
+city: StringRange
+telephone: StringRange
+mobile: StringRange
+telefax: StringRange
+email: StringRange
+comment: StringRange
+company_supplement: StringRange
+address_supplement: StringRange
+customer_type: IntRange
+remark_type: IntRange
+remark: StringRange
+other_country: StringRange
+type: StringRange
+      }
+input UserCreateInput { 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+identity_key: String
+role: Int
+name: String
+hashed_password: String
+gender: String
+first_name: String
+last_name: String
+company: String
+street: String
+zip: String
+city: String
+telephone: String
+mobile: String
+telefax: String
+email: String
+comment: String
+company_supplement: String
+address_supplement: String
+customer_type: Int
+remark_type: Int
+remark: String
+other_country: String
+type: String
+      
+      
+    }
+
+    input UserUpdateInput { 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+identity_key: String
+role: Int
+name: String
+hashed_password: String
+gender: String
+first_name: String
+last_name: String
+company: String
+street: String
+zip: String
+city: String
+telephone: String
+mobile: String
+telefax: String
+email: String
+comment: String
+company_supplement: String
+address_supplement: String
+customer_type: Int
+remark_type: Int
+remark: String
+other_country: String
+type: String
+      
+      
+    }
+type User  {
+      id: Int
+updated_on: DateTime
+created_at: DateTime
+active: Boolean
+identity_key: String
+role: Int
+name: String
+hashed_password: String
+gender: String
+first_name: String
+last_name: String
+company: String
+street: String
+zip: String
+city: String
+telephone: String
+mobile: String
+telefax: String
+email: String
+comment: String
+company_supplement: String
+address_supplement: String
+customer_type: Int
+remark_type: Int
+remark: String
+other_country: String
+type: String
+      country (
+                search: CountrySearch
+                order: CountryOrder
+            ): Country
+cart (
+                search: CartSearch
+                order: CartOrder
+            ): Cart
+      error: Error 
+    }
+type UserList  {
+      docs: [User] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input ManufacturerOrder {
+        id: OrderDirection
+active: OrderDirection
+created_at: OrderDirection
+updated_on: OrderDirection
+name: OrderDirection
+description: OrderDirection
+comment: OrderDirection
+city: OrderDirection
+zip: OrderDirection
+street: OrderDirection
+telephone: OrderDirection
+telefax: OrderDirection
+contacts: OrderDirection
+      }
+input ManufacturerSearch {
+        id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+name: String
+description: String
+comment: String
+city: String
+zip: String
+street: String
+telephone: String
+telefax: String
+contacts: String
+      }
+input ManufacturerExclude {
+        id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+name: String
+description: String
+comment: String
+city: String
+zip: String
+street: String
+telephone: String
+telefax: String
+contacts: String
+      }
+input ManufacturerRange {
+        id: IntRange
+active: BooleanRange
+created_at: DateTimeInputRange
+updated_on: DateTimeInputRange
+name: StringRange
+description: StringRange
+comment: StringRange
+city: StringRange
+zip: StringRange
+street: StringRange
+telephone: StringRange
+telefax: StringRange
+contacts: StringRange
+      }
+input ManufacturerCreateInput { 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+name: String
+description: String
+comment: String
+city: String
+zip: String
+street: String
+telephone: String
+telefax: String
+contacts: String
+      
+      
+    }
+
+    input ManufacturerUpdateInput { 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+name: String
+description: String
+comment: String
+city: String
+zip: String
+street: String
+telephone: String
+telefax: String
+contacts: String
+      
+      
+    }
+type Manufacturer  {
+      id: Int
+active: Boolean
+created_at: DateTime
+updated_on: DateTime
+name: String
+description: String
+comment: String
+city: String
+zip: String
+street: String
+telephone: String
+telefax: String
+contacts: String
+      country (
+                search: CountrySearch
+                order: CountryOrder
+            ): Country
+supplier_contacts (
+                pagination : PaginationInput
+                search: SupplierContactSearch
+                order: SupplierContactOrder
+                range: SupplierContactRange
+              ): 
+              SupplierContactList
+products (
+                pagination : PaginationInput
+                search: ProductSearch
+                order: ProductOrder
+                range: ProductRange
+              ): 
+              ProductList
+      error: Error 
+    }
+type ManufacturerList  {
+      docs: [Manufacturer] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input MailingListEntryOrder {
+        id: OrderDirection
+created_at: OrderDirection
+updated_at: OrderDirection
+active: OrderDirection
+email: OrderDirection
+confirmed: OrderDirection
+      }
+input MailingListEntrySearch {
+        id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+active: Boolean
+email: String
+confirmed: Boolean
+      }
+input MailingListEntryExclude {
+        id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+active: Boolean
+email: String
+confirmed: Boolean
+      }
+input MailingListEntryRange {
+        id: IntRange
+created_at: DateTimeInputRange
+updated_at: DateTimeInputRange
+active: BooleanRange
+email: StringRange
+confirmed: BooleanRange
+      }
+input MailingListEntryCreateInput { 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+active: Boolean
+email: String
+confirmed: Boolean
+      
+      
+    }
+
+    input MailingListEntryUpdateInput { 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+active: Boolean
+email: String
+confirmed: Boolean
+      
+      
+    }
+type MailingListEntry  {
+      id: Int
+created_at: DateTime
+updated_at: DateTime
+active: Boolean
+email: String
+confirmed: Boolean
+      
+      error: Error 
+    }
+type MailingListEntryList  {
+      docs: [MailingListEntry] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input IllustrationOrder {
+        id: OrderDirection
+      }
+input IllustrationSearch {
+        id: Int
+      }
+input IllustrationExclude {
+        id: Int
+      }
+input IllustrationRange {
+        id: IntRange
+      }
+input IllustrationCreateInput { 
+      id: Int
+      
+      
+    }
+
+    input IllustrationUpdateInput { 
+      id: Int
+      
+      
+    }
+type Illustration  {
+      id: Int
+      article (
+                search: ArticleSearch
+                order: ArticleOrder
+            ): Article
+asset (
+                search: AssetSearch
+                order: AssetOrder
+            ): Asset
+      error: Error 
+    }
+type IllustrationList  {
+      docs: [Illustration] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input WorkOrder {
+        id: OrderDirection
+updated_on: OrderDirection
+created_at: OrderDirection
+role_type: OrderDirection
+      }
+input WorkSearch {
+        id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+role_type: Int
+      }
+input WorkExclude {
+        id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+role_type: Int
+      }
+input WorkRange {
+        id: IntRange
+updated_on: DateTimeInputRange
+created_at: DateTimeInputRange
+role_type: IntRange
+      }
+input WorkCreateInput { 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+role_type: Int
+      
+      
+    }
+
+    input WorkUpdateInput { 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+role_type: Int
+      
+      
+    }
+type Work  {
+      id: Int
+updated_on: DateTime
+created_at: DateTime
+role_type: Int
+      product (
+                search: ProductSearch
+                order: ProductOrder
+            ): Product
+author (
+                search: AuthorSearch
+                order: AuthorOrder
+            ): Author
+      error: Error 
+    }
+type WorkList  {
+      docs: [Work] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input ProductTypeOrder {
+        id: OrderDirection
+active: OrderDirection
+created_at: OrderDirection
+updated_on: OrderDirection
+name: OrderDirection
+description: OrderDirection
+comment: OrderDirection
+      }
+input ProductTypeSearch {
+        id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+name: String
+description: String
+comment: String
+      }
+input ProductTypeExclude {
+        id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+name: String
+description: String
+comment: String
+      }
+input ProductTypeRange {
+        id: IntRange
+active: BooleanRange
+created_at: DateTimeInputRange
+updated_on: DateTimeInputRange
+name: StringRange
+description: StringRange
+comment: StringRange
+      }
+input ProductTypeCreateInput { 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+name: String
+description: String
+comment: String
+      
+      
+    }
+
+    input ProductTypeUpdateInput { 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+name: String
+description: String
+comment: String
+      
+      
+    }
+type ProductType  {
+      id: Int
+active: Boolean
+created_at: DateTime
+updated_on: DateTime
+name: String
+description: String
+comment: String
+      products (
+                pagination : PaginationInput
+                search: ProductSearch
+                order: ProductOrder
+                range: ProductRange
+              ): 
+              ProductList
+      error: Error 
+    }
+type ProductTypeList  {
+      docs: [ProductType] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input SchemaMigrationOrder {
+        version: OrderDirection
+      }
+input SchemaMigrationSearch {
+        version: String
+      }
+input SchemaMigrationExclude {
+        version: String
+      }
+input SchemaMigrationRange {
+        version: StringRange
+      }
+input SchemaMigrationCreateInput { 
+      version: String
+      
+      
+    }
+
+    input SchemaMigrationUpdateInput { 
+      version: String
+      
+      
+    }
+type SchemaMigration  {
+      version: String
+      
+      error: Error 
+    }
+type SchemaMigrationList  {
+      docs: [SchemaMigration] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input TopicOrder {
+        id: OrderDirection
+topics_count: OrderDirection
+position: OrderDirection
+updated_on: OrderDirection
+created_at: OrderDirection
+active: OrderDirection
+title: OrderDirection
+description: OrderDirection
+comment: OrderDirection
+permalink: OrderDirection
+      }
+input TopicSearch {
+        id: Int
+topics_count: Int
+position: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+title: String
+description: String
+comment: String
+permalink: String
+      }
+input TopicExclude {
+        id: Int
+topics_count: Int
+position: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+title: String
+description: String
+comment: String
+permalink: String
+      }
+input TopicRange {
+        id: IntRange
+topics_count: IntRange
+position: IntRange
+updated_on: DateTimeInputRange
+created_at: DateTimeInputRange
+active: BooleanRange
+title: StringRange
+description: StringRange
+comment: StringRange
+permalink: StringRange
+      }
+input TopicCreateInput { 
+      id: Int
+topics_count: Int
+position: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+title: String
+description: String
+comment: String
+permalink: String
+      
+      
+    }
+
+    input TopicUpdateInput { 
+      id: Int
+topics_count: Int
+position: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+title: String
+description: String
+comment: String
+permalink: String
+      
+      
+    }
+type Topic  {
+      id: Int
+topics_count: Int
+position: Int
+updated_on: DateTime
+created_at: DateTime
+active: Boolean
+title: String
+description: String
+comment: String
+permalink: String
+      parent (
+                search: TopicSearch
+              ): Topic
+children (
+                pagination : PaginationInput
+                search: TopicSearch
+                order: TopicOrder
+                range: TopicRange
+              ): TopicList
+root (
+                search: TopicSearch
+                order: TopicOrder
+              ): Topic
+roots (
+                pagination : PaginationInput
+                search: TopicSearch
+                order: TopicOrder
+                range: TopicRange
+                ): TopicList
+categories (
+                pagination : PaginationInput
+                search: CategorySearch
+                order: CategoryOrder
+                range: CategoryRange
+              ): 
+              CategoryList
+      error: Error 
+    }
+type TopicList  {
+      docs: [Topic] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input DeliveryAddressOrder {
+        id: OrderDirection
+updated_on: OrderDirection
+created_at: OrderDirection
+active: OrderDirection
+gender: OrderDirection
+first_name: OrderDirection
+last_name: OrderDirection
+company: OrderDirection
+street: OrderDirection
+zip: OrderDirection
+city: OrderDirection
+telephone: OrderDirection
+mobile: OrderDirection
+telefax: OrderDirection
+email: OrderDirection
+comment: OrderDirection
+company_supplement: OrderDirection
+address_supplement: OrderDirection
+other_country: OrderDirection
+      }
+input DeliveryAddressSearch {
+        id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+gender: String
+first_name: String
+last_name: String
+company: String
+street: String
+zip: String
+city: String
+telephone: String
+mobile: String
+telefax: String
+email: String
+comment: String
+company_supplement: String
+address_supplement: String
+other_country: String
+      }
+input DeliveryAddressExclude {
+        id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+gender: String
+first_name: String
+last_name: String
+company: String
+street: String
+zip: String
+city: String
+telephone: String
+mobile: String
+telefax: String
+email: String
+comment: String
+company_supplement: String
+address_supplement: String
+other_country: String
+      }
+input DeliveryAddressRange {
+        id: IntRange
+updated_on: DateTimeInputRange
+created_at: DateTimeInputRange
+active: BooleanRange
+gender: StringRange
+first_name: StringRange
+last_name: StringRange
+company: StringRange
+street: StringRange
+zip: StringRange
+city: StringRange
+telephone: StringRange
+mobile: StringRange
+telefax: StringRange
+email: StringRange
+comment: StringRange
+company_supplement: StringRange
+address_supplement: StringRange
+other_country: StringRange
+      }
+input DeliveryAddressCreateInput { 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+gender: String
+first_name: String
+last_name: String
+company: String
+street: String
+zip: String
+city: String
+telephone: String
+mobile: String
+telefax: String
+email: String
+comment: String
+company_supplement: String
+address_supplement: String
+other_country: String
+      
+      
+    }
+
+    input DeliveryAddressUpdateInput { 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+gender: String
+first_name: String
+last_name: String
+company: String
+street: String
+zip: String
+city: String
+telephone: String
+mobile: String
+telefax: String
+email: String
+comment: String
+company_supplement: String
+address_supplement: String
+other_country: String
+      
+      
+    }
+type DeliveryAddress  {
+      id: Int
+updated_on: DateTime
+created_at: DateTime
+active: Boolean
+gender: String
+first_name: String
+last_name: String
+company: String
+street: String
+zip: String
+city: String
+telephone: String
+mobile: String
+telefax: String
+email: String
+comment: String
+company_supplement: String
+address_supplement: String
+other_country: String
+      country (
+                search: CountrySearch
+                order: CountryOrder
+            ): Country
+      error: Error 
+    }
+type DeliveryAddressList  {
+      docs: [DeliveryAddress] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input SystemPropertyOrder {
+        id: OrderDirection
+created_at: OrderDirection
+updated_on: OrderDirection
+modifiable: OrderDirection
+active: OrderDirection
+name: OrderDirection
+value: OrderDirection
+input_type: OrderDirection
+      }
+input SystemPropertySearch {
+        id: Int
+created_at: DateTimeInput
+updated_on: DateTimeInput
+modifiable: Boolean
+active: Boolean
+name: String
+value: String
+input_type: Int
+      }
+input SystemPropertyExclude {
+        id: Int
+created_at: DateTimeInput
+updated_on: DateTimeInput
+modifiable: Boolean
+active: Boolean
+name: String
+value: String
+input_type: Int
+      }
+input SystemPropertyRange {
+        id: IntRange
+created_at: DateTimeInputRange
+updated_on: DateTimeInputRange
+modifiable: BooleanRange
+active: BooleanRange
+name: StringRange
+value: StringRange
+input_type: IntRange
+      }
+input SystemPropertyCreateInput { 
+      id: Int
+created_at: DateTimeInput
+updated_on: DateTimeInput
+modifiable: Boolean
+active: Boolean
+name: String
+value: String
+input_type: Int
+      
+      
+    }
+
+    input SystemPropertyUpdateInput { 
+      id: Int
+created_at: DateTimeInput
+updated_on: DateTimeInput
+modifiable: Boolean
+active: Boolean
+name: String
+value: String
+input_type: Int
+      
+      
+    }
+type SystemProperty  {
+      id: Int
+created_at: DateTime
+updated_on: DateTime
+modifiable: Boolean
+active: Boolean
+name: String
+value: String
+input_type: Int
+      
+      error: Error 
+    }
+type SystemPropertyList  {
+      docs: [SystemProperty] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input DiscountOrder {
+        id: OrderDirection
+active: OrderDirection
+updated_on: OrderDirection
+created_at: OrderDirection
+name: OrderDirection
+rate: OrderDirection
+      }
+input DiscountSearch {
+        id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+name: String
+rate: Float
+      }
+input DiscountExclude {
+        id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+name: String
+rate: Float
+      }
+input DiscountRange {
+        id: IntRange
+active: BooleanRange
+updated_on: DateTimeInputRange
+created_at: DateTimeInputRange
+name: StringRange
+rate: FloatRange
+      }
+input DiscountCreateInput { 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+name: String
+rate: Float
+      
+      
+    }
+
+    input DiscountUpdateInput { 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+name: String
+rate: Float
+      
+      
+    }
+type Discount  {
+      id: Int
+active: Boolean
+updated_on: DateTime
+created_at: DateTime
+name: String
+rate: Float
+      sales (
+                pagination : PaginationInput
+                search: SaleSearch
+                order: SaleOrder
+                range: SaleRange
+              ): 
+              SaleList
+      error: Error 
+    }
+type DiscountList  {
+      docs: [Discount] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input CartOrder {
+        id: OrderDirection
+updated_on: OrderDirection
+created_at: OrderDirection
+order_remark: OrderDirection
+status_type: OrderDirection
+wish_list_key: OrderDirection
+wish_list_recipients: OrderDirection
+      }
+input CartSearch {
+        id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+order_remark: String
+status_type: Int
+wish_list_key: String
+wish_list_recipients: String
+      }
+input CartExclude {
+        id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+order_remark: String
+status_type: Int
+wish_list_key: String
+wish_list_recipients: String
+      }
+input CartRange {
+        id: IntRange
+updated_on: DateTimeInputRange
+created_at: DateTimeInputRange
+order_remark: StringRange
+status_type: IntRange
+wish_list_key: StringRange
+wish_list_recipients: StringRange
+      }
+input CartCreateInput { 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+order_remark: String
+status_type: Int
+wish_list_key: String
+wish_list_recipients: String
+      
+      
+    }
+
+    input CartUpdateInput { 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+order_remark: String
+status_type: Int
+wish_list_key: String
+wish_list_recipients: String
+      
+      
+    }
+type Cart  {
+      id: Int
+updated_on: DateTime
+created_at: DateTime
+order_remark: String
+status_type: Int
+wish_list_key: String
+wish_list_recipients: String
+      users (
+                pagination : PaginationInput
+                search: UserSearch
+                order: UserOrder
+                range: UserRange
+              ): 
+              UserList
+items (
+                pagination : PaginationInput
+                search: ItemSearch
+                order: ItemOrder
+                range: ItemRange
+              ): 
+              ItemList
+      error: Error 
+    }
+type CartList  {
+      docs: [Cart] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input SaleOrder {
+        id: OrderDirection
+active: OrderDirection
+updated_on: OrderDirection
+created_at: OrderDirection
+quantity: OrderDirection
+charged: OrderDirection
+      }
+input SaleSearch {
+        id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+quantity: Int
+charged: Boolean
+      }
+input SaleExclude {
+        id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+quantity: Int
+charged: Boolean
+      }
+input SaleRange {
+        id: IntRange
+active: BooleanRange
+updated_on: DateTimeInputRange
+created_at: DateTimeInputRange
+quantity: IntRange
+charged: BooleanRange
+      }
+input SaleCreateInput { 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+quantity: Int
+charged: Boolean
+      
+      
+    }
+
+    input SaleUpdateInput { 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+quantity: Int
+charged: Boolean
+      
+      
+    }
+type Sale  {
+      id: Int
+active: Boolean
+updated_on: DateTime
+created_at: DateTime
+quantity: Int
+charged: Boolean
+      product (
+                search: ProductSearch
+                order: ProductOrder
+            ): Product
+invoice (
+                search: InvoiceSearch
+                order: InvoiceOrder
+            ): Invoice
+discount (
+                search: DiscountSearch
+                order: DiscountOrder
+            ): Discount
+invoices (
+                pagination : PaginationInput
+                search: InvoiceSearch
+                order: InvoiceOrder
+                range: InvoiceRange
+              ): 
+              InvoiceList
+      error: Error 
+    }
+type SaleList  {
+      docs: [Sale] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input SearchOrder {
+        id: OrderDirection
+position: OrderDirection
+created_at: OrderDirection
+updated_at: OrderDirection
+author: OrderDirection
+title: OrderDirection
+body: OrderDirection
+      }
+input SearchSearch {
+        id: Int
+position: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+author: String
+title: String
+body: String
+      }
+input SearchExclude {
+        id: Int
+position: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+author: String
+title: String
+body: String
+      }
+input SearchRange {
+        id: IntRange
+position: IntRange
+created_at: DateTimeInputRange
+updated_at: DateTimeInputRange
+author: StringRange
+title: StringRange
+body: StringRange
+      }
+input SearchCreateInput { 
+      id: Int
+position: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+author: String
+title: String
+body: String
+      
+      
+    }
+
+    input SearchUpdateInput { 
+      id: Int
+position: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+author: String
+title: String
+body: String
+      
+      
+    }
+type Search  {
+      id: Int
+position: Int
+created_at: DateTime
+updated_at: DateTime
+author: String
+title: String
+body: String
+      
+      error: Error 
+    }
+type SearchList  {
+      docs: [Search] 
+      pagination : Pagination
+                error: Error
+               
+    }
+input ItemOrder {
+        id: OrderDirection
+updated_on: OrderDirection
+created_at: OrderDirection
+quantity: OrderDirection
+wish_list_delivery_type: OrderDirection
+wish_list_purchased: OrderDirection
+      }
+input ItemSearch {
+        id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+quantity: Int
+wish_list_delivery_type: Int
+wish_list_purchased: Boolean
+      }
+input ItemExclude {
+        id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+quantity: Int
+wish_list_delivery_type: Int
+wish_list_purchased: Boolean
+      }
+input ItemRange {
+        id: IntRange
+updated_on: DateTimeInputRange
+created_at: DateTimeInputRange
+quantity: IntRange
+wish_list_delivery_type: IntRange
+wish_list_purchased: BooleanRange
+      }
+input ItemCreateInput { 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+quantity: Int
+wish_list_delivery_type: Int
+wish_list_purchased: Boolean
+      
+      
+    }
+
+    input ItemUpdateInput { 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+quantity: Int
+wish_list_delivery_type: Int
+wish_list_purchased: Boolean
+      
+      
+    }
+type Item  {
+      id: Int
+updated_on: DateTime
+created_at: DateTime
+quantity: Int
+wish_list_delivery_type: Int
+wish_list_purchased: Boolean
+      cart (
+                search: CartSearch
+                order: CartOrder
+            ): Cart
+product (
+                search: ProductSearch
+                order: ProductOrder
+            ): Product
+      error: Error 
+    }
+type ItemList  {
+      docs: [Item] 
+      pagination : Pagination
+                error: Error
+               
+    }
+        
+          # -------------------------------------------- 
+          type Query {
+            cover ( 
+      id: Int
+       
+              search: CoverSearch
+              exclude: CoverExclude
+              order: CoverOrder
+              range: CoverRange
+             
+    ): Cover
+    
+covers ( 
+      id: Int
+       
+                search: CoverSearch
+                exclude: CoverExclude
+                order: CoverOrder
+                range: CoverRange
+                pagination : PaginationInput
+               
+    ): CoverList 
+    
+asset ( 
+      id: Int
+name: String
+extension: String
+content_type: String
+image_width: Int
+thumbnail_width: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+title: String
+description: String
+comment: String
+       
+              search: AssetSearch
+              exclude: AssetExclude
+              order: AssetOrder
+              range: AssetRange
+             
+    ): Asset
+    
+assets ( 
+      id: Int
+name: String
+extension: String
+content_type: String
+image_width: Int
+thumbnail_width: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+title: String
+description: String
+comment: String
+       
+                search: AssetSearch
+                exclude: AssetExclude
+                order: AssetOrder
+                range: AssetRange
+                pagination : PaginationInput
+               
+    ): AssetList 
+    
+shipment_notification ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+shipping_date: DateInput
+customer_note: String
+comment: String
+       
+              search: ShipmentNotificationSearch
+              exclude: ShipmentNotificationExclude
+              order: ShipmentNotificationOrder
+              range: ShipmentNotificationRange
+             
+    ): ShipmentNotification
+    
+shipment_notifications ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+shipping_date: DateInput
+customer_note: String
+comment: String
+       
+                search: ShipmentNotificationSearch
+                exclude: ShipmentNotificationExclude
+                order: ShipmentNotificationOrder
+                range: ShipmentNotificationRange
+                pagination : PaginationInput
+               
+    ): ShipmentNotificationList 
+    
+po_item ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+quantity: Int
+remark: String
+comment: String
+delivery_status_type: Int
+delivered_at: DateInput
+       
+              search: PoItemSearch
+              exclude: PoItemExclude
+              order: PoItemOrder
+              range: PoItemRange
+             
+    ): PoItem
+    
+po_items ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+quantity: Int
+remark: String
+comment: String
+delivery_status_type: Int
+delivered_at: DateInput
+       
+                search: PoItemSearch
+                exclude: PoItemExclude
+                order: PoItemOrder
+                range: PoItemRange
+                pagination : PaginationInput
+               
+    ): PoItemList 
+    
+country ( 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+name: String
+identity_key: String
+invoice_text: String
+delivery_note_text: String
+sticker_text: String
+currency_symbol: String
+belongs_to_eu: Boolean
+address_book_rate: String
+address_book_rate_additional: String
+address_on_undeliverable: String
+invoice_paypal_payment_due: String
+invoice_bank_payment_due: String
+invoice_bank_account_owner: String
+invoice_bank_connection: String
+invoice_remains_property: String
+no_vat_applies_info: String
+lang: String
+separator: String
+delimiter: String
+invoice_payment_release: String
+date_format: String
+currency_abbrev: String
+invoice_order_type_amazon: String
+invoice_order_type_gewis: String
+invoice_order_type_oelbaum: String
+currency_exchange_rate: Float
+       
+              search: CountrySearch
+              exclude: CountryExclude
+              order: CountryOrder
+              range: CountryRange
+             
+    ): Country
+    
+countries ( 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+name: String
+identity_key: String
+invoice_text: String
+delivery_note_text: String
+sticker_text: String
+currency_symbol: String
+belongs_to_eu: Boolean
+address_book_rate: String
+address_book_rate_additional: String
+address_on_undeliverable: String
+invoice_paypal_payment_due: String
+invoice_bank_payment_due: String
+invoice_bank_account_owner: String
+invoice_bank_connection: String
+invoice_remains_property: String
+no_vat_applies_info: String
+lang: String
+separator: String
+delimiter: String
+invoice_payment_release: String
+date_format: String
+currency_abbrev: String
+invoice_order_type_amazon: String
+invoice_order_type_gewis: String
+invoice_order_type_oelbaum: String
+currency_exchange_rate: Float
+       
+                search: CountrySearch
+                exclude: CountryExclude
+                order: CountryOrder
+                range: CountryRange
+                pagination : PaginationInput
+               
+    ): CountryList 
+    
+supplier_contact ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+gender: String
+first_name: String
+last_name: String
+telephone: String
+telefax: String
+email: String
+comment: String
+identity_key: String
+       
+              search: SupplierContactSearch
+              exclude: SupplierContactExclude
+              order: SupplierContactOrder
+              range: SupplierContactRange
+             
+    ): SupplierContact
+    
+supplier_contacts ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+gender: String
+first_name: String
+last_name: String
+telephone: String
+telefax: String
+email: String
+comment: String
+identity_key: String
+       
+                search: SupplierContactSearch
+                exclude: SupplierContactExclude
+                order: SupplierContactOrder
+                range: SupplierContactRange
+                pagination : PaginationInput
+               
+    ): SupplierContactList 
+    
+recommendation ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+active: Boolean
+title: String
+description: String
+comment: String
+permalink: String
+       
+              search: RecommendationSearch
+              exclude: RecommendationExclude
+              order: RecommendationOrder
+              range: RecommendationRange
+             
+    ): Recommendation
+    
+recommendations ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+active: Boolean
+title: String
+description: String
+comment: String
+permalink: String
+       
+                search: RecommendationSearch
+                exclude: RecommendationExclude
+                order: RecommendationOrder
+                range: RecommendationRange
+                pagination : PaginationInput
+               
+    ): RecommendationList 
+    
+invoice ( 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+billed_on: DateInput
+placed_on: DateInput
+shipped_on: DateInput
+payment_due_period: Int
+shipping_cost: Float
+order_sign: String
+order_key: String
+identity_key: String
+invoice_remark: String
+delivery_note_remark: String
+exchange_rate: Float
+credit_note_type: Int
+credit_note_other: String
+credit_note_amount: Float
+paid: Boolean
+status_type: Int
+comment: String
+reminders_count: Int
+       
+              search: InvoiceSearch
+              exclude: InvoiceExclude
+              order: InvoiceOrder
+              range: InvoiceRange
+             
+    ): Invoice
+    
+invoices ( 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+billed_on: DateInput
+placed_on: DateInput
+shipped_on: DateInput
+payment_due_period: Int
+shipping_cost: Float
+order_sign: String
+order_key: String
+identity_key: String
+invoice_remark: String
+delivery_note_remark: String
+exchange_rate: Float
+credit_note_type: Int
+credit_note_other: String
+credit_note_amount: Float
+paid: Boolean
+status_type: Int
+comment: String
+reminders_count: Int
+       
+                search: InvoiceSearch
+                exclude: InvoiceExclude
+                order: InvoiceOrder
+                range: InvoiceRange
+                pagination : PaginationInput
+               
+    ): InvoiceList 
+    
+category ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+       
+              search: CategorySearch
+              exclude: CategoryExclude
+              order: CategoryOrder
+              range: CategoryRange
+             
+    ): Category
+    
+categories ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+       
+                search: CategorySearch
+                exclude: CategoryExclude
+                order: CategoryOrder
+                range: CategoryRange
+                pagination : PaginationInput
+               
+    ): CategoryList 
+    
+order_type ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+key: String
+name: String
+remark: String
+comment: String
+       
+              search: OrderTypeSearch
+              exclude: OrderTypeExclude
+              order: OrderTypeOrder
+              range: OrderTypeRange
+             
+    ): OrderType
+    
+order_types ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+key: String
+name: String
+remark: String
+comment: String
+       
+                search: OrderTypeSearch
+                exclude: OrderTypeExclude
+                order: OrderTypeOrder
+                range: OrderTypeRange
+                pagination : PaginationInput
+               
+    ): OrderTypeList 
+    
+ar_internal_metadatum ( 
+      key: String
+value: String
+created_at: DateTimeInput
+updated_at: DateTimeInput
+       
+              search: ArInternalMetadatumSearch
+              exclude: ArInternalMetadatumExclude
+              order: ArInternalMetadatumOrder
+              range: ArInternalMetadatumRange
+             
+    ): ArInternalMetadatum
+    
+ar_internal_metadata ( 
+      key: String
+value: String
+created_at: DateTimeInput
+updated_at: DateTimeInput
+       
+                search: ArInternalMetadatumSearch
+                exclude: ArInternalMetadatumExclude
+                order: ArInternalMetadatumOrder
+                range: ArInternalMetadatumRange
+                pagination : PaginationInput
+               
+    ): ArInternalMetadatumList 
+    
+product ( 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+name: String
+description: String
+identity_key: String
+price: Float
+vat: Float
+weight: Float
+comment: String
+subtitle: String
+permalink: String
+pages: Int
+state_type: Int
+publishing_year: Int
+binding_type: Int
+availability_type: Int
+ean: String
+items_on_stock: Int
+       
+              search: ProductSearch
+              exclude: ProductExclude
+              order: ProductOrder
+              range: ProductRange
+             
+    ): Product
+    
+products ( 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+name: String
+description: String
+identity_key: String
+price: Float
+vat: Float
+weight: Float
+comment: String
+subtitle: String
+permalink: String
+pages: Int
+state_type: Int
+publishing_year: Int
+binding_type: Int
+availability_type: Int
+ean: String
+items_on_stock: Int
+       
+                search: ProductSearch
+                exclude: ProductExclude
+                order: ProductOrder
+                range: ProductRange
+                pagination : PaginationInput
+               
+    ): ProductList 
+    
+review ( 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+user_email: String
+user_name: String
+points: Int
+title: String
+review_text: String
+comment: String
+       
+              search: ReviewSearch
+              exclude: ReviewExclude
+              order: ReviewOrder
+              range: ReviewRange
+             
+    ): Review
+    
+reviews ( 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+user_email: String
+user_name: String
+points: Int
+title: String
+review_text: String
+comment: String
+       
+                search: ReviewSearch
+                exclude: ReviewExclude
+                order: ReviewOrder
+                range: ReviewRange
+                pagination : PaginationInput
+               
+    ): ReviewList 
+    
+article ( 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+title: String
+body: String
+comment: String
+position: Int
+appearance_type: Int
+permalink: String
+       
+              search: ArticleSearch
+              exclude: ArticleExclude
+              order: ArticleOrder
+              range: ArticleRange
+             
+    ): Article
+    
+articles ( 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+title: String
+body: String
+comment: String
+position: Int
+appearance_type: Int
+permalink: String
+       
+                search: ArticleSearch
+                exclude: ArticleExclude
+                order: ArticleOrder
+                range: ArticleRange
+                pagination : PaginationInput
+               
+    ): ArticleList 
+    
+price ( 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+starts_at: DateInput
+ends_at: DateInput
+comment: String
+       
+              search: PriceSearch
+              exclude: PriceExclude
+              order: PriceOrder
+              range: PriceRange
+             
+    ): Price
+    
+prices ( 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+starts_at: DateInput
+ends_at: DateInput
+comment: String
+       
+                search: PriceSearch
+                exclude: PriceExclude
+                order: PriceOrder
+                range: PriceRange
+                pagination : PaginationInput
+               
+    ): PriceList 
+    
+reminder ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+comment: String
+       
+              search: ReminderSearch
+              exclude: ReminderExclude
+              order: ReminderOrder
+              range: ReminderRange
+             
+    ): Reminder
+    
+reminders ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+comment: String
+       
+                search: ReminderSearch
+                exclude: ReminderExclude
+                order: ReminderOrder
+                range: ReminderRange
+                pagination : PaginationInput
+               
+    ): ReminderList 
+    
+info ( 
+      id: Int
+active: Boolean
+position: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+title: String
+body: String
+comment: String
+message_type: Int
+       
+              search: InfoSearch
+              exclude: InfoExclude
+              order: InfoOrder
+              range: InfoRange
+             
+    ): Info
+    
+infos ( 
+      id: Int
+active: Boolean
+position: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+title: String
+body: String
+comment: String
+message_type: Int
+       
+                search: InfoSearch
+                exclude: InfoExclude
+                order: InfoOrder
+                range: InfoRange
+                pagination : PaginationInput
+               
+    ): InfoList 
+    
+portrait ( 
+      id: Int
+       
+              search: PortraitSearch
+              exclude: PortraitExclude
+              order: PortraitOrder
+              range: PortraitRange
+             
+    ): Portrait
+    
+portraits ( 
+      id: Int
+       
+                search: PortraitSearch
+                exclude: PortraitExclude
+                order: PortraitOrder
+                range: PortraitRange
+                pagination : PaginationInput
+               
+    ): PortraitList 
+    
+supplier ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+identity_key: String
+name: String
+description: String
+comment: String
+city: String
+zip: String
+street: String
+telephone: String
+telefax: String
+email: String
+contacts: String
+       
+              search: SupplierSearch
+              exclude: SupplierExclude
+              order: SupplierOrder
+              range: SupplierRange
+             
+    ): Supplier
+    
+suppliers ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+identity_key: String
+name: String
+description: String
+comment: String
+city: String
+zip: String
+street: String
+telephone: String
+telefax: String
+email: String
+contacts: String
+       
+                search: SupplierSearch
+                exclude: SupplierExclude
+                order: SupplierOrder
+                range: SupplierRange
+                pagination : PaginationInput
+               
+    ): SupplierList 
+    
+author ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+first_name: String
+last_name: String
+description: String
+comment: String
+born_on_day: Int
+born_on_month: Int
+born_on_year: Int
+died_at_day: Int
+died_at_month: Int
+died_at_year: Int
+permalink: String
+       
+              search: AuthorSearch
+              exclude: AuthorExclude
+              order: AuthorOrder
+              range: AuthorRange
+             
+    ): Author
+    
+authors ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+first_name: String
+last_name: String
+description: String
+comment: String
+born_on_day: Int
+born_on_month: Int
+born_on_year: Int
+died_at_day: Int
+died_at_month: Int
+died_at_year: Int
+permalink: String
+       
+                search: AuthorSearch
+                exclude: AuthorExclude
+                order: AuthorOrder
+                range: AuthorRange
+                pagination : PaginationInput
+               
+    ): AuthorList 
+    
+purchase_order ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+identity_key: String
+mailed: Boolean
+mailed_at: DateInput
+billing_address: String
+delivery_address: String
+remark: String
+comment: String
+       
+              search: PurchaseOrderSearch
+              exclude: PurchaseOrderExclude
+              order: PurchaseOrderOrder
+              range: PurchaseOrderRange
+             
+    ): PurchaseOrder
+    
+purchase_orders ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+identity_key: String
+mailed: Boolean
+mailed_at: DateInput
+billing_address: String
+delivery_address: String
+remark: String
+comment: String
+       
+                search: PurchaseOrderSearch
+                exclude: PurchaseOrderExclude
+                order: PurchaseOrderOrder
+                range: PurchaseOrderRange
+                pagination : PaginationInput
+               
+    ): PurchaseOrderList 
+    
+user ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+identity_key: String
+role: Int
+name: String
+hashed_password: String
+gender: String
+first_name: String
+last_name: String
+company: String
+street: String
+zip: String
+city: String
+telephone: String
+mobile: String
+telefax: String
+email: String
+comment: String
+company_supplement: String
+address_supplement: String
+customer_type: Int
+remark_type: Int
+remark: String
+other_country: String
+type: String
+       
+              search: UserSearch
+              exclude: UserExclude
+              order: UserOrder
+              range: UserRange
+             
+    ): User
+    
+users ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+identity_key: String
+role: Int
+name: String
+hashed_password: String
+gender: String
+first_name: String
+last_name: String
+company: String
+street: String
+zip: String
+city: String
+telephone: String
+mobile: String
+telefax: String
+email: String
+comment: String
+company_supplement: String
+address_supplement: String
+customer_type: Int
+remark_type: Int
+remark: String
+other_country: String
+type: String
+       
+                search: UserSearch
+                exclude: UserExclude
+                order: UserOrder
+                range: UserRange
+                pagination : PaginationInput
+               
+    ): UserList 
+    
+manufacturer ( 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+name: String
+description: String
+comment: String
+city: String
+zip: String
+street: String
+telephone: String
+telefax: String
+contacts: String
+       
+              search: ManufacturerSearch
+              exclude: ManufacturerExclude
+              order: ManufacturerOrder
+              range: ManufacturerRange
+             
+    ): Manufacturer
+    
+manufacturers ( 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+name: String
+description: String
+comment: String
+city: String
+zip: String
+street: String
+telephone: String
+telefax: String
+contacts: String
+       
+                search: ManufacturerSearch
+                exclude: ManufacturerExclude
+                order: ManufacturerOrder
+                range: ManufacturerRange
+                pagination : PaginationInput
+               
+    ): ManufacturerList 
+    
+mailing_list_entry ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+active: Boolean
+email: String
+confirmed: Boolean
+       
+              search: MailingListEntrySearch
+              exclude: MailingListEntryExclude
+              order: MailingListEntryOrder
+              range: MailingListEntryRange
+             
+    ): MailingListEntry
+    
+mailing_list_entries ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+active: Boolean
+email: String
+confirmed: Boolean
+       
+                search: MailingListEntrySearch
+                exclude: MailingListEntryExclude
+                order: MailingListEntryOrder
+                range: MailingListEntryRange
+                pagination : PaginationInput
+               
+    ): MailingListEntryList 
+    
+illustration ( 
+      id: Int
+       
+              search: IllustrationSearch
+              exclude: IllustrationExclude
+              order: IllustrationOrder
+              range: IllustrationRange
+             
+    ): Illustration
+    
+illustrations ( 
+      id: Int
+       
+                search: IllustrationSearch
+                exclude: IllustrationExclude
+                order: IllustrationOrder
+                range: IllustrationRange
+                pagination : PaginationInput
+               
+    ): IllustrationList 
+    
+work ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+role_type: Int
+       
+              search: WorkSearch
+              exclude: WorkExclude
+              order: WorkOrder
+              range: WorkRange
+             
+    ): Work
+    
+works ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+role_type: Int
+       
+                search: WorkSearch
+                exclude: WorkExclude
+                order: WorkOrder
+                range: WorkRange
+                pagination : PaginationInput
+               
+    ): WorkList 
+    
+product_type ( 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+name: String
+description: String
+comment: String
+       
+              search: ProductTypeSearch
+              exclude: ProductTypeExclude
+              order: ProductTypeOrder
+              range: ProductTypeRange
+             
+    ): ProductType
+    
+product_types ( 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+name: String
+description: String
+comment: String
+       
+                search: ProductTypeSearch
+                exclude: ProductTypeExclude
+                order: ProductTypeOrder
+                range: ProductTypeRange
+                pagination : PaginationInput
+               
+    ): ProductTypeList 
+    
+schema_migration ( 
+      version: String
+       
+              search: SchemaMigrationSearch
+              exclude: SchemaMigrationExclude
+              order: SchemaMigrationOrder
+              range: SchemaMigrationRange
+             
+    ): SchemaMigration
+    
+schema_migrations ( 
+      version: String
+       
+                search: SchemaMigrationSearch
+                exclude: SchemaMigrationExclude
+                order: SchemaMigrationOrder
+                range: SchemaMigrationRange
+                pagination : PaginationInput
+               
+    ): SchemaMigrationList 
+    
+topic ( 
+      id: Int
+topics_count: Int
+position: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+title: String
+description: String
+comment: String
+permalink: String
+       
+              search: TopicSearch
+              exclude: TopicExclude
+              order: TopicOrder
+              range: TopicRange
+             
+    ): Topic
+    
+topics ( 
+      id: Int
+topics_count: Int
+position: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+title: String
+description: String
+comment: String
+permalink: String
+       
+                search: TopicSearch
+                exclude: TopicExclude
+                order: TopicOrder
+                range: TopicRange
+                pagination : PaginationInput
+               
+    ): TopicList 
+    
+delivery_address ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+gender: String
+first_name: String
+last_name: String
+company: String
+street: String
+zip: String
+city: String
+telephone: String
+mobile: String
+telefax: String
+email: String
+comment: String
+company_supplement: String
+address_supplement: String
+other_country: String
+       
+              search: DeliveryAddressSearch
+              exclude: DeliveryAddressExclude
+              order: DeliveryAddressOrder
+              range: DeliveryAddressRange
+             
+    ): DeliveryAddress
+    
+delivery_addresses ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+gender: String
+first_name: String
+last_name: String
+company: String
+street: String
+zip: String
+city: String
+telephone: String
+mobile: String
+telefax: String
+email: String
+comment: String
+company_supplement: String
+address_supplement: String
+other_country: String
+       
+                search: DeliveryAddressSearch
+                exclude: DeliveryAddressExclude
+                order: DeliveryAddressOrder
+                range: DeliveryAddressRange
+                pagination : PaginationInput
+               
+    ): DeliveryAddressList 
+    
+system_property ( 
+      id: Int
+created_at: DateTimeInput
+updated_on: DateTimeInput
+modifiable: Boolean
+active: Boolean
+name: String
+value: String
+input_type: Int
+       
+              search: SystemPropertySearch
+              exclude: SystemPropertyExclude
+              order: SystemPropertyOrder
+              range: SystemPropertyRange
+             
+    ): SystemProperty
+    
+system_properties ( 
+      id: Int
+created_at: DateTimeInput
+updated_on: DateTimeInput
+modifiable: Boolean
+active: Boolean
+name: String
+value: String
+input_type: Int
+       
+                search: SystemPropertySearch
+                exclude: SystemPropertyExclude
+                order: SystemPropertyOrder
+                range: SystemPropertyRange
+                pagination : PaginationInput
+               
+    ): SystemPropertyList 
+    
+discount ( 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+name: String
+rate: Float
+       
+              search: DiscountSearch
+              exclude: DiscountExclude
+              order: DiscountOrder
+              range: DiscountRange
+             
+    ): Discount
+    
+discounts ( 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+name: String
+rate: Float
+       
+                search: DiscountSearch
+                exclude: DiscountExclude
+                order: DiscountOrder
+                range: DiscountRange
+                pagination : PaginationInput
+               
+    ): DiscountList 
+    
+cart ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+order_remark: String
+status_type: Int
+wish_list_key: String
+wish_list_recipients: String
+       
+              search: CartSearch
+              exclude: CartExclude
+              order: CartOrder
+              range: CartRange
+             
+    ): Cart
+    
+carts ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+order_remark: String
+status_type: Int
+wish_list_key: String
+wish_list_recipients: String
+       
+                search: CartSearch
+                exclude: CartExclude
+                order: CartOrder
+                range: CartRange
+                pagination : PaginationInput
+               
+    ): CartList 
+    
+sale ( 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+quantity: Int
+charged: Boolean
+       
+              search: SaleSearch
+              exclude: SaleExclude
+              order: SaleOrder
+              range: SaleRange
+             
+    ): Sale
+    
+sales ( 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+quantity: Int
+charged: Boolean
+       
+                search: SaleSearch
+                exclude: SaleExclude
+                order: SaleOrder
+                range: SaleRange
+                pagination : PaginationInput
+               
+    ): SaleList 
+    
+search ( 
+      id: Int
+position: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+author: String
+title: String
+body: String
+       
+              search: SearchSearch
+              exclude: SearchExclude
+              order: SearchOrder
+              range: SearchRange
+             
+    ): Search
+    
+searches ( 
+      id: Int
+position: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+author: String
+title: String
+body: String
+       
+                search: SearchSearch
+                exclude: SearchExclude
+                order: SearchOrder
+                range: SearchRange
+                pagination : PaginationInput
+               
+    ): SearchList 
+    
+item ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+quantity: Int
+wish_list_delivery_type: Int
+wish_list_purchased: Boolean
+       
+              search: ItemSearch
+              exclude: ItemExclude
+              order: ItemOrder
+              range: ItemRange
+             
+    ): Item
+    
+items ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+quantity: Int
+wish_list_delivery_type: Int
+wish_list_purchased: Boolean
+       
+                search: ItemSearch
+                exclude: ItemExclude
+                order: ItemOrder
+                range: ItemRange
+                pagination : PaginationInput
+               
+    ): ItemList 
+     
+          }
+        
+        
+          type Mutation {
+            createCover ( 
+      input: CoverCreateInput
+    ): Cover
+    
+createCoverList ( 
+      inputList: [CoverCreateInput]
+    ): [Cover]
+    
+updateCover (
+      update: CoverUpdateInput
+    ): Cover
+    
+updateCoverList ( 
+      updateList: [CoverUpdateInput]
+    ): [Cover]
+    
+deleteCover ( 
+      id: Int
+       
+    ): Cover
+    
+deleteCoverList ( 
+      id: Int
+       
+    ): CoverList 
+    
+createAsset ( 
+      input: AssetCreateInput
+    ): Asset
+    
+createAssetList ( 
+      inputList: [AssetCreateInput]
+    ): [Asset]
+    
+updateAsset (
+      update: AssetUpdateInput
+    ): Asset
+    
+updateAssetList ( 
+      updateList: [AssetUpdateInput]
+    ): [Asset]
+    
+deleteAsset ( 
+      id: Int
+name: String
+extension: String
+content_type: String
+image_width: Int
+thumbnail_width: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+title: String
+description: String
+comment: String
+       
+    ): Asset
+    
+deleteAssetList ( 
+      id: Int
+name: String
+extension: String
+content_type: String
+image_width: Int
+thumbnail_width: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+title: String
+description: String
+comment: String
+       
+    ): AssetList 
+    
+createShipmentNotification ( 
+      input: ShipmentNotificationCreateInput
+    ): ShipmentNotification
+    
+createShipmentNotificationList ( 
+      inputList: [ShipmentNotificationCreateInput]
+    ): [ShipmentNotification]
+    
+updateShipmentNotification (
+      update: ShipmentNotificationUpdateInput
+    ): ShipmentNotification
+    
+updateShipmentNotificationList ( 
+      updateList: [ShipmentNotificationUpdateInput]
+    ): [ShipmentNotification]
+    
+deleteShipmentNotification ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+shipping_date: DateInput
+customer_note: String
+comment: String
+       
+    ): ShipmentNotification
+    
+deleteShipmentNotificationList ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+shipping_date: DateInput
+customer_note: String
+comment: String
+       
+    ): ShipmentNotificationList 
+    
+createPoItem ( 
+      input: PoItemCreateInput
+    ): PoItem
+    
+createPoItemList ( 
+      inputList: [PoItemCreateInput]
+    ): [PoItem]
+    
+updatePoItem (
+      update: PoItemUpdateInput
+    ): PoItem
+    
+updatePoItemList ( 
+      updateList: [PoItemUpdateInput]
+    ): [PoItem]
+    
+deletePoItem ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+quantity: Int
+remark: String
+comment: String
+delivery_status_type: Int
+delivered_at: DateInput
+       
+    ): PoItem
+    
+deletePoItemList ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+quantity: Int
+remark: String
+comment: String
+delivery_status_type: Int
+delivered_at: DateInput
+       
+    ): PoItemList 
+    
+createCountry ( 
+      input: CountryCreateInput
+    ): Country
+    
+createCountryList ( 
+      inputList: [CountryCreateInput]
+    ): [Country]
+    
+updateCountry (
+      update: CountryUpdateInput
+    ): Country
+    
+updateCountryList ( 
+      updateList: [CountryUpdateInput]
+    ): [Country]
+    
+deleteCountry ( 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+name: String
+identity_key: String
+invoice_text: String
+delivery_note_text: String
+sticker_text: String
+currency_symbol: String
+belongs_to_eu: Boolean
+address_book_rate: String
+address_book_rate_additional: String
+address_on_undeliverable: String
+invoice_paypal_payment_due: String
+invoice_bank_payment_due: String
+invoice_bank_account_owner: String
+invoice_bank_connection: String
+invoice_remains_property: String
+no_vat_applies_info: String
+lang: String
+separator: String
+delimiter: String
+invoice_payment_release: String
+date_format: String
+currency_abbrev: String
+invoice_order_type_amazon: String
+invoice_order_type_gewis: String
+invoice_order_type_oelbaum: String
+currency_exchange_rate: Float
+       
+    ): Country
+    
+deleteCountryList ( 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+name: String
+identity_key: String
+invoice_text: String
+delivery_note_text: String
+sticker_text: String
+currency_symbol: String
+belongs_to_eu: Boolean
+address_book_rate: String
+address_book_rate_additional: String
+address_on_undeliverable: String
+invoice_paypal_payment_due: String
+invoice_bank_payment_due: String
+invoice_bank_account_owner: String
+invoice_bank_connection: String
+invoice_remains_property: String
+no_vat_applies_info: String
+lang: String
+separator: String
+delimiter: String
+invoice_payment_release: String
+date_format: String
+currency_abbrev: String
+invoice_order_type_amazon: String
+invoice_order_type_gewis: String
+invoice_order_type_oelbaum: String
+currency_exchange_rate: Float
+       
+    ): CountryList 
+    
+createSupplierContact ( 
+      input: SupplierContactCreateInput
+    ): SupplierContact
+    
+createSupplierContactList ( 
+      inputList: [SupplierContactCreateInput]
+    ): [SupplierContact]
+    
+updateSupplierContact (
+      update: SupplierContactUpdateInput
+    ): SupplierContact
+    
+updateSupplierContactList ( 
+      updateList: [SupplierContactUpdateInput]
+    ): [SupplierContact]
+    
+deleteSupplierContact ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+gender: String
+first_name: String
+last_name: String
+telephone: String
+telefax: String
+email: String
+comment: String
+identity_key: String
+       
+    ): SupplierContact
+    
+deleteSupplierContactList ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+gender: String
+first_name: String
+last_name: String
+telephone: String
+telefax: String
+email: String
+comment: String
+identity_key: String
+       
+    ): SupplierContactList 
+    
+createRecommendation ( 
+      input: RecommendationCreateInput
+    ): Recommendation
+    
+createRecommendationList ( 
+      inputList: [RecommendationCreateInput]
+    ): [Recommendation]
+    
+updateRecommendation (
+      update: RecommendationUpdateInput
+    ): Recommendation
+    
+updateRecommendationList ( 
+      updateList: [RecommendationUpdateInput]
+    ): [Recommendation]
+    
+deleteRecommendation ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+active: Boolean
+title: String
+description: String
+comment: String
+permalink: String
+       
+    ): Recommendation
+    
+deleteRecommendationList ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+active: Boolean
+title: String
+description: String
+comment: String
+permalink: String
+       
+    ): RecommendationList 
+    
+createInvoice ( 
+      input: InvoiceCreateInput
+    ): Invoice
+    
+createInvoiceList ( 
+      inputList: [InvoiceCreateInput]
+    ): [Invoice]
+    
+updateInvoice (
+      update: InvoiceUpdateInput
+    ): Invoice
+    
+updateInvoiceList ( 
+      updateList: [InvoiceUpdateInput]
+    ): [Invoice]
+    
+deleteInvoice ( 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+billed_on: DateInput
+placed_on: DateInput
+shipped_on: DateInput
+payment_due_period: Int
+shipping_cost: Float
+order_sign: String
+order_key: String
+identity_key: String
+invoice_remark: String
+delivery_note_remark: String
+exchange_rate: Float
+credit_note_type: Int
+credit_note_other: String
+credit_note_amount: Float
+paid: Boolean
+status_type: Int
+comment: String
+reminders_count: Int
+       
+    ): Invoice
+    
+deleteInvoiceList ( 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+billed_on: DateInput
+placed_on: DateInput
+shipped_on: DateInput
+payment_due_period: Int
+shipping_cost: Float
+order_sign: String
+order_key: String
+identity_key: String
+invoice_remark: String
+delivery_note_remark: String
+exchange_rate: Float
+credit_note_type: Int
+credit_note_other: String
+credit_note_amount: Float
+paid: Boolean
+status_type: Int
+comment: String
+reminders_count: Int
+       
+    ): InvoiceList 
+    
+createCategory ( 
+      input: CategoryCreateInput
+    ): Category
+    
+createCategoryList ( 
+      inputList: [CategoryCreateInput]
+    ): [Category]
+    
+updateCategory (
+      update: CategoryUpdateInput
+    ): Category
+    
+updateCategoryList ( 
+      updateList: [CategoryUpdateInput]
+    ): [Category]
+    
+deleteCategory ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+       
+    ): Category
+    
+deleteCategoryList ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+       
+    ): CategoryList 
+    
+createOrderType ( 
+      input: OrderTypeCreateInput
+    ): OrderType
+    
+createOrderTypeList ( 
+      inputList: [OrderTypeCreateInput]
+    ): [OrderType]
+    
+updateOrderType (
+      update: OrderTypeUpdateInput
+    ): OrderType
+    
+updateOrderTypeList ( 
+      updateList: [OrderTypeUpdateInput]
+    ): [OrderType]
+    
+deleteOrderType ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+key: String
+name: String
+remark: String
+comment: String
+       
+    ): OrderType
+    
+deleteOrderTypeList ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+key: String
+name: String
+remark: String
+comment: String
+       
+    ): OrderTypeList 
+    
+createArInternalMetadatum ( 
+      input: ArInternalMetadatumCreateInput
+    ): ArInternalMetadatum
+    
+createArInternalMetadatumList ( 
+      inputList: [ArInternalMetadatumCreateInput]
+    ): [ArInternalMetadatum]
+    
+updateArInternalMetadatum (
+      update: ArInternalMetadatumUpdateInput
+    ): ArInternalMetadatum
+    
+updateArInternalMetadatumList ( 
+      updateList: [ArInternalMetadatumUpdateInput]
+    ): [ArInternalMetadatum]
+    
+deleteArInternalMetadatum ( 
+      key: String
+value: String
+created_at: DateTimeInput
+updated_at: DateTimeInput
+       
+    ): ArInternalMetadatum
+    
+deleteArInternalMetadatumList ( 
+      key: String
+value: String
+created_at: DateTimeInput
+updated_at: DateTimeInput
+       
+    ): ArInternalMetadatumList 
+    
+createProduct ( 
+      input: ProductCreateInput
+    ): Product
+    
+createProductList ( 
+      inputList: [ProductCreateInput]
+    ): [Product]
+    
+updateProduct (
+      update: ProductUpdateInput
+    ): Product
+    
+updateProductList ( 
+      updateList: [ProductUpdateInput]
+    ): [Product]
+    
+deleteProduct ( 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+name: String
+description: String
+identity_key: String
+price: Float
+vat: Float
+weight: Float
+comment: String
+subtitle: String
+permalink: String
+pages: Int
+state_type: Int
+publishing_year: Int
+binding_type: Int
+availability_type: Int
+ean: String
+items_on_stock: Int
+       
+    ): Product
+    
+deleteProductList ( 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+name: String
+description: String
+identity_key: String
+price: Float
+vat: Float
+weight: Float
+comment: String
+subtitle: String
+permalink: String
+pages: Int
+state_type: Int
+publishing_year: Int
+binding_type: Int
+availability_type: Int
+ean: String
+items_on_stock: Int
+       
+    ): ProductList 
+    
+createReview ( 
+      input: ReviewCreateInput
+    ): Review
+    
+createReviewList ( 
+      inputList: [ReviewCreateInput]
+    ): [Review]
+    
+updateReview (
+      update: ReviewUpdateInput
+    ): Review
+    
+updateReviewList ( 
+      updateList: [ReviewUpdateInput]
+    ): [Review]
+    
+deleteReview ( 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+user_email: String
+user_name: String
+points: Int
+title: String
+review_text: String
+comment: String
+       
+    ): Review
+    
+deleteReviewList ( 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+user_email: String
+user_name: String
+points: Int
+title: String
+review_text: String
+comment: String
+       
+    ): ReviewList 
+    
+createArticle ( 
+      input: ArticleCreateInput
+    ): Article
+    
+createArticleList ( 
+      inputList: [ArticleCreateInput]
+    ): [Article]
+    
+updateArticle (
+      update: ArticleUpdateInput
+    ): Article
+    
+updateArticleList ( 
+      updateList: [ArticleUpdateInput]
+    ): [Article]
+    
+deleteArticle ( 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+title: String
+body: String
+comment: String
+position: Int
+appearance_type: Int
+permalink: String
+       
+    ): Article
+    
+deleteArticleList ( 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+title: String
+body: String
+comment: String
+position: Int
+appearance_type: Int
+permalink: String
+       
+    ): ArticleList 
+    
+createPrice ( 
+      input: PriceCreateInput
+    ): Price
+    
+createPriceList ( 
+      inputList: [PriceCreateInput]
+    ): [Price]
+    
+updatePrice (
+      update: PriceUpdateInput
+    ): Price
+    
+updatePriceList ( 
+      updateList: [PriceUpdateInput]
+    ): [Price]
+    
+deletePrice ( 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+starts_at: DateInput
+ends_at: DateInput
+comment: String
+       
+    ): Price
+    
+deletePriceList ( 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+starts_at: DateInput
+ends_at: DateInput
+comment: String
+       
+    ): PriceList 
+    
+createReminder ( 
+      input: ReminderCreateInput
+    ): Reminder
+    
+createReminderList ( 
+      inputList: [ReminderCreateInput]
+    ): [Reminder]
+    
+updateReminder (
+      update: ReminderUpdateInput
+    ): Reminder
+    
+updateReminderList ( 
+      updateList: [ReminderUpdateInput]
+    ): [Reminder]
+    
+deleteReminder ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+comment: String
+       
+    ): Reminder
+    
+deleteReminderList ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+comment: String
+       
+    ): ReminderList 
+    
+createInfo ( 
+      input: InfoCreateInput
+    ): Info
+    
+createInfoList ( 
+      inputList: [InfoCreateInput]
+    ): [Info]
+    
+updateInfo (
+      update: InfoUpdateInput
+    ): Info
+    
+updateInfoList ( 
+      updateList: [InfoUpdateInput]
+    ): [Info]
+    
+deleteInfo ( 
+      id: Int
+active: Boolean
+position: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+title: String
+body: String
+comment: String
+message_type: Int
+       
+    ): Info
+    
+deleteInfoList ( 
+      id: Int
+active: Boolean
+position: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+title: String
+body: String
+comment: String
+message_type: Int
+       
+    ): InfoList 
+    
+createPortrait ( 
+      input: PortraitCreateInput
+    ): Portrait
+    
+createPortraitList ( 
+      inputList: [PortraitCreateInput]
+    ): [Portrait]
+    
+updatePortrait (
+      update: PortraitUpdateInput
+    ): Portrait
+    
+updatePortraitList ( 
+      updateList: [PortraitUpdateInput]
+    ): [Portrait]
+    
+deletePortrait ( 
+      id: Int
+       
+    ): Portrait
+    
+deletePortraitList ( 
+      id: Int
+       
+    ): PortraitList 
+    
+createSupplier ( 
+      input: SupplierCreateInput
+    ): Supplier
+    
+createSupplierList ( 
+      inputList: [SupplierCreateInput]
+    ): [Supplier]
+    
+updateSupplier (
+      update: SupplierUpdateInput
+    ): Supplier
+    
+updateSupplierList ( 
+      updateList: [SupplierUpdateInput]
+    ): [Supplier]
+    
+deleteSupplier ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+identity_key: String
+name: String
+description: String
+comment: String
+city: String
+zip: String
+street: String
+telephone: String
+telefax: String
+email: String
+contacts: String
+       
+    ): Supplier
+    
+deleteSupplierList ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+identity_key: String
+name: String
+description: String
+comment: String
+city: String
+zip: String
+street: String
+telephone: String
+telefax: String
+email: String
+contacts: String
+       
+    ): SupplierList 
+    
+createAuthor ( 
+      input: AuthorCreateInput
+    ): Author
+    
+createAuthorList ( 
+      inputList: [AuthorCreateInput]
+    ): [Author]
+    
+updateAuthor (
+      update: AuthorUpdateInput
+    ): Author
+    
+updateAuthorList ( 
+      updateList: [AuthorUpdateInput]
+    ): [Author]
+    
+deleteAuthor ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+first_name: String
+last_name: String
+description: String
+comment: String
+born_on_day: Int
+born_on_month: Int
+born_on_year: Int
+died_at_day: Int
+died_at_month: Int
+died_at_year: Int
+permalink: String
+       
+    ): Author
+    
+deleteAuthorList ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+first_name: String
+last_name: String
+description: String
+comment: String
+born_on_day: Int
+born_on_month: Int
+born_on_year: Int
+died_at_day: Int
+died_at_month: Int
+died_at_year: Int
+permalink: String
+       
+    ): AuthorList 
+    
+createPurchaseOrder ( 
+      input: PurchaseOrderCreateInput
+    ): PurchaseOrder
+    
+createPurchaseOrderList ( 
+      inputList: [PurchaseOrderCreateInput]
+    ): [PurchaseOrder]
+    
+updatePurchaseOrder (
+      update: PurchaseOrderUpdateInput
+    ): PurchaseOrder
+    
+updatePurchaseOrderList ( 
+      updateList: [PurchaseOrderUpdateInput]
+    ): [PurchaseOrder]
+    
+deletePurchaseOrder ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+identity_key: String
+mailed: Boolean
+mailed_at: DateInput
+billing_address: String
+delivery_address: String
+remark: String
+comment: String
+       
+    ): PurchaseOrder
+    
+deletePurchaseOrderList ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+identity_key: String
+mailed: Boolean
+mailed_at: DateInput
+billing_address: String
+delivery_address: String
+remark: String
+comment: String
+       
+    ): PurchaseOrderList 
+    
+createUser ( 
+      input: UserCreateInput
+    ): User
+    
+createUserList ( 
+      inputList: [UserCreateInput]
+    ): [User]
+    
+updateUser (
+      update: UserUpdateInput
+    ): User
+    
+updateUserList ( 
+      updateList: [UserUpdateInput]
+    ): [User]
+    
+deleteUser ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+identity_key: String
+role: Int
+name: String
+hashed_password: String
+gender: String
+first_name: String
+last_name: String
+company: String
+street: String
+zip: String
+city: String
+telephone: String
+mobile: String
+telefax: String
+email: String
+comment: String
+company_supplement: String
+address_supplement: String
+customer_type: Int
+remark_type: Int
+remark: String
+other_country: String
+type: String
+       
+    ): User
+    
+deleteUserList ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+identity_key: String
+role: Int
+name: String
+hashed_password: String
+gender: String
+first_name: String
+last_name: String
+company: String
+street: String
+zip: String
+city: String
+telephone: String
+mobile: String
+telefax: String
+email: String
+comment: String
+company_supplement: String
+address_supplement: String
+customer_type: Int
+remark_type: Int
+remark: String
+other_country: String
+type: String
+       
+    ): UserList 
+    
+createManufacturer ( 
+      input: ManufacturerCreateInput
+    ): Manufacturer
+    
+createManufacturerList ( 
+      inputList: [ManufacturerCreateInput]
+    ): [Manufacturer]
+    
+updateManufacturer (
+      update: ManufacturerUpdateInput
+    ): Manufacturer
+    
+updateManufacturerList ( 
+      updateList: [ManufacturerUpdateInput]
+    ): [Manufacturer]
+    
+deleteManufacturer ( 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+name: String
+description: String
+comment: String
+city: String
+zip: String
+street: String
+telephone: String
+telefax: String
+contacts: String
+       
+    ): Manufacturer
+    
+deleteManufacturerList ( 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+name: String
+description: String
+comment: String
+city: String
+zip: String
+street: String
+telephone: String
+telefax: String
+contacts: String
+       
+    ): ManufacturerList 
+    
+createMailingListEntry ( 
+      input: MailingListEntryCreateInput
+    ): MailingListEntry
+    
+createMailingListEntryList ( 
+      inputList: [MailingListEntryCreateInput]
+    ): [MailingListEntry]
+    
+updateMailingListEntry (
+      update: MailingListEntryUpdateInput
+    ): MailingListEntry
+    
+updateMailingListEntryList ( 
+      updateList: [MailingListEntryUpdateInput]
+    ): [MailingListEntry]
+    
+deleteMailingListEntry ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+active: Boolean
+email: String
+confirmed: Boolean
+       
+    ): MailingListEntry
+    
+deleteMailingListEntryList ( 
+      id: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+active: Boolean
+email: String
+confirmed: Boolean
+       
+    ): MailingListEntryList 
+    
+createIllustration ( 
+      input: IllustrationCreateInput
+    ): Illustration
+    
+createIllustrationList ( 
+      inputList: [IllustrationCreateInput]
+    ): [Illustration]
+    
+updateIllustration (
+      update: IllustrationUpdateInput
+    ): Illustration
+    
+updateIllustrationList ( 
+      updateList: [IllustrationUpdateInput]
+    ): [Illustration]
+    
+deleteIllustration ( 
+      id: Int
+       
+    ): Illustration
+    
+deleteIllustrationList ( 
+      id: Int
+       
+    ): IllustrationList 
+    
+createWork ( 
+      input: WorkCreateInput
+    ): Work
+    
+createWorkList ( 
+      inputList: [WorkCreateInput]
+    ): [Work]
+    
+updateWork (
+      update: WorkUpdateInput
+    ): Work
+    
+updateWorkList ( 
+      updateList: [WorkUpdateInput]
+    ): [Work]
+    
+deleteWork ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+role_type: Int
+       
+    ): Work
+    
+deleteWorkList ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+role_type: Int
+       
+    ): WorkList 
+    
+createProductType ( 
+      input: ProductTypeCreateInput
+    ): ProductType
+    
+createProductTypeList ( 
+      inputList: [ProductTypeCreateInput]
+    ): [ProductType]
+    
+updateProductType (
+      update: ProductTypeUpdateInput
+    ): ProductType
+    
+updateProductTypeList ( 
+      updateList: [ProductTypeUpdateInput]
+    ): [ProductType]
+    
+deleteProductType ( 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+name: String
+description: String
+comment: String
+       
+    ): ProductType
+    
+deleteProductTypeList ( 
+      id: Int
+active: Boolean
+created_at: DateTimeInput
+updated_on: DateTimeInput
+name: String
+description: String
+comment: String
+       
+    ): ProductTypeList 
+    
+createSchemaMigration ( 
+      input: SchemaMigrationCreateInput
+    ): SchemaMigration
+    
+createSchemaMigrationList ( 
+      inputList: [SchemaMigrationCreateInput]
+    ): [SchemaMigration]
+    
+updateSchemaMigration (
+      update: SchemaMigrationUpdateInput
+    ): SchemaMigration
+    
+updateSchemaMigrationList ( 
+      updateList: [SchemaMigrationUpdateInput]
+    ): [SchemaMigration]
+    
+deleteSchemaMigration ( 
+      version: String
+       
+    ): SchemaMigration
+    
+deleteSchemaMigrationList ( 
+      version: String
+       
+    ): SchemaMigrationList 
+    
+createTopic ( 
+      input: TopicCreateInput
+    ): Topic
+    
+createTopicList ( 
+      inputList: [TopicCreateInput]
+    ): [Topic]
+    
+updateTopic (
+      update: TopicUpdateInput
+    ): Topic
+    
+updateTopicList ( 
+      updateList: [TopicUpdateInput]
+    ): [Topic]
+    
+deleteTopic ( 
+      id: Int
+topics_count: Int
+position: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+title: String
+description: String
+comment: String
+permalink: String
+       
+    ): Topic
+    
+deleteTopicList ( 
+      id: Int
+topics_count: Int
+position: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+title: String
+description: String
+comment: String
+permalink: String
+       
+    ): TopicList 
+    
+createDeliveryAddress ( 
+      input: DeliveryAddressCreateInput
+    ): DeliveryAddress
+    
+createDeliveryAddressList ( 
+      inputList: [DeliveryAddressCreateInput]
+    ): [DeliveryAddress]
+    
+updateDeliveryAddress (
+      update: DeliveryAddressUpdateInput
+    ): DeliveryAddress
+    
+updateDeliveryAddressList ( 
+      updateList: [DeliveryAddressUpdateInput]
+    ): [DeliveryAddress]
+    
+deleteDeliveryAddress ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+gender: String
+first_name: String
+last_name: String
+company: String
+street: String
+zip: String
+city: String
+telephone: String
+mobile: String
+telefax: String
+email: String
+comment: String
+company_supplement: String
+address_supplement: String
+other_country: String
+       
+    ): DeliveryAddress
+    
+deleteDeliveryAddressList ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+active: Boolean
+gender: String
+first_name: String
+last_name: String
+company: String
+street: String
+zip: String
+city: String
+telephone: String
+mobile: String
+telefax: String
+email: String
+comment: String
+company_supplement: String
+address_supplement: String
+other_country: String
+       
+    ): DeliveryAddressList 
+    
+createSystemProperty ( 
+      input: SystemPropertyCreateInput
+    ): SystemProperty
+    
+createSystemPropertyList ( 
+      inputList: [SystemPropertyCreateInput]
+    ): [SystemProperty]
+    
+updateSystemProperty (
+      update: SystemPropertyUpdateInput
+    ): SystemProperty
+    
+updateSystemPropertyList ( 
+      updateList: [SystemPropertyUpdateInput]
+    ): [SystemProperty]
+    
+deleteSystemProperty ( 
+      id: Int
+created_at: DateTimeInput
+updated_on: DateTimeInput
+modifiable: Boolean
+active: Boolean
+name: String
+value: String
+input_type: Int
+       
+    ): SystemProperty
+    
+deleteSystemPropertyList ( 
+      id: Int
+created_at: DateTimeInput
+updated_on: DateTimeInput
+modifiable: Boolean
+active: Boolean
+name: String
+value: String
+input_type: Int
+       
+    ): SystemPropertyList 
+    
+createDiscount ( 
+      input: DiscountCreateInput
+    ): Discount
+    
+createDiscountList ( 
+      inputList: [DiscountCreateInput]
+    ): [Discount]
+    
+updateDiscount (
+      update: DiscountUpdateInput
+    ): Discount
+    
+updateDiscountList ( 
+      updateList: [DiscountUpdateInput]
+    ): [Discount]
+    
+deleteDiscount ( 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+name: String
+rate: Float
+       
+    ): Discount
+    
+deleteDiscountList ( 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+name: String
+rate: Float
+       
+    ): DiscountList 
+    
+createCart ( 
+      input: CartCreateInput
+    ): Cart
+    
+createCartList ( 
+      inputList: [CartCreateInput]
+    ): [Cart]
+    
+updateCart (
+      update: CartUpdateInput
+    ): Cart
+    
+updateCartList ( 
+      updateList: [CartUpdateInput]
+    ): [Cart]
+    
+deleteCart ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+order_remark: String
+status_type: Int
+wish_list_key: String
+wish_list_recipients: String
+       
+    ): Cart
+    
+deleteCartList ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+order_remark: String
+status_type: Int
+wish_list_key: String
+wish_list_recipients: String
+       
+    ): CartList 
+    
+createSale ( 
+      input: SaleCreateInput
+    ): Sale
+    
+createSaleList ( 
+      inputList: [SaleCreateInput]
+    ): [Sale]
+    
+updateSale (
+      update: SaleUpdateInput
+    ): Sale
+    
+updateSaleList ( 
+      updateList: [SaleUpdateInput]
+    ): [Sale]
+    
+deleteSale ( 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+quantity: Int
+charged: Boolean
+       
+    ): Sale
+    
+deleteSaleList ( 
+      id: Int
+active: Boolean
+updated_on: DateTimeInput
+created_at: DateTimeInput
+quantity: Int
+charged: Boolean
+       
+    ): SaleList 
+    
+createSearch ( 
+      input: SearchCreateInput
+    ): Search
+    
+createSearchList ( 
+      inputList: [SearchCreateInput]
+    ): [Search]
+    
+updateSearch (
+      update: SearchUpdateInput
+    ): Search
+    
+updateSearchList ( 
+      updateList: [SearchUpdateInput]
+    ): [Search]
+    
+deleteSearch ( 
+      id: Int
+position: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+author: String
+title: String
+body: String
+       
+    ): Search
+    
+deleteSearchList ( 
+      id: Int
+position: Int
+created_at: DateTimeInput
+updated_at: DateTimeInput
+author: String
+title: String
+body: String
+       
+    ): SearchList 
+    
+createItem ( 
+      input: ItemCreateInput
+    ): Item
+    
+createItemList ( 
+      inputList: [ItemCreateInput]
+    ): [Item]
+    
+updateItem (
+      update: ItemUpdateInput
+    ): Item
+    
+updateItemList ( 
+      updateList: [ItemUpdateInput]
+    ): [Item]
+    
+deleteItem ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+quantity: Int
+wish_list_delivery_type: Int
+wish_list_purchased: Boolean
+       
+    ): Item
+    
+deleteItemList ( 
+      id: Int
+updated_on: DateTimeInput
+created_at: DateTimeInput
+quantity: Int
+wish_list_delivery_type: Int
+wish_list_purchased: Boolean
+       
+    ): ItemList 
+     
+          }
+        
+        

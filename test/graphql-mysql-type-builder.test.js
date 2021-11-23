@@ -1,7 +1,7 @@
 const tape = require('tape');
 const log = require('mk-log');
 
-const MysqlSchemaAdapters = require('../lib/db/mysql/mysql-schema-adapters.js');
+const MysqlSchemaAdapters = require('../lib/db/mysql/mysql-schema-journal-adapters.js');
 const MysqlSchemaReader = require('../lib/db/mysql/mysql-schema-reader.js');
 const Database = require('../lib/db/mysql/database');
 
@@ -12,7 +12,7 @@ const NodeEdgeInspector = require('../lib/node-edge-inspector.js');
 const { makeExecutableSchema } = require('graphql-tools');
 const { graphql } = require('graphql');
 const knexFile = require('../knexfile.js');
-const MysqlResolveBuilder = require('../lib/resolvers/mysql-resolve-builder.js');
+const MysqlResolveBuilder = require('../lib/resolvers/graphql-mysql-resolve-builder.js');
 const GraphqlInputOrderBuilder = require('../lib/graphql-input-order-builder.js');
 const GraphqlInputSearchBuilder = require('../lib/graphql-input-search-builder.js');
 const GraphqlInputRangeBuilder = require('../lib/graphql-input-range-builder.js');

@@ -1,6 +1,6 @@
 {
   "name": "fmh-db-analyzer",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "A node based database analyzer",
   "main": "lib/db-analyzer.js",
   "repository": "https://github.com/fmh-finanzberatung/fmh-db-analyzser.git",
@@ -26,10 +26,10 @@
     "test": "yarn test:graph-node && yarn test:graphql-builder && yarn test:model-builder && yarn test: traverse-nodes",
     "test:config-reader": "NODE_ENV=test node test/config-reader.test.js",
     "test:graph-node": "NODE_ENV=test node test/graph-node.test.js",
-    "test:graphql-mongo-resolve-builder": "NODE_ENV=test node test/graphql-mongo-resolve-builder.test.js",
+    "test:graphql-mongo-resolve-builder": "NODE_ENV=test node test/resolvers/graphql-mongo-resolve-builder.test.js",
     "test:mongo-schema-journal-adapters": "NODE_ENV=test node test/mongo-schema-journal-adapters.test.js",
     "test:graphql-mongo-type-builder": "NODE_ENV=test node test/graphql-mongo-type-builder.test.js | tap-spec",
-    "test:graphql-mysql-resolve-builder": "NODE_ENV=test node test/graphql-mysql-resolve-builder.test.js",
+    "test:graphql-mysql-resolve-builder": "NODE_ENV=test node test/resolvers/graphql-mysql-resolve-builder.test.js",
     "test:mysql-schema-journal-adapters": "NODE_ENV=test node test/mysql-schema-journal-adapters.test.js",
     "test:graphql-schema-builder": "NODE_ENV=test node test/graphql-schema-builder.test.js | tap-spec",
     "test:graphql-mysql-type-builder": "NODE_ENV=test node test/graphql-mysql-type-builder.test.js | tap-spec",
@@ -52,6 +52,7 @@
     "eslint": "^7.24.0",
     "humanize-duration": "^3.26.0",
     "prettier": "^2.2.1",
+    "svelte-routing": "^1.6.0",
     "tap-spec": "^5.0.0",
     "tape": "^5.2.2"
   },
