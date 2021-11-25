@@ -1,7 +1,7 @@
 {
   "name": "fmh-db-analyzer",
-  "version": "0.0.15",
-  "description": "A node based database analyzer",
+  "version": "0.0.16",
+  "description": "A node based GraphQL schema generator",
   "main": "lib/db-analyzer.js",
   "repository": "https://github.com/fmh-finanzberatung/fmh-db-analyzser.git",
   "author": "John Galt",
