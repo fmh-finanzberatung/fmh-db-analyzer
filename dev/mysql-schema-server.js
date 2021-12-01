@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const { graphqlHTTP } = require('express-graphql');
 const log = require('mk-log');
@@ -18,9 +19,12 @@ const port = 3010;
 async function main() {
   try {
     const { knex } = Database(knexfile);
+    // mysqlspecific:
+    // ResolveBuilder, SchemaReader and SchemaAdapters
     const resolveBuilder = await GraphqlMysqlResolveBuilder(knexfile);
     const mysqlMetaSchemas = await MysqlSchemaReader(knex);
     const journal = MysqlSchemaAdapters(mysqlMetaSchemas);
+    // db agnostic from here on
     const schemaBuilder = await GraphqlSchemaBuilder({
       resolveBuilder,
       journal,
@@ -29,7 +33,7 @@ async function main() {
     schemaBuilder.run();
     const schema = schemaBuilder.schema;
 
-    // log.info('schema', schema);
+    //log.info('schema', schema);
 
     app.get('/favicon.ico', (req, res) => {
       return res.status(200).send('');

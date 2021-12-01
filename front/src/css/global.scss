@@ -1,0 +1,31 @@
+@import '../admin/css/fonts.scss';
+@import '../admin/css/colors.scss';
+
+html {
+  font-size: 16px;
+}
+
+input, select {
+  all: unset;
+}
+
+@mixin text-input {
+  font-size: 1rem;
+  font-family: $secondary-font__family;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+}
+
+.label {
+}
+
+.select {
+
+}
+
+.button, .text-field {
+  @include text-input; 
+  cursor: pointer;
+}
