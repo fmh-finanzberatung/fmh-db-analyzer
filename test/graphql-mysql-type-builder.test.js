@@ -24,7 +24,7 @@ const mysqlTypesMap = DbToGraphqlTypesMap('mysql');
 async function main() {
   await tape('simple type', async (t) => {
     try {
-      const resolveBuilder = await MysqlResolveBuilder(knexFile);
+      const mysqlResolveBuilder = await MysqlResolveBuilder(knexFile);
 
       const mysqlDatabase = Database(knexFile);
       const mysqlMetaSchemas = await MysqlSchemaReader(mysqlDatabase.knex);
@@ -33,10 +33,12 @@ async function main() {
       const collectedDataTypesCode = [graphqlCommonSDLTypes];
       const collectedQueriesCode = [];
       const collectedMutationsCode = [];
-      const resolversObjectBuilder = ResolversObjectBuilder();
 
       journal.forEach((node) => {
-        const graphqlTypeBuilder = GraphqlTypeBuilder(node);
+        const graphqlTypeBuilder = GraphqlTypeBuilder({
+          graphNode: node,
+          resolveBuilder: mysqlResolveBuilder,
+        });
         const graphqlInputOrderBuilder = GraphqlInputOrderBuilder(node);
         const graphqlInputSearchBuilder = GraphqlInputSearchBuilder(node);
         const graphqlInputRangeBuilder = GraphqlInputRangeBuilder(node);

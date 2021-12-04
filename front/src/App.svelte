@@ -1,7 +1,6 @@
 <script>
   import { Router, Link, Route, navigate } from 'svelte-routing';
   import Login from './admin/login.svelte';
-  import Products from './admin/products.svelte';
   let authorized = false;
   export let url = '';
   export let name='';
