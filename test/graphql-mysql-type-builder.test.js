@@ -13,9 +13,9 @@ const { makeExecutableSchema } = require('graphql-tools');
 const { graphql } = require('graphql');
 const knexFile = require('../knexfile.js');
 const MysqlResolveBuilder = require('../lib/resolvers/graphql-mysql-resolve-builder.js');
-const GraphqlInputOrderBuilder = require('../lib/graphql-input-order-builder.js');
-const GraphqlInputSearchBuilder = require('../lib/graphql-input-search-builder.js');
-const GraphqlInputRangeBuilder = require('../lib/graphql-input-range-builder.js');
+const GraphqlInputOrderBuilder = require('../lib/graphql/graphql-input-order-builder.js');
+const GraphqlInputSearchBuilder = require('../lib/graphql/graphql-input-search-builder.js');
+const GraphqlInputRangeBuilder = require('../lib/graphql/graphql-input-range-builder.js');
 const graphqlCommonSDLTypes = require('../lib/graphql-common-sdl-types.js');
 const ResolversObjectBuilder = require('../lib/utils/resolvers-object-builder.js');
 

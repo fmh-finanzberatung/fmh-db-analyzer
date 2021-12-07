@@ -98,6 +98,30 @@ const JobsOutput = new GraphQL.GraphQLObjectType({
   },
 });
 
+const JobArgs = {
+  id: {
+    type: GraphQL.GraphQLID,
+  },
+  title: {
+    type: GraphQL.GraphQLString,
+  },
+  order: {
+    type: JobsOrderInput,
+  },
+  search: {
+    type: JobsSearchInput,
+  },
+  range: {
+    type: JobsRangeInput,
+  },
+};
+
+const JobsArgs = Object.assign({}, JobArgs, {
+  pagination: {
+    type: PaginationInput,
+  },
+});
+
 const schema = new GraphQL.GraphQLSchema({
   query: new GraphQL.GraphQLObjectType({
     name: 'Query',
@@ -108,20 +132,7 @@ const schema = new GraphQL.GraphQLSchema({
     fields: {
       job: {
         type: JobOutput,
-        args: {
-          id: {
-            type: GraphQL.GraphQLID,
-          },
-          title: {
-            type: GraphQL.GraphQLString,
-          },
-          order: {
-            type: JobsOrderInput,
-          },
-          search: {
-            type: JobsSearchInput,
-          },
-        },
+        args: JobArgs,
         resolve: (root, args) => {
           return {
             id: args.id,
@@ -131,26 +142,7 @@ const schema = new GraphQL.GraphQLSchema({
       },
       jobs: {
         type: JobsOutput,
-        args: {
-          id: {
-            type: GraphQL.GraphQLID,
-          },
-          title: {
-            type: GraphQL.GraphQLString,
-          },
-          order: {
-            type: JobsOrderInput,
-          },
-          pagination: {
-            type: PaginationInput,
-          },
-          search: {
-            type: JobsSearchInput,
-          },
-          range: {
-            type: JobsRangeInput,
-          },
-        },
+        args: JobsArgs,
         resolve: (_) => {
           return {
             docs: [
@@ -169,14 +161,13 @@ const schema = new GraphQL.GraphQLSchema({
         },
       },
     },
-    mutation: {
+  }),
+  mutation: new GraphQL.GraphQLObjectType({
+    name: 'Mutation',
+    fields: {
       createJob: {
         type: JobOutput,
-        args: {
-          title: {
-            type: GraphQL.GraphQLString,
-          },
-        },
+        args: JobArgs,
         resolve: (_, args) => {
           return {
             id: args.input.id,
@@ -186,11 +177,7 @@ const schema = new GraphQL.GraphQLSchema({
       },
       updateJob: {
         type: JobOutput,
-        args: {
-          title: {
-            type: GraphQL.GraphQLString,
-          },
-        },
+        args: JobArgs,
         resolve: (_, args) => {
           return {
             id: args.input.id,
@@ -200,13 +187,23 @@ const schema = new GraphQL.GraphQLSchema({
       },
       deleteJob: {
         type: JobOutput,
-        args: {
-          id: {
-            type: GraphQL.GraphQLID,
-          },
-        },
+        args: JobArgs,
         resolve: (_, _args) => {
           return true;
+        },
+      },
+      deleteJobs: {
+        type: JobsOutput,
+        args: JobsArgs,
+        resolve: (_, _args) => {
+          return {
+            docs: [
+              {
+                id: 1,
+                title: 'Software Engineer',
+              },
+            ],
+          };
         },
       },
     },
@@ -215,7 +212,7 @@ const schema = new GraphQL.GraphQLSchema({
 
 tape(async (t) => {
   try {
-    const result = await GraphQL.graphql(
+    const queryResult = await GraphQL.graphql(
       schema,
       `
         query {
@@ -228,7 +225,21 @@ tape(async (t) => {
       `
     );
 
-    log.info('result', result);
+    log.info('queryResult', queryResult);
+    const mutationResult = await GraphQL.graphql(
+      schema,
+      `
+        mutation {
+          deleteJobs( title: "Exterior" range: { id: {startVal: 10, endVal: 20 } } ) {
+            docs {
+              title
+            }
+          }
+        }
+      `
+    );
+
+    log.info('mutationResult', mutationResult);
   } catch (err) {
     log.error(err);
   } finally {
