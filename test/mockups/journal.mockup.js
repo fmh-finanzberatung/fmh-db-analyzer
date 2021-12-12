@@ -2,7 +2,9 @@ const GraphNode = require('../../lib/graph-node.js');
 
 module.exports = function JournalMockup(DbGraphNodeSupport) {
   const personTableDef = {
-    id: { DATA_TYPE: 'int', IS_NULLABLE: false },
+    id: { DATA_TYPE: 'int', is_nullable: false },
+    created_at: { DATA_TYPE: 'datetime', is_nullable: false },
+    born_at: { DATA_TYPE: 'date', is_nullable: false },
     active: { DATA_TYPE: 'tinyint', IS_NULLABLE: false },
     name: { DATA_TYPE: 'varchar', IS_NULLABLE: true },
     company_id: { DATA_TYPE: 'int', IS_NULLABLE: true },
