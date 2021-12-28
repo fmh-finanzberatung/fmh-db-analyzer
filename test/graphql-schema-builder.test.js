@@ -59,13 +59,14 @@ async function main() {
   await tape('mongo', async (mainTest) => {
     await mainTest.test(async (t) => {
       try {
-        const db = await MongoDatabase(mongoFile);
-        const resolveBuilder = await GraphqlMongoResolveBuilder(db);
-        const metaSchemas = await MongoSchemaReader(db);
-        const journal = MongoSchemaAdapters(metaSchemas);
+        //const db = await MongoDatabase(mongoFile);
+        //const resolveBuilder = await GraphqlMongoResolveBuilder(db);
+        //const metaSchemas = await MongoSchemaReader(db);
+        //const journal = MongoSchemaAdapters(metaSchemas);
         //const graphqlTypeBuilder = GraphqlTypeBuilder(journal);
 
-        log.info('journal', journal);
+        //log.info('journal', journal);
+        log.info('need to implement mongo test');
 
         /*
         const graphqlSchemaBuilder = await GraphqlSchemaBuilder({

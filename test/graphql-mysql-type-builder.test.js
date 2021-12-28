@@ -4,19 +4,15 @@ const log = require('mk-log');
 const MysqlSchemaAdapters = require('../lib/db/mysql/mysql-schema-journal-adapters.js');
 const MysqlSchemaReader = require('../lib/db/mysql/mysql-schema-reader.js');
 const Database = require('../lib/db/mysql/database');
+const TypeBuilder = require('../lib/graphql/builders/type-builder.js');
 
 const DbToGraphqlTypesMap = require('../lib/utils/db-to-graphql-types-map');
-const GraphqlTypeBuilder = require('../lib/graphql-type-builder.js');
-const NodeEdgeInspector = require('../lib/node-edge-inspector.js');
+const NodeEdgeInspector = require('../lib/graph-node/node-edge-inspector.js');
 // const prettyGraphql = require('../lib/utils/pretty-graphql');
 const { makeExecutableSchema } = require('graphql-tools');
 const { graphql } = require('graphql');
 const knexFile = require('../knexfile.js');
 const MysqlResolveBuilder = require('../lib/resolvers/graphql-mysql-resolve-builder.js');
-const GraphqlInputOrderBuilder = require('../lib/graphql/graphql-input-order-builder.js');
-const GraphqlInputSearchBuilder = require('../lib/graphql/graphql-input-search-builder.js');
-const GraphqlInputRangeBuilder = require('../lib/graphql/graphql-input-range-builder.js');
-const graphqlCommonSDLTypes = require('../lib/graphql-common-sdl-types.js');
 const ResolversObjectBuilder = require('../lib/utils/resolvers-object-builder.js');
 
 const mysqlTypesMap = DbToGraphqlTypesMap('mysql');

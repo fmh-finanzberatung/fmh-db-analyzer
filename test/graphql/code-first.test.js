@@ -1,24 +1,16 @@
 const tape = require('tape');
 const log = require('mk-log');
 const GraphQL = require('graphql');
-const {
-  IDRangeInput,
-  StringRangeInput,
-  //IntRangeInput,
-  //FloatRangeInput,
-  OrderDirection,
-  PaginationInput,
-  PaginationOutput,
-} = require('../../lib/graphql/common-types.graphql.js');
+const CommonGraphqlTypes = require('../../lib/graphql/common-types.graphql.js');
 
 const JobsOrderInput = new GraphQL.GraphQLInputObjectType({
   name: 'JobsOrderInput',
   fields: {
     id: {
-      type: OrderDirection,
+      type: CommonGraphqlTypes.get('OrderDirectionInput'),
     },
     title: {
-      type: OrderDirection,
+      type: CommonGraphqlTypes.get('OrderDirectionInput'),
     },
   },
 });
@@ -39,34 +31,10 @@ const JobsRangeInput = new GraphQL.GraphQLInputObjectType({
   name: 'JobsRangeInput',
   fields: {
     id: {
-      type: IDRangeInput,
+      type: CommonGraphqlTypes.get('IDRangeInput'),
     },
     title: {
-      type: StringRangeInput,
-    },
-  },
-});
-
-const ErrorItem = new GraphQL.GraphQLObjectType({
-  name: 'ErrorItem',
-  fields: {
-    message: {
-      type: GraphQL.GraphQLString,
-    },
-    field: {
-      type: GraphQL.GraphQLString,
-    },
-  },
-});
-
-const ErrorOutput = new GraphQL.GraphQLObjectType({
-  name: 'ErrorOutput',
-  fields: {
-    message: {
-      type: GraphQL.GraphQLString,
-    },
-    errors: {
-      type: GraphQL.GraphQLList(ErrorItem),
+      type: CommonGraphqlTypes.get('StringRangeInput'),
     },
   },
 });
@@ -87,13 +55,13 @@ const JobsOutput = new GraphQL.GraphQLObjectType({
   name: 'JobsOutput',
   fields: {
     pagination: {
-      type: PaginationOutput,
+      type: CommonGraphqlTypes.get('PaginationOutput'),
     },
     docs: {
       type: GraphQL.GraphQLList(JobOutput),
     },
     error: {
-      type: ErrorOutput,
+      type: CommonGraphqlTypes.get('ErrorOutput'),
     },
   },
 });
@@ -118,9 +86,11 @@ const JobArgs = {
 
 const JobsArgs = Object.assign({}, JobArgs, {
   pagination: {
-    type: PaginationInput,
+    type: CommonGraphqlTypes.get('PaginationInput'),
   },
 });
+
+log.info('JobsArgs', JobsArgs);
 
 const schema = new GraphQL.GraphQLSchema({
   query: new GraphQL.GraphQLObjectType({
@@ -164,48 +134,56 @@ const schema = new GraphQL.GraphQLSchema({
   }),
   mutation: new GraphQL.GraphQLObjectType({
     name: 'Mutation',
-    fields: {
-      createJob: {
-        type: JobOutput,
-        args: JobArgs,
-        resolve: (_, args) => {
-          return {
-            id: args.input.id,
-            title: args.input.title,
-          };
+    fields: () => {
+      return {
+        createJob: {
+          type: JobOutput,
+          args: JobArgs,
+          resolve: (_, args) => {
+            return {
+              id: args.input.id,
+              title: args.input.title,
+            };
+          },
         },
-      },
-      updateJob: {
-        type: JobOutput,
-        args: JobArgs,
-        resolve: (_, args) => {
-          return {
-            id: args.input.id,
-            title: args.input.title,
-          };
+        updateJob: {
+          type: JobOutput,
+          args: JobArgs,
+          resolve: (_, args) => {
+            return {
+              id: args.input.id,
+              title: args.input.title,
+            };
+          },
         },
-      },
-      deleteJob: {
-        type: JobOutput,
-        args: JobArgs,
-        resolve: (_, _args) => {
-          return true;
+        deleteJob: {
+          type: JobOutput,
+          args: JobArgs,
+          resolve: (_, _args) => {
+            return true;
+          },
         },
-      },
-      deleteJobs: {
-        type: JobsOutput,
-        args: JobsArgs,
-        resolve: (_, _args) => {
-          return {
-            docs: [
-              {
-                id: 1,
-                title: 'Software Engineer',
+        deleteJobs: {
+          type: JobsOutput,
+          args: JobsArgs,
+          resolve: (_, _args) => {
+            return {
+              pagination: {
+                page: 1,
+                pageSize: 10,
+                total: 1,
+                pages: 1,
               },
-            ],
-          };
+              docs: [
+                {
+                  id: 1,
+                  title: 'Software Engineer',
+                },
+              ],
+            };
+          },
         },
-      },
+      };
     },
   }),
 });

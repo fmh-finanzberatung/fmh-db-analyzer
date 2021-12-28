@@ -1,4 +1,4 @@
-const GraphNode = require('../../lib/graph-node.js');
+const GraphNode = require('../../lib/graph-node/graph-node.js');
 
 module.exports = function JournalMockup(DbGraphNodeSupport) {
   const personTableDef = {
