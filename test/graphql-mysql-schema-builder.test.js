@@ -17,13 +17,17 @@ async function main() {
           laureates {
             docs {
               id
+              bank {
+                id
+                name
+              }
             } 
           }  
         }`,
         null,
         {}
       );
-      log.info('queryResult', queryResult.data.laureates.docs);
+      log.info('queryResult', queryResult);
       /*
       const queryResult = await GraphQL.graphql(
         schema,

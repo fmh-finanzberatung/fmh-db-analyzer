@@ -7,10 +7,10 @@ const JobsOrderInput = new GraphQL.GraphQLInputObjectType({
   name: 'JobsOrderInput',
   fields: {
     id: {
-      type: CommonGraphqlTypes.get('OrderDirectionInput'),
+      type: CommonGraphqlTypes['OrderDirectionInput'],
     },
     title: {
-      type: CommonGraphqlTypes.get('OrderDirectionInput'),
+      type: CommonGraphqlTypes['OrderDirectionInput'],
     },
   },
 });
@@ -31,10 +31,10 @@ const JobsRangeInput = new GraphQL.GraphQLInputObjectType({
   name: 'JobsRangeInput',
   fields: {
     id: {
-      type: CommonGraphqlTypes.get('IDRangeInput'),
+      type: CommonGraphqlTypes['IDRangeInput'],
     },
     title: {
-      type: CommonGraphqlTypes.get('StringRangeInput'),
+      type: CommonGraphqlTypes['StringRangeInput'],
     },
   },
 });
@@ -55,13 +55,13 @@ const JobsOutput = new GraphQL.GraphQLObjectType({
   name: 'JobsOutput',
   fields: {
     pagination: {
-      type: CommonGraphqlTypes.get('PaginationOutput'),
+      type: CommonGraphqlTypes['PaginationOutput'],
     },
     docs: {
       type: GraphQL.GraphQLList(JobOutput),
     },
     error: {
-      type: CommonGraphqlTypes.get('ErrorOutput'),
+      type: CommonGraphqlTypes['ErrorOutput'],
     },
   },
 });
@@ -86,7 +86,7 @@ const JobArgs = {
 
 const JobsArgs = Object.assign({}, JobArgs, {
   pagination: {
-    type: CommonGraphqlTypes.get('PaginationInput'),
+    type: CommonGraphqlTypes['PaginationInput'],
   },
 });
 
