@@ -30,6 +30,7 @@
     "test:config-reader": "NODE_ENV=test node test/config-reader.test.js",
     "test:graph-node": "NODE_ENV=test node test/graph-node.test.js",
     "test:code-first": "NODE_ENV=test node test/graphql/code-first.test.js",
+    "test:circular-dependency": "NODE_ENV=test node test/graphql/circular-dependency.test.js",
     "test:graphql-type-builder": "NODE_ENV=test node test/graphql/type-builder.test.js",
     "test:graphql-node-builder": "NODE_ENV=test node test/graphql/node-builder.test.js",
     "test:graphql-mongo-resolve-builder": "NODE_ENV=test node test/resolvers/graphql-mongo-resolve-builder.test.js",
@@ -101,7 +102,6 @@
     "mongodb": "^3.6.6",
     "mongodb-schema": "^9.0.0",
     "mysql": "^2.18.1",
-    "nodemon": "^2.0.14",
     "pluralize": "^8.0.0"
   }
 }

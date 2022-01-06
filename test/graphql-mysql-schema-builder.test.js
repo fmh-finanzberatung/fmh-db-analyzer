@@ -13,21 +13,22 @@ async function main() {
         schema,
         `
         query {
-          # hello
-          laureates {
+          banks{
             docs {
               id
-              bank {
-                id
-                name
+              name
+              films {
+                docs {
+                  id
+                } 
               }
             } 
-          }  
+          }
         }`,
         null,
         {}
       );
-      log.info('queryResult', queryResult);
+      log.info('queryResult', JSON.stringify(queryResult, null, 4));
       /*
       const queryResult = await GraphQL.graphql(
         schema,

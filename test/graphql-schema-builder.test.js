@@ -1,36 +1,23 @@
 const tape = require('tape');
-const knexfile = require('../knexfile.js');
+require('dotenv').config();
 const log = require('mk-log');
-const GraphQL = require('graphql');
-const MysqlSchemaReader = require('../lib/db/mysql/mysql-schema-reader.js');
-const MysqlSchemaAdapters = require('../lib/db/mysql/mysql-schema-adapters.js');
-const MysqlModelBuilder = require('../lib/db/mysql/mysql-model-builder.js');
-const MysqlDatabase = require('../lib/db/mysql/database');
-const GraphqlSchemaBuilder = require('../lib/graphql-schema-builder.js');
-const GraphqlMysqlResolveBuilder = require('../lib/resolvers/graphql-mysql-resolve-builder.js');
 
-const MongoSchemaAdapters = require('../lib/db/mongo/mongo-schema-adapters.js');
-const MongoSchemaReader = require('../lib/db/mongo/mongo-schema-reader.js');
-const GraphqlMongoResolveBuilder = require('../lib/resolvers/graphql-mongo-resolve-builder.js');
-const MongoDatabase = require('../lib/db/mongo/database');
-const mongoFile = require('../mongofile.js');
+//const GraphQL = require('graphql');
+const GraphqlMysqlSchemaBuilder = require('../lib/graphql-mysql-schema-builder.js');
 
 async function main() {
   await tape('mysql', async (mainTest) => {
     await mainTest.test(async (t) => {
       try {
-        const resolveBuilder = await GraphqlMysqlResolveBuilder(knexfile);
-        const mysqlDatabase = MysqlDatabase(knexfile);
-        const mysqlMetaSchemas = await MysqlSchemaReader(mysqlDatabase.knex);
-        const journal = MysqlSchemaAdapters(mysqlMetaSchemas);
-        const builder = MysqlModelBuilder(journal, mysqlDatabase.Bookshelf);
+        const schemaBuilder = await GraphqlMysqlSchemaBuilder();
+        const schema = await schemaBuilder.run();
         await builder.run();
 
         const graphqlSchemaBuilder = await GraphqlSchemaBuilder({
           journal,
           resolveBuilder,
-        });
-        graphqlSchemaBuilder.run();
+        });a
+        await graphqlSchemaBuilder.run();
         const schema = graphqlSchemaBuilder.schema;
         const resolvers = graphqlSchemaBuilder.resolvers;
 
