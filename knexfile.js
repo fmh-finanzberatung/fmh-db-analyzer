@@ -6,10 +6,10 @@ const envVars = EnvVars({ deploy: 'TEST' });
 module.exports = {
   client: 'mysql',
   connection: {
-    host: envVars('GTB_MYSQLHOST'),
-    user: envVars('GTB_MYSQLDBUSER'),
-    password: envVars('GTB_MYSQLPASSWORD'),
-    database: 'auszeichnungen_development', //envVars('GTB_MYSQLDATABASE'), //mk_db_analyzer_test',
+    host: envVars('SHOP_DBHOST'),
+    user: envVars('SHOP_DBUSER'),
+    password: envVars('SHOP_DBPASSWORD'),
+    database: 'shop_development', //envVars('GTB_MYSQLDATABASE'), //mk_db_analyzer_test',
     charset: 'utf8',
     preciseTimestamps: true,
   },
