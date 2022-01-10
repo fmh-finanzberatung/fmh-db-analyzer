@@ -8,6 +8,7 @@ async function main() {
   await tape(async (t) => {
     try {
       const metaSchemas = await MysqlSchemaReader(knex);
+      log.info('metaSchemas', metaSchemas);
       t.true(metaSchemas.length > 0);
     } catch (err) {
       log.error(err);
