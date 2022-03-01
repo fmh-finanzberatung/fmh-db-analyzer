@@ -1,20 +1,24 @@
-require('dotenv').config();
 const express = require('express');
 const { graphqlHTTP } = require('express-graphql');
 const log = require('mk-log');
 
 //const GraphQL = require('graphql');
 const GraphqlMysqlSchemaBuilder = require('../lib/graphql-mysql-schema-builder.js');
-
-
+const PluginManager = require('../lib/utils/plugin-manager.js');
 const app = express();
 const port = 3010;
 
 async function main() {
   try {
-    const schemaBuilder = await GraphqlMysqlSchemaBuilder();
-    const schema = await schemaBuilder.run();
+    const pluginManager = PluginManager('./lib/plugins');
+    pluginManager.addPluginConfigOptions('login', {
+      tableName: 'users',
+      nameField: 'email',
+      passwordField: 'hashed_password',
+    });
 
+    const schemaBuilder = await GraphqlMysqlSchemaBuilder(pluginManager);
+    const schema = await schemaBuilder.run();
 
     app.get('/favicon.ico', (req, res) => {
       return res.status(200).send('');

@@ -3,8 +3,11 @@ const capitalize = require('../../../lib/utils/capitalize.js');
 const destroyAllRecords = require('../utils/destroy-all.js');
 const log = require('mk-log');
 const path = require('path');
-const knexfile = require('../../../knexfile.js');
+const knexfile = require('../../../knexfile-test.js');
 const Database = require('../../../lib/db/mysql/database.js');
+const hashKey = require('../../../lib/utils/hash-key.js');
+const env = process.env.NODE_ENV || 'development';
+const hashSalt = require(`../../../config/env/${env}-config.js`).hashSalt;
 
 module.exports = async function create() {
   try {
@@ -23,6 +26,13 @@ module.exports = async function create() {
     });
 
     await Promise.all(destroyAllTables);
+    const UserModel = models.get('User');
+
+    const userMaster = await UserModel.forge({
+      name: 'master',
+      email: 'master@galt.de',
+      hashed_password: hashKey('3333').create(hashSalt),
+    }).save();
 
     const CompanyModel = models.get('Company');
     const companyFreeBSD = await CompanyModel.forge({
@@ -95,6 +105,7 @@ module.exports = async function create() {
     return {
       models,
       data: {
+        userMaster: userMaster.toJSON(),
         companyFreeBSD: companyFreeBSD.toJSON(),
         companyLinux: companyLinux.toJSON(),
         jobSenior: jobSenior.toJSON(),

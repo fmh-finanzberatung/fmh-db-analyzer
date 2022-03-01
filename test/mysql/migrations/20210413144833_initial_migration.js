@@ -3,6 +3,24 @@ exports.up = function (knex) {
   //   city             => person  | city has many persons
 
   return Promise.all([
+    knex.schema.createTable('sessions', (t) => {
+      t.increments('id').unsigned().primary();
+      t.integer('user_id').unsigned().notNullable();
+      t.string('token');
+      t.timestamp('created_at', { precision: 6 }).defaultTo(knex.fn.now(6));
+      t.timestamp('updated_at', { precision: 6 }).defaultTo(knex.fn.now(6));
+    }),
+
+    knex.schema.createTable('users', (t) => {
+      t.increments('id').unsigned().primary();
+      t.tinyint('active');
+      t.string('name');
+      t.string('email');
+      t.string('hashed_password');
+      t.timestamp('created_at', { precision: 6 }).defaultTo(knex.fn.now(6));
+      t.timestamp('updated_at', { precision: 6 }).defaultTo(knex.fn.now(6));
+    }),
+
     knex.schema.createTable('persons', (t) => {
       t.increments('id').unsigned().primary();
       t.tinyint('active');
