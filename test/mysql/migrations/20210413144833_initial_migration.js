@@ -1,3 +1,5 @@
+const RandomString = require('../../../lib/utils/random-string.js');
+
 exports.up = function (knex) {
   //   company <=> job <=> person  | company has many persons through jobs
   //   city             => person  | city has many persons
@@ -6,14 +8,16 @@ exports.up = function (knex) {
     knex.schema.createTable('sessions', (t) => {
       t.increments('id').unsigned().primary();
       t.integer('user_id').unsigned().notNullable();
-      t.string('token');
+      t.uuid('key').defaultTo(knex.raw('(UUID())'));
+      t.string('two_fa_key').defaultTo(`${RandomString(6).digits()}`);
+      t.boolean('confirmed').defaultTo(false);
       t.timestamp('created_at', { precision: 6 }).defaultTo(knex.fn.now(6));
       t.timestamp('updated_at', { precision: 6 }).defaultTo(knex.fn.now(6));
     }),
 
     knex.schema.createTable('users', (t) => {
       t.increments('id').unsigned().primary();
-      t.tinyint('active');
+      t.tinyint('active').defaultTo(0);
       t.string('name');
       t.string('email');
       t.string('hashed_password');
@@ -60,6 +64,7 @@ exports.up = function (knex) {
 
 exports.down = function (knex) {
   return Promise.all([
+    knex.schema.dropTable('sessions'),
     knex.schema.dropTable('persons'),
     knex.schema.dropTable('jobs'),
     knex.schema.dropTable('companies'),
