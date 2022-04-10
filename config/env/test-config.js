@@ -16,6 +16,9 @@ module.exports = merge(baseConfig, {
       email: 'test@galt.de',
     }
   },
+  login: {
+    url: 'http://localhost/login',
+  },
   transportOptions: {
     //service: 'deltapeak',
     host: envVars('MAILHOST'),
