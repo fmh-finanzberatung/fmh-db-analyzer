@@ -7,6 +7,7 @@
   "author": "John Galt",
   "license": "MIT",
   "scripts": {
+    "cli": "NODE_ENV=test node scripts/cli.js",
     "front:dev": "vite --port=3010 --host",
     "front:build": "vite build",
     "front:serve": "vite preview",
@@ -52,12 +53,18 @@
     "test:mysql-schema-reader": "NODE_ENV=test node test/mysql/mysql-schema-reader.test.js",
     "test:node-edge-inspector": "NODE_ENV=test node test/node-edge-inspector.test.js",
     "test:traverse-nodes": "NODE_ENV=test node test/traverse-nodes.test.js | tap-spec",
+    "test:utils:center-text": "NODE_ENV=test node test/utils/center-text.test.js | tap-spec",
+    "test:utils:align-text": "NODE_ENV=test node test/utils/align-text.test.js | tap-spec",
     "test:utils:cal-c": "NODE_ENV=test node test/utils/cal-c.test.js | tap-spec",
+    "test:utils:colours": "NODE_ENV=test node test/utils/colours.test.js | tap-spec",
+    "test:utils:ensure-max-word-length-ellipsis": "NODE_ENV=test node test/utils/ensure-max-word-length-ellipsis.test.js | tap-spec",
     "test:utils:extract-qs-token": "NODE_ENV=test node test/utils/extract-qs-token.test.js | tap-spec",
+    "test:utils:frames": "NODE_ENV=test node test/utils/frames.test.js | tap-spec",
     "test:utils:js-data-type": "NODE_ENV=test node test/js-data-type.test.js",
     "test:utils:jw-token": "NODE_ENV=test node test/utils/jw-token.test.js",
     "test:utils:plugin-manager": "NODE_ENV=test node test/utils/plugin-manager.test.js",
-    "test:utils:random-string": "NODE_ENV=test node test/utils/random-string.test.js"
+    "test:utils:random-string": "NODE_ENV=test node test/utils/random-string.test.js",
+    "test:utils:wrap-text": "NODE_ENV=test node test/utils/wrap-text.test.js | tap-spec"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.16.3",
