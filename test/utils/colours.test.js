@@ -14,6 +14,7 @@ async function wait(timeout = 500, cb) {
 }
 
 async function main() {
+ 
   await tape('16 colours', async (t) => {
     try {
       const coloursA = Colours();
@@ -36,6 +37,7 @@ async function main() {
       t.end();
     }
   });
+  
   await tape('extended colours', async (t) => {
     try {
       const colours = Colours();
@@ -51,6 +53,24 @@ async function main() {
           countRowItems += 1; 
         }
       }
+      t.ok(true);
+    } catch (e) {
+      log.error(e);
+    } finally {
+      t.end();
+    }
+  });
+
+  await tape('effects', async (t) => {
+    try {
+      const coloursA = Colours();
+
+      coloursA.bg.red.fg.white;
+      coloursA.cr.underline.out('underlin normal white on red').cr;
+      coloursA.underline.fg.bright.white.bg.blue.out('underline blue on white').cr; 
+      coloursA.reverse.out('underline blue on white').cr; 
+      coloursA.out('once more').cr;
+
       t.ok(true);
     } catch (e) {
       log.error(e);

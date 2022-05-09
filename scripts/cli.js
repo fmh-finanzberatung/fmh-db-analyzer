@@ -65,16 +65,19 @@ function menuOptions(rl, menuItems) {
 }
 
 function cli() {
+
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
   });
+  
   menuOptions(rl, mainMenu(rl));
 
   rl.on('close', function () {
     console.log('\nBYE BYE !!!');
     process.exit(0);
   });
+
 }
 
 cli();
