@@ -8,6 +8,7 @@ const log = require('mk-log');
 const cur = Cursor(process.stdin, process.stdout);
 
 cur
+  .StatusBar({})(6, 4, 20, 1).chain
   .Select({
     prompt: 'What?',
     list: [
@@ -23,7 +24,10 @@ cur
       borderDefs: BorderDefs[BorderDefs.Const.BORDER_TYPE_SINGLE],
     })
   )
-  .around(cur.Label({ title: 'Companies' }));
+  .around(cur.Label({ title: 'Companies' }))
+  .around(
+    cur.TabKey({})
+  );
   //.select(1);
 
 cur
@@ -40,7 +44,10 @@ cur
       borderDefs: BorderDefs[BorderDefs.Const.BORDER_TYPE_SINGLE],
     })
   )
-  .around(cur.Label({ title: 'Gender' }));
+  .around(cur.Label({ title: 'Gender' }))
+  .around(
+    cur.TabKey({})
+  );
   //.select(1);
 
 cur
@@ -50,6 +57,9 @@ cur
       char: '+',
       borderDefs: BorderDefs[BorderDefs.Const.BORDER_TYPE_SINGLE],
     })
+  )
+  .around(
+    cur.TabKey({})
   )
   .addInputListener(() => {})
   .around(cur.Label({ title: 'Family Name' }));
