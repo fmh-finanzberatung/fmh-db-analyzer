@@ -1,14 +1,15 @@
 const tape = require('tape');
 const Cursor = require('../../lib/utils/cursor.js');
-const BorderDefs = require('../../lib/utils/frames/border-defs');
+const BorderDefs = require('../../lib/utils/frames/border-defs.js');
 const log = require('mk-log');
 
 //tape('test cursor', (t) => {
 
-const cur = Cursor(process.stdin, process.stdout);
+const cur = Cursor();
 
 cur
-  .StatusBar({})(6, 4, 20, 1).chain
+  .StatusBar({})(6, 4, 20, 1);
+cur
   .Select({
     prompt: 'What?',
     list: [

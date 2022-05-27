@@ -59,7 +59,7 @@
     "test:utils:align-text": "NODE_ENV=test node test/utils/align-text.test.js | tap-spec",
     "test:utils:cal-c": "NODE_ENV=test node test/utils/cal-c.test.js | tap-spec",
     "test:utils:colours": "NODE_ENV=test node test/utils/colours.test.js | tap-spec",
-    "test:utils:ensure-max-word-length-ellipsis": "NODE_ENV=test node test/utils/ensure-max-word-length-ellipsis.test.js | tap-spec",
+    "test:utils:ensure-truncate": "NODE_ENV=test node test/utils/ensure-truncate.test.js | tap-spec",
     "test:utils:extract-qs-token": "NODE_ENV=test node test/utils/extract-qs-token.test.js | tap-spec",
     "test:utils:frames": "NODE_ENV=test node test/utils/frames.test.js | tap-spec",
     "test:utils:js-data-type": "NODE_ENV=test node test/js-data-type.test.js",
