@@ -99,17 +99,17 @@ async function main() {
     log.info('schema');
 
     try {
-      const queryResult = await GraphQL.graphql(
+      const queryResult = await GraphQL.graphql({
         schema,
-        `
+        source: `
         query {
           # hello
           persons {
             id
             name
           }  
-        }`
-      );
+        }`,
+      });
       log.info('queryResult', queryResult);
       /*
       const queryResult = await GraphQL.graphql(

@@ -2,13 +2,13 @@ const tape = require('tape');
 const log = require('mk-log');
 const GraphQL = require('graphql');
 // const buildNodeType = require('../../lib/graphql/builders/build-node-type.js');
-const GraphQLTypeBuilder = require('../../lib/graphql/builders/graphql-type.builder.js');
+const GraphQLTypeBuilder = require('../../lib/graphql/builders/type-builder.js');
 const Journal = require('../mockups/journal.mockup.js');
 const MysqlGraphNodeSupport = require('../../lib/db/mysql/graph-node-support.js');
 //const CommonGraphqlTypes = require('../../lib/graphql/common-types.graphql.js');
 
 async function main() {
-  await tape(async (t) => {
+  tape(async (t) => {
     const mutationFields = {};
     const queryFields = {
       hello: {
@@ -60,12 +60,10 @@ async function main() {
       )
     );
 
-    log.info('schema', schema);
-
     try {
-      const queryResult = await GraphQL.graphql(
+      const queryResult = await GraphQL.graphql({
         schema,
-        `
+        source: `
         query {
           # hello
           companies {
@@ -81,8 +79,8 @@ async function main() {
               }
             } 
           }  
-        }`
-      );
+        }`,
+      });
       log.info('queryResult', queryResult);
       /*
       const queryResult = await GraphQL.graphql(

@@ -58,7 +58,7 @@ const JobsOutput = new GraphQL.GraphQLObjectType({
       type: CommonGraphqlTypes['PaginationOutput'],
     },
     docs: {
-      type: GraphQL.GraphQLList(JobOutput),
+      type: new GraphQL.GraphQLList(JobOutput),
     },
     error: {
       type: CommonGraphqlTypes['ErrorOutput'],
@@ -90,7 +90,7 @@ const JobsArgs = Object.assign({}, JobArgs, {
   },
 });
 
-log.info('JobsArgs', JobsArgs);
+// log.info('JobsArgs', JobsArgs);
 
 const schema = new GraphQL.GraphQLSchema({
   query: new GraphQL.GraphQLObjectType({
@@ -188,11 +188,29 @@ const schema = new GraphQL.GraphQLSchema({
   }),
 });
 
+const schemaB = new GraphQL.GraphQLSchema({
+  query: new GraphQL.GraphQLObjectType({
+    name: 'Query',
+    fields: {
+      hello: {
+        type: GraphQL.GraphQLString,
+        resolve: () => 'world',
+      },
+    },
+  }),
+});
+
 tape(async (t) => {
   try {
-    const queryResult = await GraphQL.graphql(
+    /* 
+    const queryResult = await GraphQL.graphql({
+      schema: schemaB,
+      source: `{ hello }`,
+    });
+    */
+    const queryResult = await GraphQL.graphql({
       schema,
-      `
+      source: `
         query {
           jobs( title: "Exterior" range: { id: {startVal: 10, endVal: 20 } } ) {
             docs {
@@ -200,13 +218,13 @@ tape(async (t) => {
             }
           }
         }
-      `
-    );
+      `,
+    });
 
     log.info('queryResult', queryResult);
-    const mutationResult = await GraphQL.graphql(
+    const mutationResult = await GraphQL.graphql({
       schema,
-      `
+      source: `
         mutation {
           deleteJobs( title: "Exterior" range: { id: {startVal: 10, endVal: 20 } } ) {
             docs {
@@ -214,9 +232,8 @@ tape(async (t) => {
             }
           }
         }
-      `
-    );
-
+      `,
+    });
     log.info('mutationResult', mutationResult);
   } catch (err) {
     log.error(err);

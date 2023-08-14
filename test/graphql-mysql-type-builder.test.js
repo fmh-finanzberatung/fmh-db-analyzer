@@ -18,7 +18,7 @@ const ResolversObjectBuilder = require('../lib/utils/resolvers-object-builder.js
 const mysqlTypesMap = DbToGraphqlTypesMap('mysql');
 
 async function main() {
-  await tape('simple type', async (t) => {
+  tape('simple type', async (t) => {
     try {
       const mysqlResolveBuilder = await MysqlResolveBuilder(knexFile);
 
