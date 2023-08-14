@@ -2,34 +2,23 @@ const express = require('express');
 const { graphqlHTTP } = require('express-graphql');
 const log = require('mk-log');
 
-const GraphqlMysqlResolveBuilder = require('../lib/resolvers/graphql-mysql-resolve-builder.js');
-const MysqlSchemaAdapters = require('../lib/db/mysql/mysql-schema-journal-adapters.js');
-const MysqlSchemaReader = require('../lib/db/mysql/mysql-schema-reader.js');
-const DbToGraphqlTypesMap = require('../lib/utils/db-to-graphql-types-map');
-const typesMap = DbToGraphqlTypesMap('mysql');
-
-const GraphqlSchemaBuilder = require('../lib/graphql-schema-builder.js');
-const knexfile = require('../knexfile.js');
-const Database = require('../lib/db/mysql/database');
-
+//const GraphQL = require('graphql');
+const GraphqlMysqlSchemaBuilder = require('../lib/graphql-mysql-schema-builder.js');
+const PluginManager = require('../lib/utils/plugin-manager.js');
 const app = express();
 const port = 3010;
 
 async function main() {
   try {
-    const { knex } = Database(knexfile);
-    const resolveBuilder = await GraphqlMysqlResolveBuilder(knexfile);
-    const mysqlMetaSchemas = await MysqlSchemaReader(knex);
-    const journal = MysqlSchemaAdapters(mysqlMetaSchemas);
-    const schemaBuilder = await GraphqlSchemaBuilder({
-      resolveBuilder,
-      journal,
-      typesMap,
+    const pluginManager = PluginManager('./lib/plugins');
+    pluginManager.addPluginConfigOptions('login', {
+      tableName: 'users',
+      nameField: 'email',
+      passwordField: 'hashed_password',
     });
-    schemaBuilder.run();
-    const schema = schemaBuilder.schema;
 
-    // log.info('schema', schema);
+    const schemaBuilder = await GraphqlMysqlSchemaBuilder(pluginManager);
+    const schema = await schemaBuilder.run();
 
     app.get('/favicon.ico', (req, res) => {
       return res.status(200).send('');

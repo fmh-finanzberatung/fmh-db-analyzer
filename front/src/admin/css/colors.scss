@@ -1,0 +1,20 @@
+$primary-color: #660000;
+$primary-color__light: lighten($primary-color, 40%);
+$primary-color__lighter: lighten($primary-color, 20%);
+$primary-color__darker: lighten($primary-color, 20%);
+$primary-color__dark: lighten($primary-color, 40%);
+
+
+$secondary-color: #ff9900;
+$secondary-color__light: lighten($secondary-color, 40%);
+$secondary-color__lighter: lighten($secondary-color, 20%);
+$secondary-color__darker: lighten($secondary-color, 20%);
+$secondary-color__dark: lighten($secondary-color, 40%);
+
+$monochrome: #888;
+$monochrome__light: lighten($monochrome, 40%);
+$monochrome__lighter: lighten($monochrome, 20%);
+$monochrome__darker: lighten($monochrome, 20%);
+$monochrome__dark: lighten($monochrome, 40%);
+
+

@@ -4,27 +4,23 @@ const log = require('mk-log');
 const MysqlSchemaAdapters = require('../lib/db/mysql/mysql-schema-journal-adapters.js');
 const MysqlSchemaReader = require('../lib/db/mysql/mysql-schema-reader.js');
 const Database = require('../lib/db/mysql/database');
+const TypeBuilder = require('../lib/graphql/builders/type-builder.js');
 
 const DbToGraphqlTypesMap = require('../lib/utils/db-to-graphql-types-map');
-const GraphqlTypeBuilder = require('../lib/graphql-type-builder.js');
-const NodeEdgeInspector = require('../lib/node-edge-inspector.js');
+const NodeEdgeInspector = require('../lib/graph-node/node-edge-inspector.js');
 // const prettyGraphql = require('../lib/utils/pretty-graphql');
 const { makeExecutableSchema } = require('graphql-tools');
 const { graphql } = require('graphql');
 const knexFile = require('../knexfile.js');
 const MysqlResolveBuilder = require('../lib/resolvers/graphql-mysql-resolve-builder.js');
-const GraphqlInputOrderBuilder = require('../lib/graphql-input-order-builder.js');
-const GraphqlInputSearchBuilder = require('../lib/graphql-input-search-builder.js');
-const GraphqlInputRangeBuilder = require('../lib/graphql-input-range-builder.js');
-const graphqlCommonSDLTypes = require('../lib/graphql-common-sdl-types.js');
 const ResolversObjectBuilder = require('../lib/utils/resolvers-object-builder.js');
 
 const mysqlTypesMap = DbToGraphqlTypesMap('mysql');
 
 async function main() {
-  await tape('simple type', async (t) => {
+  tape('simple type', async (t) => {
     try {
-      const resolveBuilder = await MysqlResolveBuilder(knexFile);
+      const mysqlResolveBuilder = await MysqlResolveBuilder(knexFile);
 
       const mysqlDatabase = Database(knexFile);
       const mysqlMetaSchemas = await MysqlSchemaReader(mysqlDatabase.knex);
@@ -33,10 +29,12 @@ async function main() {
       const collectedDataTypesCode = [graphqlCommonSDLTypes];
       const collectedQueriesCode = [];
       const collectedMutationsCode = [];
-      const resolversObjectBuilder = ResolversObjectBuilder();
 
       journal.forEach((node) => {
-        const graphqlTypeBuilder = GraphqlTypeBuilder(node);
+        const graphqlTypeBuilder = GraphqlTypeBuilder({
+          graphNode: node,
+          resolveBuilder: mysqlResolveBuilder,
+        });
         const graphqlInputOrderBuilder = GraphqlInputOrderBuilder(node);
         const graphqlInputSearchBuilder = GraphqlInputSearchBuilder(node);
         const graphqlInputRangeBuilder = GraphqlInputRangeBuilder(node);

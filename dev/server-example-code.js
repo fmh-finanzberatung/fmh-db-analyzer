@@ -1,7 +1,6 @@
 const express = require('express');
 const { graphqlHTTP } = require('express-graphql');
 const graphql = require('graphql');
-const GraphQLAstAnalyzer = require('../lib/utils/graphql-ast-analyzer.js');
 const log = require('mk-log');
 
 const app = express();
@@ -34,11 +33,8 @@ async function main() {
             //log.info('parent', parent);
             //log.info('args', args);
             //log.info('context', context);
-            const graphqlAstAnalyzer = GraphQLAstAnalyzer(info);
 
             log.info('run analyzer');
-
-            graphqlAstAnalyzer.run();
 
             //log.info('info', info);
             //log.info('info.fieldNodes', info.fieldNodes);
