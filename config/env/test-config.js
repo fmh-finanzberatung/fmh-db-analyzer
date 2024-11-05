@@ -1,11 +1,11 @@
-const {merge} = require('webpack-merge');
-const baseConfig = require('./base-config.js');
+import {merge} from 'webpack-merge';
+import baseConfig from './base-config.js';
 
-const EnvVars = require('mk-env-vars');
+import EnvVars from 'mk-env-vars';
 
 const envVars = EnvVars({ app: 'DB_ANALYZER', deploy: 'TEST' });
 
-module.exports = merge(baseConfig, {
+export default merge(baseConfig, {
   hashSalt: envVars('HASH_SALT'),
   siteName: 'Test Site',
   registration: {

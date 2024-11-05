@@ -1,13 +1,16 @@
-const tape = require('tape');
-const log = require('mk-log');
-const GraphqlMysqlResolveBuilder = require('../../lib/resolvers/graphql-mysql-resolve-builder.js');
-const knexfile = require('../../knexfile.js');
-const database = require('../../lib/db/mysql/database.js')(knexfile);
+import tape from 'tape';
+import log from 'mk-log';
+import GraphqlMysqlResolveBuilder from '../../lib/resolvers/graphql-mysql-resolve-builder.js';
+import Knex from 'knex';
+import knexfile from '../../knexfile.js';
+
+const knex = Knex(knexfile); 
 
 async function main() {
   tape('mysql resolve builder', async (t) => {
     try {
-      const resolveBuilder = await GraphqlMysqlResolveBuilder(database);
+      const resolveBuilder = await GraphqlMysqlResolveBuilder(knex);
+
     } catch (err) {
       log.error(err);
     } finally {

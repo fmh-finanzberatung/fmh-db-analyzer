@@ -6,13 +6,13 @@ const MysqlSchemaJournalAdapters = require('../lib/db/mysql/mysql-schema-journal
 const MysqlSchemaReader = require('../lib/db/mysql/mysql-schema-reader.js');
 
 async function main() {
-  await tape(async (t) => {
+  tape(async (t) => {
     try {
       const database = Database(knexfile);
       const metaSchemas = await MysqlSchemaReader(database.knex);
 
       const journal = MysqlSchemaJournalAdapters(metaSchemas);
-      log.info('journal', journal);
+      //log.info('journal', journal);
     } catch (err) {
       log.error(err);
     } finally {

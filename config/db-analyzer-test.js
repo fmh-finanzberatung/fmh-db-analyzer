@@ -28,7 +28,7 @@ deny queries on field created at for person
 }
 */
 
-module.exports = {
+const config = {
   Person: {
     query: {
       public: {
@@ -51,3 +51,5 @@ module.exports = {
     mutation: {},
   },
 };
+
+export default config;

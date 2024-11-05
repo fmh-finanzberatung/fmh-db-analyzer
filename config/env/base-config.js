@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   logLevel: 'info',
   apiHost: '',
   registration: {

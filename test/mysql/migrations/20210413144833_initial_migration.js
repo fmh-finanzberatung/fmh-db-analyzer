@@ -1,13 +1,13 @@
-const RandomString = require('../../../lib/utils/random-string.js');
+import RandomString from '../../../lib/utils/random-string.js';
 
-exports.up = function (knex) {
+export function up (knex) {
   //   company <=> job <=> person  | company has many persons through jobs
   //   city             => person  | city has many persons
 
   return Promise.all([
     knex.schema.createTable('sessions', (t) => {
       t.increments('id').unsigned().primary();
-      t.integer('user_id').unsigned().notNullable();
+      t.integer('person_id').unsigned().notNullable();
       t.uuid('token').defaultTo(knex.raw('(UUID())'));
       t.timestamp('_at', { precision: 6 }).defaultTo(knex.fn.now(6));
       t.string('two_fa_key').defaultTo(`${RandomString(6).digits()}`);
@@ -15,28 +15,30 @@ exports.up = function (knex) {
       t.timestamp('created_at', { precision: 6 }).defaultTo(knex.fn.now(6));
       t.timestamp('updated_at', { precision: 6 }).defaultTo(knex.fn.now(6));
     }),
-
-    knex.schema.createTable('users', (t) => {
+    
+    knex.schema.createTable('manufacturers', (t) => {
       t.increments('id').unsigned().primary();
-      t.integer('role_id').unsigned();
-      t.tinyint('active').defaultTo(0);
-      t.string('name');
-      t.string('email');
-      t.string('hashed_password');
-      // use this confirm_key_created_at to
-      // calculate account confirm_key expiration
-      // and for password_change_expiration
-      t.timestamp('confirm_token_created_at', { precision: 6 }).defaultTo(knex.fn.now(6));
-      t.uuid('confirm_token').defaultTo(knex.raw('(UUID())'));
-      t.boolean('confirmed').defaultTo(false);
-      t.timestamp('passwordchange_key_created_at', { precision: 6 }).defaultTo(knex.fn.now(6));
-
       t.timestamp('created_at', { precision: 6 }).defaultTo(knex.fn.now(6));
       t.timestamp('updated_at', { precision: 6 }).defaultTo(knex.fn.now(6));
+      t.tinyint('active').defaultTo(0);
+      t.string('name');
+    }),
+
+    knex.schema.createTable('cars', (t) => {
+      t.increments('id').unsigned().primary();
+      t.timestamp('created_at', { precision: 6 }).defaultTo(knex.fn.now(6));
+      t.timestamp('updated_at', { precision: 6 }).defaultTo(knex.fn.now(6));
+      t.integer('person_id').unsigned();
+      t.integer('manufacturer_id').unsigned();
+      t.tinyint('active').defaultTo(0);
+      t.string('name');
+      t.string('permissions', 16348);
     }),
 
     knex.schema.createTable('roles', (t) => {
       t.increments('id').unsigned().primary();
+      t.timestamp('created_at', { precision: 6 }).defaultTo(knex.fn.now(6));
+      t.timestamp('updated_at', { precision: 6 }).defaultTo(knex.fn.now(6));
       t.tinyint('active').defaultTo(0);
       t.string('name');
       t.string('permissions', 16348);
@@ -45,8 +47,18 @@ exports.up = function (knex) {
     knex.schema.createTable('persons', (t) => {
       t.increments('id').unsigned().primary();
       t.tinyint('active');
+      t.integer('role_id').unsigned();
       t.timestamp('created_at', { precision: 6 }).defaultTo(knex.fn.now(6));
       t.timestamp('updated_at', { precision: 6 }).defaultTo(knex.fn.now(6));
+      t.string('hashed_password');
+      // use this confirm_key_created_at to
+      // calculate account confirm_key expiration
+      // and for password_change_expiration
+      t.timestamp('confirm_token_created_at', { precision: 6 }).defaultTo(knex.fn.now(6));
+      t.uuid('confirm_token').defaultTo(knex.raw('(UUID())'));
+      t.boolean('confirmed').defaultTo(false);
+      t.timestamp('passwordchange_key_created_at', { precision: 6 }).defaultTo(knex.fn.now(6));
+      t.string('email');
       t.datetime('employed_since');
       t.integer('job_id');
       t.integer('company_id');
@@ -79,10 +91,12 @@ exports.up = function (knex) {
   ]);
 };
 
-exports.down = function (knex) {
+export function down (knex) {
   return Promise.all([
+    knex.schema.dropTable('users'),
     knex.schema.dropTable('sessions'),
     knex.schema.dropTable('persons'),
+    knex.schema.dropTable('cars'),
     knex.schema.dropTable('jobs'),
     knex.schema.dropTable('companies'),
   ]);

@@ -1,3 +1,9 @@
+const { Model } = require('objection');
+
+export function Company() {
+  // TODO: add company model
+}
+
 module.exports = function Company(Bookshelf) {
   const CompanyModel = Bookshelf.Model.extend({
     tableName: 'companies',

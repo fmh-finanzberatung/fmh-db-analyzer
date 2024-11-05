@@ -1,6 +1,6 @@
-const tape = require('tape');
-const log = require('mk-log');
-const GraphQL = require('graphql');
+import tape from 'tape';
+import log from 'mk-log';
+import * as GraphQL from 'graphql';
 
 async function main() {
   tape(async (t) => {
@@ -57,6 +57,10 @@ async function main() {
             id: { type: GraphQL.GraphQLID },
           },
           resolve: (_parent, _args, _context, _info) => {
+            log.info('company resolver parent ', _parent);
+            log.info('company resolver args   ', _args);
+            log.info('company resolver context', _context);
+            log.info('company resolver info   ', _info);
             return {
               id: 3,
               legalName: 'legal test name',
@@ -69,11 +73,13 @@ async function main() {
 
     const schema = new GraphQL.GraphQLSchema({ query: queryDef });
 
+    // log.info(schema);
+
     const userQuery = `
       { hello, user(id: 1) { familyName givenName } } `;
 
     try {
-      const userResult = await GraphQL.graphql(schema, userQuery);
+      const userResult = await GraphQL.graphql({ schema, source: userQuery });
       log.info(userResult);
     } catch (err) {
       log.error(err);
@@ -90,7 +96,10 @@ async function main() {
       }`;
 
     try {
-      const companyResult = await GraphQL.graphql(schema, companyQuery);
+      const companyResult = await GraphQL.graphql({
+        schema,
+        source: companyQuery,
+      });
       log.info(companyResult);
     } catch (err) {
       log.error(err);

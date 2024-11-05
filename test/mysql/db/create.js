@@ -1,25 +1,25 @@
-const path = require('path');
-const knexConfig = require(path.resolve('knexfile.js'));
+import path from 'path';
+import log from 'mk-log';
+import Knex from 'knex';
+const knexConfig = await import(path.resolve('knexfile.js'));
 
-const log = require('mk-log');
-const client = knexConfig.client;
-const host = knexConfig.connection.host;
-const database = knexConfig.connection.database;
-const password = knexConfig.connection.password;
-const user = knexConfig.connection.user;
-const charset = knexConfig.connection.charset;
+const {
+  client,
+  connection: { host, database, password, user, charset },
+} = knexConfig.default;
+
+const knex = Knex({
+  client,
+  connection: {
+    user,
+    password,
+    charset,
+    host,
+  },
+});
 
 async function main() {
   try {
-    const knex = await require('knex')({
-      client,
-      connection: {
-        user,
-        password,
-        charset,
-        host,
-      },
-    });
 
     log.info(`creating database ${database}`);
 
@@ -36,8 +36,6 @@ async function main() {
 
     knex.destroy();
 
-    const knexReloaded = require('knex')(knexConfig);
-    knexReloaded.destroy();
   } catch (err) {
     log.error(err);
   }

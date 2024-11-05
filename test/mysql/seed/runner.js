@@ -1,5 +1,5 @@
-const log = require('mk-log');
-const createSeed = require('./create.js');
+import log from 'mk-log';
+import createSeed from './create.js';
 
 async function main() {
   try {

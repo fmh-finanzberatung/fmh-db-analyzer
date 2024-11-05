@@ -1,18 +1,21 @@
-const tape = require('tape');
-const log = require('mk-log');
-const GraphQL = require('graphql');
-const GraphqlMysqlSchemaBuilder = require('../lib/graphql-mysql-schema-builder.js');
-const knexfile = require('../knexfile-test.js');
-const Database = require('../lib/db/mysql/database.js');
-const MysqlSchemaReader = require('../lib/db/mysql/mysql-schema-reader.js');
-const MysqlSchemaJournalAdapters = require('../lib/db/mysql/mysql-schema-journal-adapters');
+import tape from 'tape';
+import log from 'mk-log';
+import GraphQL from 'graphql';
+import GraphqlMysqlSchemaBuilder from '../lib/graphql-mysql-schema-builder.js';
+import knexfile from '../knexfile-test.js';
+import Knex from 'knex';
+import MysqlSchemaReader from '../lib/db/mysql/mysql-schema-reader.js';
+import MysqlSchemaJournalAdapters from '../lib/db/mysql/mysql-schema-journal-adapters.js';
+
+log.info('knexfile:', knexfile);
+
+const knex = Knex(knexfile);
 
 async function main() {
   tape(async (test) => {
     try {
-      const schemaBuilder = await GraphqlMysqlSchemaBuilder();
+      const schemaBuilder = await GraphqlMysqlSchemaBuilder(knex);
       const schema = await schemaBuilder.run();
-      const database = await Database(knexfile);
 
       test.test('create table', async (t) => {
         log.info('schema:', schema);
@@ -36,7 +39,7 @@ async function main() {
           JSON.stringify(mutationCreateResult, null, 4)
         );
 
-        const metaSchemas = await MysqlSchemaReader(database.knex);
+        const metaSchemas = await MysqlSchemaReader(knex);
         const journal = MysqlSchemaJournalAdapters(metaSchemas);
         t.ok(journal.has('afunnytable'), 'has afunnytable');
       });

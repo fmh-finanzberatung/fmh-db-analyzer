@@ -1,12 +1,14 @@
-const log = require('mk-log');
+import log from 'mk-log';
 // const path = require('path');
-const knexfile = require('../../../knexfile-test.js');
-const hashKey = require('../../../lib/utils/hash-key.js');
+import knexfile from '../../../knexfile-test.js';
+import hashKey from '../../../lib/utils/hash-key.js';
 const env = process.env.NODE_ENV || 'development';
-const hashSalt = require(`../../../config/env/${env}-config.js`).hashSalt;
-const Knex = require('knex');
-const DbSchemaReader = require('../../../lib/db/mysql/mysql-schema-reader.js');
-const DbHelpers = require('../../../lib/db/mysql/db-helpers.js');
+const config = await import(`../../../config/env/${env}-config.js`);
+log.info('config', config);
+const hashSalt = config.default.hashSalt;
+import Knex from 'knex';
+import DbSchemaReader from '../../../lib/db/mysql/mysql-schema-reader.js';
+import DbHelpers from '../../../lib/db/mysql/db-helpers.js';
 const knex = Knex(knexfile);
 
 function tableNamesReducer(reducer, row) {
@@ -20,7 +22,7 @@ function tableNamesReducer(reducer, row) {
 
 const { insert } = DbHelpers(knex);
 
-module.exports = async function create() {
+export default async function create() {
   try {
     const dbSchemaReader = await DbSchemaReader(knex);
     const rows = dbSchemaReader.flat();
@@ -35,20 +37,21 @@ module.exports = async function create() {
     });
     await Promise.all(tablesDelQueries);
 
-    const userMaster = await insert({
-      table: 'users',
+    const personMaster = await insert({
+      table: 'persons',
       data: {
-        name: 'master',
+        given_name: 'The',
+        family_name: 'Master',
         email: 'master@galt.de',
         hashed_password: hashKey('3333', { salt: hashSalt }).create(),
       },
     });
 
     // create initial session for master
-    const userMasterSession = await insert({
+    const personMasterSession = await insert({
       table: 'sessions',
       data: {
-        user_id: userMaster.id,
+        person_id: personMaster.id,
       },
     });
 
@@ -56,6 +59,20 @@ module.exports = async function create() {
       table: 'companies',
       data: {
         legal_name: 'FreeBSD Inc',
+      },
+    });
+
+    const manufacturerFord = await insert({
+      table: 'manufacturers',
+      data: {
+        name: 'Ford',
+      },
+    });
+
+    const manufacturerVolvo = await insert({
+      table: 'manufacturers',
+      data: {
+        name: 'Volvo',
       },
     });
 
@@ -152,9 +169,27 @@ module.exports = async function create() {
       },
     });
 
+    const carA = await insert({
+      table: 'cars',
+      data: {
+        name: 'Mustang',
+        person_id: personA.id,
+        manufacturer_id: manufacturerFord.id,
+      },
+    });
+
+    const carB = await insert({
+      table: 'cars',
+      data: {
+        name: 'XC90',
+        person_id: personB.id,
+        manufacturer_id: manufacturerVolvo.id,
+      },
+    });
+
     return {
       data: {
-        userMaster: userMaster,
+        personMaster: personMaster,
         companyFreeBSD: companyFreeBSD,
         companyLinux: companyLinux,
         jobSenior: jobSenior,
@@ -164,6 +199,10 @@ module.exports = async function create() {
         personB: personB,
         personC: personC,
         personD: personD,
+        carA: carA,
+        carB: carB,
+        manufacturerFord: manufacturerFord,
+        manufacturerVolvo: manufacturerVolvo,
       },
     };
   } catch (err) {

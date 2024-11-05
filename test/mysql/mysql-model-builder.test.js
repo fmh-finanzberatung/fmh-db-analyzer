@@ -1,16 +1,19 @@
-const tape = require('tape');
-const log = require('mk-log');
-const DbModelBuilder = require('../../lib/db/mysql/mysql-model-builder.js');
-const journal = require('../mockups/journal.mockup.js');
-const Path = require('path');
-const knexConfig = require(Path.resolve('knexfile.js'));
-
-const { Bookshelf } = require('../../lib/db/mysql/database.js')(knexConfig);
+import tape from 'tape';
+import log from 'mk-log';
+import DbModelBuilder from '../../lib/db/mysql/mysql-model-builder.js';
+import DbGraphNodeSupport from '../../lib/db/mysql/graph-node-support.js';
+import JournalMockup from '../mockups/journal.mockup.js';
+import knexConfig from '../../knexfile.js';
+import Database from '../../lib/db/mysql/database.js';
+import Knex from 'knex';
+log.info('knexConfig:', knexConfig);
+const knex = Knex(knexConfig);
+const journal = JournalMockup(DbGraphNodeSupport);
 
 async function main() {
   await tape('Model Builder', async (t) => {
     try {
-      const builder = DbModelBuilder(journal, Bookshelf);
+      const builder = DbModelBuilder(journal, knex);
       builder.run();
 
       //log.info('models', builder.models);

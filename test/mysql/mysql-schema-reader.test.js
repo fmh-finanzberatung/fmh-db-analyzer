@@ -1,8 +1,12 @@
-const tape = require('tape');
-const knexFile = require('../../knexfile.js');
-const knex = require('knex')(knexFile);
-const log = require('mk-log');
-const MysqlSchemaReader = require('../../lib/db/mysql/mysql-schema-reader');
+import tape from 'tape';
+import knexfile from '../../knexfile.js';
+import Knex from 'knex';
+import log from 'mk-log';
+import MysqlSchemaReader from '../../lib/db/mysql/mysql-schema-reader.js';
+
+log.info('knexfile', knexfile);
+
+const knex = Knex(knexfile);
 
 async function main() {
   tape(async (t) => {

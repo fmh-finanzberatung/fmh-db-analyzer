@@ -1,12 +1,22 @@
-module.exports = function Session(Bookshelf) {
-  const SessionModel = Bookshelf.Model.extend({
-    tableName: 'sessions',
-    debug: true,
-    hasTimestamps: true,
-    sessionKey: String, // should be uuid
-  });
+import { Model } from 'objection';
+import { timestamps } from 'objection-timestamps';
 
-  // register model for circular reference
-  Bookshelf.model('Session', SessionModel);
-  return SessionModel;
-};
+class SessionModel extends timestamps()(Model) {
+  static get tableName() {
+    return 'sessions';
+  }
+
+  static get debug() {
+    return true;
+  }
+
+  static get hasTimestamps() {
+    return true;
+  }
+
+  static get sessionKey() {
+    return String; // should be uuid
+  }
+}
+
+return SessionModel;

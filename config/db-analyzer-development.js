@@ -28,7 +28,7 @@ deny queries on field created at for person
 }
 */
 
-module.exports = {
+const config = {
   /* 
   Person: {
     deny: true,
@@ -38,3 +38,5 @@ module.exports = {
   },
   */
 };
+
+export default config;

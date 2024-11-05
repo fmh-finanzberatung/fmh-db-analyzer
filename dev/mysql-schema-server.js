@@ -1,24 +1,38 @@
-const express = require('express');
-const { graphqlHTTP } = require('express-graphql');
-const log = require('mk-log');
-
+import express from 'express';
+import log from 'mk-log';
+import { createHandler } from 'graphql-http/lib/use/express';
 //const GraphQL = require('graphql');
-const GraphqlMysqlSchemaBuilder = require('../lib/graphql-mysql-schema-builder.js');
-const PluginManager = require('../lib/utils/plugin-manager.js');
+import GraphqlMysqlSchemaBuilder from '../lib/graphql-mysql-schema-builder.js';
+import PluginManager from '../lib/utils/plugin-manager.js';
+import cors from 'cors';
 const app = express();
 const port = 3010;
+import Knex from 'knex';
+import knexConfig from '../knexfile.js';
+const knex = Knex(knexConfig);
+
 
 async function main() {
   try {
-    const pluginManager = PluginManager('./lib/plugins');
+    const pluginManager = await PluginManager('./lib/plugins');
     pluginManager.addPluginConfigOptions('login', {
       tableName: 'users',
       nameField: 'email',
       passwordField: 'hashed_password',
     });
 
-    const schemaBuilder = await GraphqlMysqlSchemaBuilder(pluginManager);
+    const schemaBuilder = await GraphqlMysqlSchemaBuilder(knex, pluginManager);
     const schema = await schemaBuilder.run();
+    //log.info('schema', {schema});
+    const handler = createHandler({ schema, context: {} });
+    app.use(cors());
+    app.all('/graphql', handler);
+
+// Add this code after setting up the GraphQL endpoint
+
+// Serve GraphiQL 2 interface
+
+
 
     app.get('/favicon.ico', (req, res) => {
       return res.status(200).send('');
@@ -26,15 +40,6 @@ async function main() {
 
     //log.info('schema', schema);
 
-    app.use(
-      '/graphql',
-      graphqlHTTP({
-        schema,
-        graphiql: true,
-      })
-    );
-
-    app.use('/graphql', (req, res) => res.end());
 
     app.listen(port, () => {
       log.info(`Server listening on port ${port}`);
