@@ -69,10 +69,6 @@
     "dataloader": "^2.2.2",
     "express": "^4.21.1",
     "fast-glob": "^3.3.2",
-    "graphql": "^16.9.0",
-    "graphql-http": "^1.22.2",
-    "graphql-schema": "^0.5.1",
-    "graphql-tools": "^9.0.3",
     "handlebars": "^4.7.8",
     "knex": "^3.1.0",
     "mk-env-vars": "github:mkastner/mk-env-vars#v0.0.9",
@@ -84,7 +80,17 @@
     "pluralize": "^8.0.0",
     "webpack-merge": "^6.0.1"
   },
+  "peerDependencies": {
+    "graphql": "^16.9.0",
+    "graphql-http": "^1.22.2",
+    "graphql-schema": "^0.5.1",
+    "graphql-tools": "^9.0.3"
+  },
   "devDependencies": {
+    "graphql": "^16.9.0",
+    "graphql-http": "^1.22.2",
+    "graphql-schema": "^0.5.1",
+    "graphql-tools": "^9.0.3",
     "tap-spec": "^5.0.0",
     "tape": "^5.9.0"
   }
