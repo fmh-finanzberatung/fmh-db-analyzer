@@ -1,14 +1,14 @@
-const tape = require('tape');
-const log = require('mk-log');
-const GraphQL = require('graphql');
-// const buildNodeType = require('../../lib/graphql/builders/build-node-type.js');
-const PersonTableDef = require('../mockups/person-table-def.mockup.js');
-const MysqlGraphNodeSupport = require('../../lib/db/mysql/graph-node-support.js');
-const GraphNode = require('../../lib/graph-node/graph-node.js');
-// const NodeTypeBuilder = require('../../lib/graphql/builders/node-type-builder.js');
-const TypeBuilder = require('../../lib/graphql/builders/type-builder.js');
+import tape from 'tape';
+import log from 'mk-log';
+import GraphQL from 'graphql';
+// import buildNodeType from '../../lib/graphql/builders/build-node-type.js';
+import PersonTableDef from '../mockups/person-table-def.mockup.js';
+import MysqlGraphNodeSupport from '../../lib/db/mysql/graph-node-support.js';
+import GraphNode from '../../lib/graph-node/graph-node.js';
+// import NodeTypeBuilder from '../../lib/graphql/builders/node-type-builder.js';
+import GraphqlTypeBuilder from '../../lib/graphql/builders/type-builder.js';
 
-//const CommonGraphqlTypes = require('../../lib/graphql/common-types.graphql.js');
+//const CommonGraphqlTypes = require('../../lib/graphql/common-types.graphql.js';
 
 async function main() {
   await tape(async (t) => {
@@ -24,7 +24,7 @@ async function main() {
 
     const inputArgs = {};
     const outputFields = {};
-    const typeBuilder = TypeBuilder(graphNode);
+    const typeBuilder = GraphqlTypeBuilder(graphNode);
     const domesticInputTypes = typeBuilder.domesticTypes('Input');
     const searchInputType = typeBuilder.searchType('Input');
     const excludeInputType = typeBuilder.excludeType('Input');

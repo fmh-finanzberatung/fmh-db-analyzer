@@ -11,35 +11,38 @@ import Knex from 'knex';
 import knexConfig from '../knexfile.js';
 const knex = Knex(knexConfig);
 
-
 async function main() {
   try {
-    const pluginManager = await PluginManager('./lib/plugins');
+    // ./lib/plugins/none does not exist, so no plugins will be loaded
+    const pluginManager = await PluginManager('./lib/plugins/none');
     pluginManager.addPluginConfigOptions('login', {
       tableName: 'users',
       nameField: 'email',
       passwordField: 'hashed_password',
     });
 
+    /* 
+    knex.on('query', (query) => {
+      log.info('knex SQL:', query.sql);
+    });
+    */
     const schemaBuilder = await GraphqlMysqlSchemaBuilder(knex, pluginManager);
     const schema = await schemaBuilder.run();
     //log.info('schema', {schema});
-    const handler = createHandler({ schema, context: {} });
+    const handler = createHandler({ schema, context: () => ({}) });
+    //const handler = createHandler({ schema, context: {} });
     app.use(cors());
     app.all('/graphql', handler);
 
-// Add this code after setting up the GraphQL endpoint
+    // Add this code after setting up the GraphQL endpoint
 
-// Serve GraphiQL 2 interface
-
-
+    // Serve GraphiQL 2 interface
 
     app.get('/favicon.ico', (req, res) => {
       return res.status(200).send('');
     });
 
     //log.info('schema', schema);
-
 
     app.listen(port, () => {
       log.info(`Server listening on port ${port}`);

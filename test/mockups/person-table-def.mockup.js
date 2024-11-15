@@ -8,4 +8,4 @@ const personTableDef = {
   company_id: { DATA_TYPE: 'int', IS_NULLABLE: true },
 };
 
-module.exports = personTableDef;
+export default personTableDef;

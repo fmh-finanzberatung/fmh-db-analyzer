@@ -19,7 +19,6 @@
     "db:mysql:rollback": "NODE_ENV=test knex migrate:rollback --knexfile=knexfile.js",
     "db:mysql:seed": "NODE_ENV=test node test/mysql/seed/runner.js",
     "dev:example:code": "NODE_ENV=development node dev/server-example-code.js",
-    "dev:example:sdl": "NODE_ENV=development node dev/server-example-sdl.js",
     "dev:mysql": "NODE_ENV=development node dev/mysql-schema-server.js",
     "dev:code:list:mysql": "madge --circular --orphans --warning ./dev/mysql-schema-server.js",
     "dev:code:graph:mysql": "madge --circular --image tmp/mysql.svg ./dev/mysql-schema-server.js",

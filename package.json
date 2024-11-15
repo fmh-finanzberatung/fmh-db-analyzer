@@ -69,22 +69,28 @@
     "dataloader": "^2.2.2",
     "express": "^4.21.1",
     "fast-glob": "^3.3.2",
-    "graphql": "^16.9.0",
-    "graphql-http": "^1.22.1",
-    "graphql-schema": "^0.5.1",
-    "graphql-tools": "^9.0.2",
     "handlebars": "^4.7.8",
     "knex": "^3.1.0",
-    "mk-env-vars": "https://github.com/mkastner/mk-env-vars.git#v0.0.9",
-    "mk-log": "https://github.com/mkastner/mk-log.git#v0.0.13",
-    "mysql2": "^3.11.3",
-    "nodemailer": "^6.9.15",
+    "mk-env-vars": "github:mkastner/mk-env-vars#v0.0.9",
+    "mk-log": "github:mkastner/mk-log#v0.0.13",
+    "mysql2": "^3.11.4",
+    "nodemailer": "^6.9.16",
     "objection": "^3.1.5",
     "objection-timestamps": "^4.1.0",
     "pluralize": "^8.0.0",
     "webpack-merge": "^6.0.1"
   },
+  "peerDependencies": {
+    "graphql": "^16.9.0",
+    "graphql-http": "^1.22.2",
+    "graphql-schema": "^0.5.1",
+    "graphql-tools": "^9.0.3"
+  },
   "devDependencies": {
+    "graphql": "^16.9.0",
+    "graphql-http": "^1.22.2",
+    "graphql-schema": "^0.5.1",
+    "graphql-tools": "^9.0.3",
     "tap-spec": "^5.0.0",
     "tape": "^5.9.0"
   }

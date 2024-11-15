@@ -3,12 +3,13 @@ import GraphNode from '../../lib/graph-node/graph-node.js';
 function JournalMockup(DbGraphNodeSupport) {
   const personTableDef = {
     id: { DATA_TYPE: 'int', is_nullable: false },
+    parent_id: { DATA_TYPE: 'int', is_nullable: true },
     created_at: { DATA_TYPE: 'datetime', is_nullable: false },
     updated_at: { DATA_TYPE: 'datetime', is_nullable: false },
     born_at: { DATA_TYPE: 'date', is_nullable: false },
     active: { DATA_TYPE: 'tinyint', IS_NULLABLE: false },
-    givenName: { DATA_TYPE: 'varchar', IS_NULLABLE: true },
-    familyName: { DATA_TYPE: 'varchar', IS_NULLABLE: true },
+    given_name: { DATA_TYPE: 'varchar', IS_NULLABLE: true },
+    family_name: { DATA_TYPE: 'varchar', IS_NULLABLE: true },
     company_id: { DATA_TYPE: 'int', IS_NULLABLE: true },
   };
 
@@ -49,7 +50,6 @@ function JournalMockup(DbGraphNodeSupport) {
   };
 
   const personNode = GraphNode('persons', personTableDef, DbGraphNodeSupport);
-
   const carNode = GraphNode('cars', carTableDef, DbGraphNodeSupport);
   const sessionNode = GraphNode(
     'sessions',
@@ -74,6 +74,6 @@ function JournalMockup(DbGraphNodeSupport) {
   journal.set(companyNode.name(), companyNode);
   journal.set(manufacturerNode.name(), manufacturerNode);
   return journal;
-};
+}
 
 export default JournalMockup;
