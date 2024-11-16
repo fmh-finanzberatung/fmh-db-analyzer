@@ -1,6 +1,6 @@
 {
   "name": "fmh-db-analyzer",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "\"A node based GraphQL schema generator\"",
   "main": "lib/db-analyzer.js",
   "type": "module",
@@ -65,17 +65,23 @@
   "homepage": "https://github.com/fmh-finanzberatung/fmh-db-analyzer#readme",
   "peerDependencies": {
     "graphql": "^16.9.0",
+    "graphql-http": "^1.22.2",
     "graphql-tools": "^9.0.3",
     "knex": "^3.1.0",
     "mysql2": "^3.11.4",
-    "objection": "^3.1.5"
+    "objection": "^3.1.5",
+    "objection-timestamps": "^4.1.0"
   },
   "devDependencies": {
+    "tap-spec": "^2.2.2",
+    "tape": "^5.9.0",
     "graphql": "^16.9.0",
+    "graphql-http": "^1.22.2",
     "graphql-tools": "^9.0.3",
     "knex": "^3.1.0",
     "mysql2": "^3.11.4",
-    "objection": "^3.1.5"
+    "objection": "^3.1.5",
+    "objection-timestamps": "^4.1.0"
   },
   "dependencies": {
     "axios": "^1.7.7",
@@ -87,12 +93,7 @@
     "mk-env-vars": "github:mkastner/mk-env-vars#v0.0.9",
     "mk-log": "github:mkastner/mk-log#v0.0.13",
     "nodemailer": "^6.9.16",
-    "objection-timestamps": "^4.1.0",
     "pluralize": "^8.0.0",
     "webpack-merge": "^6.0.1"
-  },
-  "devDependencies": {
-    "tap-spec": "^2.2.2",
-    "tape": "^5.9.0"
   }
 }
